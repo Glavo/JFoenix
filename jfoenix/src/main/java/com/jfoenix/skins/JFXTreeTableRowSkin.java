@@ -58,7 +58,7 @@ public class JFXTreeTableRowSkin<T> extends TreeTableRowSkin<T> {
         super(control);
         if (disclosureWidthMap == null) {
             try {
-                Field declaredField = getClass().getSuperclass()
+                Field declaredField = getClass().getSuperclass().getSuperclass()
                     .getSuperclass()
                     .getDeclaredField("maxDisclosureWidthMap");
                 declaredField.setAccessible(true);

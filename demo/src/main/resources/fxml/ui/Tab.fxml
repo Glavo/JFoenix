@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import com.jfoenix.controls.JFXButton?>
+<StackPane fx:id="root" xmlns:fx="http://javafx.com/fxml/1"
+           xmlns="http://javafx.com/javafx/2.2">
+    <VBox maxWidth="400" maxHeight="400" spacing="10">
+        <JFXTabPane fx:id="optionsTab" prefWidth="500" tabMinHeight="60"
+                    minHeight="300" maxHeight="300"
+                    tabMaxHeight="100" tabMaxWidth="Infinity">
+            <Tab text="Tab1">
+                <JFXButton prefWidth="100" prefHeight="40" buttonType="RAISED" text="BUTTON1"
+                           style="-fx-font-size:14px;-fx-background-color:WHITE;"/>
+            </Tab>
+            <Tab text="Tab2">
+                <JFXButton prefWidth="100" prefHeight="40" buttonType="RAISED" text="BUTTON2"
+                           style="-fx-font-size:14px;-fx-background-color:WHITE;"/>
+            </Tab>
+            <Tab text="Tab3">
+                <JFXButton prefWidth="100" prefHeight="40" buttonType="RAISED" text="BUTTON3"
+                           style="-fx-font-size:14px;-fx-background-color:WHITE;"/>
+            </Tab>
+            <Tab text="Tab4">
+                <JFXButton prefWidth="100" prefHeight="40" buttonType="RAISED" text="BUTTON4"
+                           style="-fx-font-size:14px;-fx-background-color:WHITE;"/>
+            </Tab>
+        </JFXTabPane>
+    </VBox>
+</StackPane>
+
