@@ -17,23 +17,31 @@
  * under the License.
  */
 
-package com.jfoenix.skins;
-
-import com.jfoenix.adatpers.skins.JFXTableHeaderRow;
-import com.jfoenix.adatpers.skins.TreeTableViewSkin;
-import javafx.scene.control.TreeTableView;
+package com.jfoenix.adatpers.skins;
 
 /**
  * @author Shadi Shaheen
  */
-public class JFXTreeTableViewSkin<S> extends TreeTableViewSkin<S> {
+public class JFXTableHeaderRow extends TableHeaderRow {
 
-    public JFXTreeTableViewSkin(TreeTableView<S> treeTableView) {
-        super(treeTableView);
+    public JFXTableHeaderRow(final TableViewSkinBase skin) {
+        super(skin);
     }
 
+    // TODO: bad code here, waiting for rewriting.
+    public JFXTableHeaderRow(final TreeTableViewSkin skin) {
+        super(skin);
+    }
+
+    // TODO: bad code here, waiting for rewriting.
     @Override
-    protected JFXTableHeaderRow createTableHeaderRow() {
-        return new JFXTableHeaderRow(this);
+    protected JFXNestedTableColumnHeader createRootHeader() {
+        Object o = getTableSkin();
+        if (o instanceof TableViewSkinBase)
+            return new JFXNestedTableColumnHeader((TableViewSkinBase) getTableSkin(), null);
+        else if (o instanceof TreeTableViewSkin)
+            return new JFXNestedTableColumnHeader((TreeTableViewSkin) getTableSkin(), null);
+        else
+            throw new IllegalStateException("Wrong skin type");
     }
 }

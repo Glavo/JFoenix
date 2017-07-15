@@ -19,8 +19,9 @@
 
 package com.jfoenix.skins;
 
-import com.sun.javafx.scene.control.skin.TableColumnHeader;
-import com.sun.javafx.scene.control.skin.TableViewSkinBase;
+import com.jfoenix.adatpers.skins.TableColumnHeader;
+import com.jfoenix.adatpers.skins.TableViewSkinBase;
+import com.jfoenix.adatpers.skins.TreeTableViewSkin;
 import javafx.animation.Animation.Status;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
@@ -53,6 +54,11 @@ public class JFXTableColumnHeader extends TableColumnHeader {
     private Insets oldMargin = null;
 
     public JFXTableColumnHeader(TableViewSkinBase skin, TableColumnBase tc) {
+        super(skin, tc);
+    }
+
+    // TODO: bad code here, waiting for rewriting.
+    public JFXTableColumnHeader(TreeTableViewSkin skin, TableColumnBase tc) {
         super(skin, tc);
     }
 

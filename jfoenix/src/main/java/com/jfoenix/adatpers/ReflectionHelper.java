@@ -51,7 +51,7 @@ public class ReflectionHelper {
         unsafe.putBoolean(obj, objectFieldOffset, true);
     }
 
-    public static <T> T invokeMethod(Object obj, String methodName) {
+    public static <T> T invoke(Object obj, String methodName) {
         try {
             Method method = obj.getClass().getDeclaredMethod(methodName);
             setAccessible(method);

@@ -25,7 +25,6 @@ import com.jfoenix.controls.JFXButton.ButtonType;
 import com.jfoenix.controls.JFXRippler;
 import com.jfoenix.effects.JFXDepthManager;
 import com.jfoenix.transitions.CachedTransition;
-import com.sun.javafx.scene.control.skin.LabeledText;
 import javafx.animation.*;
 import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
@@ -37,6 +36,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Shape;
 import javafx.util.Duration;
 
 /**
@@ -228,9 +228,10 @@ public class JFXButtonSkin extends ButtonSkin {
             if (((JFXButton) getSkinnable()).getRipplerFill() == null) {
                 // change rippler fill according to the last LabeledText/Label child
                 for (int i = getChildren().size() - 1; i >= 1; i--) {
-                    if (getChildren().get(i) instanceof LabeledText) {
-                        buttonRippler.setRipplerFill(((LabeledText) getChildren().get(i)).getFill());
-                        ((LabeledText) getChildren().get(i)).fillProperty()
+                    // TODO: Changed LabeledText to Shape, do not forget to test this.
+                    if (getChildren().get(i) instanceof Shape) {
+                        buttonRippler.setRipplerFill(((Shape) getChildren().get(i)).getFill());
+                        ((Shape) getChildren().get(i)).fillProperty()
                             .addListener((o, oldVal, newVal) -> buttonRippler.setRipplerFill(
                                 newVal));
                         break;

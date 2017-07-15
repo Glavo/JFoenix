@@ -19,12 +19,9 @@
 
 package com.jfoenix.skins;
 
+import com.jfoenix.adatpers.skins.TreeTableCellSkin;
 import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
-import com.sun.javafx.scene.control.behavior.TreeTableCellBehavior;
-import com.sun.javafx.scene.control.skin.TableCellSkinBase;
-import javafx.beans.property.BooleanProperty;
-import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.scene.control.*;
 
 /**
@@ -32,24 +29,10 @@ import javafx.scene.control.*;
  * @version 1.0
  * @since 2016-03-09
  */
-public class JFXTreeTableCellSkin<S, T> extends TableCellSkinBase<TreeTableCell<S, T>, TreeTableCellBehavior<S, T>> {
-
-    private final TreeTableColumn<S, T> tableColumn;
+public class JFXTreeTableCellSkin<S, T> extends TreeTableCellSkin<S, T> {
 
     public JFXTreeTableCellSkin(TreeTableCell<S, T> treeTableCell) {
-        super(treeTableCell, new TreeTableCellBehavior<>(treeTableCell));
-        tableColumn = treeTableCell.getTableColumn();
-        super.init(treeTableCell);
-    }
-
-    @Override
-    protected BooleanProperty columnVisibleProperty() {
-        return tableColumn.visibleProperty();
-    }
-
-    @Override
-    protected ReadOnlyDoubleProperty columnWidthProperty() {
-        return tableColumn.widthProperty();
+        super(treeTableCell);
     }
 
     // compute the padding of disclosure node

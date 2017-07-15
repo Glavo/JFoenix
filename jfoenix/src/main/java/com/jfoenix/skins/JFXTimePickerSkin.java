@@ -19,11 +19,11 @@
 
 package com.jfoenix.skins;
 
+import com.jfoenix.adatpers.ReflectionHelper;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialog.DialogTransition;
 import com.jfoenix.controls.JFXTimePicker;
 import com.jfoenix.svg.SVGGlyph;
-import com.sun.javafx.binding.ExpressionHelper;
 import com.sun.javafx.scene.control.behavior.ComboBoxBaseBehavior;
 import com.sun.javafx.scene.control.skin.ComboBoxPopupControl;
 import javafx.beans.value.ChangeListener;
@@ -35,7 +35,6 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.util.StringConverter;
 
-import java.lang.reflect.Field;
 import java.time.LocalTime;
 import java.util.Collections;
 
@@ -58,18 +57,11 @@ public class JFXTimePickerSkin extends ComboBoxPopupControl<LocalTime> {
         super(timePicker, new ComboBoxBaseBehavior<>(timePicker, Collections.emptyList()));
         this.jfxTimePicker = timePicker;
         try {
-            Field helper = timePicker.focusedProperty().getClass().getSuperclass()
-                .getDeclaredField("helper");
-            helper.setAccessible(true);
-            ExpressionHelper value = (ExpressionHelper) helper.get(timePicker.focusedProperty());
-            Field changeListenersField = value.getClass().getDeclaredField("changeListeners");
-            changeListenersField.setAccessible(true);
-            ChangeListener[] changeListeners = (ChangeListener[]) changeListenersField.get(value);
+            Object expressionHelper = ReflectionHelper.getFieldContent(timePicker.focusedProperty().getClass().getSuperclass(), timePicker.focusedProperty(), "helper");
+            ChangeListener[] changeListeners = ReflectionHelper.getFieldContent(expressionHelper, "changeListeners");
             // remove parent focus listener to prevent editor class cast exception
             timePicker.focusedProperty().removeListener(changeListeners[changeListeners.length - 1]);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (NoSuchFieldException e) {
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
         // add focus listener on editor node
