@@ -49,10 +49,10 @@ public class JFXTreeView<T> extends TreeView<T> {
         this.setCellFactory((view) -> new JFXTreeCell<>());
     }
 
-    double height = 0;
+    public double height = 0;
     int animateRow = -1;
     int sibRow = -1;
-    double layoutY = -1;
+    public double layoutY = -1;
     boolean expand = false;
     boolean disableSiblings = false;
     ParallelTransition trans = new ParallelTransition();

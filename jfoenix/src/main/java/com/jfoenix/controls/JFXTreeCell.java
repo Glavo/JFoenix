@@ -19,8 +19,8 @@
 
 package com.jfoenix.controls;
 
+import com.jfoenix.adatpers.JFXTreeCellHelper;
 import com.jfoenix.controls.JFXTreeView.CellAnimation;
-import com.sun.javafx.scene.control.skin.VirtualFlow;
 import javafx.animation.Animation.Status;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
@@ -67,13 +67,7 @@ public class JFXTreeCell<T> extends TreeCell<T> {
         jfxTreeView.expand = newValue;
         jfxTreeView.disableSiblings = false;
 
-        VirtualFlow<?> vf = (VirtualFlow<?>) getTreeView().lookup(".virtual-flow");
-        if (!newValue) {
-            int index = currentRow + getTreeItem().getChildren().size() + 1;
-            index = index > vf.getCellCount() ? vf.getCellCount() : index;
-            jfxTreeView.height = (index - currentRow - 1) * vf.getCell(currentRow).getHeight();
-        }
-        jfxTreeView.layoutY = vf.getCell(currentRow).getLayoutY();
+        JFXTreeCellHelper.setTreeView(jfxTreeView, newValue, currentRow, getTreeItem());
     };
 
     private InvalidationListener treeItemGraphicInvalidationListener = observable -> updateDisplay(getItem(),

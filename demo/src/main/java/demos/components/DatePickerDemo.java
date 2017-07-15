@@ -19,7 +19,6 @@
 package demos.components;
 
 import com.jfoenix.controls.JFXDatePicker;
-import com.jfoenix.controls.JFXTimePicker;
 import demos.MainDemo;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
@@ -48,11 +47,6 @@ public class DatePickerDemo extends Application {
         JFXDatePicker datePickerFX = new JFXDatePicker();
 
         main.getChildren().add(datePickerFX);
-        datePickerFX.setPromptText("pick a date");
-        JFXTimePicker blueDatePicker = new JFXTimePicker();
-        blueDatePicker.setDefaultColor(Color.valueOf("#3f51b5"));
-        blueDatePicker.setOverLay(true);
-        main.getChildren().add(blueDatePicker);
 
 
         StackPane pane = new StackPane();
