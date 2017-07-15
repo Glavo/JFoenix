@@ -10,19 +10,8 @@ ext {
     pomFile = file(pomFilePath)
 }
 configurations {
-    dalvikSDK
     pom
 }
-dependencies {
-	dalvikSDK 'org.javafxports:dalvik-sdk:8.60.9@zip'
- 	compile fileTree(dir: "$buildDir/dalvik-sdk/rt/lib/ext/jfxrt.jar", include: 'jfxrt.jar')
-}
-task extractDalvik(type: Copy) {
-    from { configurations.dalvikSDK.collect { zipTree(it) }}
-    into "$buildDir/"
-}
-compileJava.dependsOn extractDalvik
-
 
 task sourcesJar(type: Jar) {
     group 'Build'
