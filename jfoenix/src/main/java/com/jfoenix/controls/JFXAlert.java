@@ -19,9 +19,9 @@
 
 package com.jfoenix.controls;
 
+import com.jfoenix.adatpers.event.EventHandlerManager;
 import com.jfoenix.animation.alert.JFXAlertAnimation;
 import com.jfoenix.effects.JFXDepthManager;
-import com.sun.javafx.event.EventHandlerManager;
 import javafx.animation.Animation;
 import javafx.application.Platform;
 import javafx.beans.property.BooleanProperty;
