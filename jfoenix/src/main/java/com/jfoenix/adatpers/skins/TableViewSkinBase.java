@@ -16,24 +16,20 @@
  * specific language governing permissions and limitations
  * under the License.
  */
+package com.jfoenix.adatpers.skins;
 
-package com.jfoenix.skins;
-
-import com.jfoenix.adatpers.skins.TreeTableViewSkin;
-import com.sun.javafx.scene.control.skin.TableHeaderRow;
-import javafx.scene.control.TreeTableView;
+import com.sun.javafx.scene.control.behavior.BehaviorBase;
+import javafx.scene.control.Control;
+import javafx.scene.control.IndexedCell;
+import javafx.scene.control.TableColumnBase;
 
 /**
- * @author Shadi Shaheen
+ * Why removed param B?
+ * Java 9 does not open behaviors API, and TableViewSkinBase is declared as {@code TableSkinBase<M, S, C, I, TC>}.
  */
-public class JFXTreeTableViewSkin<S> extends TreeTableViewSkin<S> {
+public abstract class TableViewSkinBase<M, S, C extends Control, I extends IndexedCell<M>, TC extends TableColumnBase<S, ?>> extends com.sun.javafx.scene.control.skin.TableViewSkinBase<M, S, C, BehaviorBase<C>, I, TC> {
 
-    public JFXTreeTableViewSkin(TreeTableView<S> treeTableView) {
-        super(treeTableView);
-    }
-
-    protected TableHeaderRow createTableHeaderRow() {
-        JFXTableHeaderRow jfxHeaderRow = new JFXTableHeaderRow(this);
-        return jfxHeaderRow.getHeaderRow();
+    public TableViewSkinBase(C control, BehaviorBase<C> behavior) {
+        super(control, behavior);
     }
 }

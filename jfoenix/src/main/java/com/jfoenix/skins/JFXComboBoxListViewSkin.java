@@ -19,10 +19,10 @@
 
 package com.jfoenix.skins;
 
+import com.jfoenix.adatpers.skins.ComboBoxListViewSkin;
 import com.jfoenix.concurrency.JFXUtilities;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.transitions.CachedTransition;
-import com.sun.javafx.scene.control.skin.ComboBoxListViewSkin;
 import javafx.animation.*;
 import javafx.application.Platform;
 import javafx.beans.binding.Bindings;

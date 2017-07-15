@@ -19,11 +19,11 @@
 
 package com.jfoenix.skins;
 
+import com.jfoenix.adatpers.skins.TextFieldSkin;
 import com.jfoenix.concurrency.JFXUtilities;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.transitions.CachedTransition;
 import com.jfoenix.validation.base.ValidatorBase;
-import com.sun.javafx.scene.control.skin.TextFieldSkin;
 import javafx.animation.Animation.Status;
 import javafx.animation.*;
 import javafx.application.Platform;

@@ -46,7 +46,6 @@ import javafx.util.Duration;
  * @since 2017-03-01
  */
 public class JFXPopupSkin implements Skin<JFXPopup> {
-
     private final JFXPopup control;
     private final StackPane container = new StackPane();
     private Node root;

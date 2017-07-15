@@ -19,8 +19,8 @@
 
 package com.jfoenix.skins;
 
+import com.jfoenix.adatpers.skins.ProgressBarSkin;
 import com.jfoenix.controls.JFXProgressBar;
-import com.sun.javafx.scene.control.skin.ProgressBarSkin;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;

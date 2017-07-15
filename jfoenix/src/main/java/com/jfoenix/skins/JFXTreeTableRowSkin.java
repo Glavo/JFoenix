@@ -19,8 +19,8 @@
 
 package com.jfoenix.skins;
 
+import com.jfoenix.adatpers.skins.TreeTableRowSkin;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
-import com.sun.javafx.scene.control.skin.TreeTableRowSkin;
 import javafx.animation.*;
 import javafx.animation.Animation.Status;
 import javafx.beans.value.ChangeListener;
@@ -45,7 +45,6 @@ public class JFXTreeTableRowSkin<T> extends TreeTableRowSkin<T> {
     // this variable indicates whether an expand/collapse operation is triggered
     private boolean expandTriggered = false;
 
-
     private ChangeListener<Boolean> expandedListener = (o, oldVal, newVal) -> {
         if (getSkinnable().getTreeItem() != null && !getSkinnable().getTreeItem().isLeaf()) {
             expandedIndex = getSkinnable().getIndex();
@@ -57,7 +56,6 @@ public class JFXTreeTableRowSkin<T> extends TreeTableRowSkin<T> {
 
     public JFXTreeTableRowSkin(TreeTableRow<T> control) {
         super(control);
-
         if (disclosureWidthMap == null) {
             try {
                 Field declaredField = getClass().getSuperclass()

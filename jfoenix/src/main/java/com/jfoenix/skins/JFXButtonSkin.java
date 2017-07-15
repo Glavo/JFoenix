@@ -19,12 +19,12 @@
 
 package com.jfoenix.skins;
 
+import com.jfoenix.adatpers.skins.ButtonSkin;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXButton.ButtonType;
 import com.jfoenix.controls.JFXRippler;
 import com.jfoenix.effects.JFXDepthManager;
 import com.jfoenix.transitions.CachedTransition;
-import com.sun.javafx.scene.control.skin.ButtonSkin;
 import com.sun.javafx.scene.control.skin.LabeledText;
 import javafx.animation.*;
 import javafx.beans.binding.Bindings;

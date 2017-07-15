@@ -26,7 +26,6 @@ import com.jfoenix.controls.behavior.JFXDatePickerBehavior;
 import com.jfoenix.svg.SVGGlyph;
 import com.sun.javafx.binding.ExpressionHelper;
 import com.sun.javafx.scene.control.skin.ComboBoxPopupControl;
-import com.sun.javafx.scene.control.skin.DatePickerSkin;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;

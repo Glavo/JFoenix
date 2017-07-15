@@ -19,9 +19,9 @@
 
 package com.jfoenix.skins;
 
+import com.jfoenix.adatpers.skins.SliderSkin;
 import com.jfoenix.controls.JFXSlider;
 import com.jfoenix.controls.JFXSlider.IndicatorPosition;
-import com.sun.javafx.scene.control.skin.SliderSkin;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;

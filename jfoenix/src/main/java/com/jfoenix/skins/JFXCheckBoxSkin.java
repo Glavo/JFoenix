@@ -19,12 +19,12 @@
 
 package com.jfoenix.skins;
 
+import com.jfoenix.adatpers.skins.CheckBoxSkin;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXRippler;
 import com.jfoenix.controls.JFXRippler.RipplerMask;
 import com.jfoenix.transitions.CachedTransition;
 import com.jfoenix.transitions.JFXFillTransition;
-import com.sun.javafx.scene.control.skin.CheckBoxSkin;
 import javafx.animation.*;
 import javafx.geometry.HPos;
 import javafx.geometry.Insets;
