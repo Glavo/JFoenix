@@ -19,12 +19,12 @@
 
 package com.jfoenix.skins;
 
+import com.jfoenix.adatpers.ReflectionHelper;
+import com.jfoenix.adatpers.skins.DatePickerSkin;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialog.DialogTransition;
 import com.jfoenix.svg.SVGGlyph;
-import com.sun.javafx.binding.ExpressionHelper;
-import com.sun.javafx.scene.control.skin.DatePickerSkin;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -65,18 +65,11 @@ public class JFXDatePickerSkin extends DatePickerSkin {
         this.jfxDatePicker = datePicker;
         super.getPopupContent();
         try {
-            Field helper = datePicker.focusedProperty().getClass().getSuperclass()
-                .getDeclaredField("helper");
-            helper.setAccessible(true);
-            ExpressionHelper value = (ExpressionHelper) helper.get(datePicker.focusedProperty());
-            Field changeListenersField = value.getClass().getDeclaredField("changeListeners");
-            changeListenersField.setAccessible(true);
-            ChangeListener[] changeListeners = (ChangeListener[]) changeListenersField.get(value);
+            Object expressionHelper = ReflectionHelper.getFieldContent(datePicker.focusedProperty().getClass().getSuperclass(), datePicker.focusedProperty(), "helper");
+            ChangeListener[] changeListeners = ReflectionHelper.getFieldContent(expressionHelper, "changeListeners");
             // remove parent focus listener to prevent editor class cast exception
-            datePicker.focusedProperty().removeListener(changeListeners[changeListeners.length-1]);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (NoSuchFieldException e) {
+            datePicker.focusedProperty().removeListener(changeListeners[changeListeners.length - 1]);
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
         // add focus listener on editor node

@@ -19,6 +19,7 @@
 
 package com.jfoenix.skins;
 
+import com.jfoenix.adatpers.event.MultiplePropertyChangeListenerHandler;
 import com.jfoenix.adatpers.skins.TabPaneSkin;
 import com.jfoenix.controls.JFXRippler;
 import com.jfoenix.controls.JFXRippler.RipplerMask;
@@ -26,7 +27,6 @@ import com.jfoenix.controls.JFXRippler.RipplerPos;
 import com.jfoenix.effects.JFXDepthManager;
 import com.jfoenix.svg.SVGGlyph;
 import com.jfoenix.transitions.CachedTransition;
-import com.sun.javafx.scene.control.MultiplePropertyChangeListenerHandler;
 import javafx.animation.*;
 import javafx.beans.InvalidationListener;
 import javafx.beans.WeakInvalidationListener;

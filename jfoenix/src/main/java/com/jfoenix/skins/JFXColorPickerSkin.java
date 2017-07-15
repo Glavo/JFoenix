@@ -19,10 +19,9 @@
 
 package com.jfoenix.skins;
 
+import com.jfoenix.adatpers.skins.ColorPickerSkin;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.effects.JFXDepthManager;
-import com.sun.javafx.scene.control.skin.ColorPickerSkin;
-import com.sun.javafx.scene.control.skin.ComboBoxBaseSkin;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -33,6 +32,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.SkinBase;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -280,7 +280,7 @@ public class JFXColorPickerSkin extends ColorPickerSkin {
 
         static {
             final List<CssMetaData<? extends Styleable, ?>> styleables =
-                new ArrayList<>(ComboBoxBaseSkin.getClassCssMetaData());
+                new ArrayList<>(SkinBase.getClassCssMetaData());
             styleables.add(COLOR_LABEL_VISIBLE);
             STYLEABLES = Collections.unmodifiableList(styleables);
         }
