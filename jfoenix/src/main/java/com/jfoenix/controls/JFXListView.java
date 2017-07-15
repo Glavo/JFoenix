@@ -20,8 +20,6 @@
 package com.jfoenix.controls;
 
 import com.jfoenix.skins.JFXListViewSkin;
-import com.sun.javafx.css.converters.BooleanConverter;
-import com.sun.javafx.css.converters.SizeConverter;
 import javafx.beans.property.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ListChangeListener;
@@ -357,7 +355,7 @@ public class JFXListView<T> extends ListView<T> {
     private static class StyleableProperties {
         private static final CssMetaData<JFXListView<?>, Number> CELL_HORIZONTAL_MARGIN =
             new CssMetaData<JFXListView<?>, Number>("-jfx-cell-horizontal-margin",
-                SizeConverter.getInstance(), 0) {
+                StyleConverter.getSizeConverter(), 0) {
                 @Override
                 public boolean isSettable(JFXListView<?> control) {
                     return control.cellHorizontalMargin == null || !control.cellHorizontalMargin.isBound();
@@ -370,7 +368,7 @@ public class JFXListView<T> extends ListView<T> {
             };
         private static final CssMetaData<JFXListView<?>, Number> CELL_VERTICAL_MARGIN =
             new CssMetaData<JFXListView<?>, Number>("-jfx-cell-vertical-margin",
-                SizeConverter.getInstance(), 4) {
+                StyleConverter.getSizeConverter(), 4) {
                 @Override
                 public boolean isSettable(JFXListView<?> control) {
                     return control.cellVerticalMargin == null || !control.cellVerticalMargin.isBound();
@@ -383,7 +381,7 @@ public class JFXListView<T> extends ListView<T> {
             };
         private static final CssMetaData<JFXListView<?>, Number> VERTICAL_GAP =
             new CssMetaData<JFXListView<?>, Number>("-jfx-vertical-gap",
-                SizeConverter.getInstance(), 0) {
+                StyleConverter.getSizeConverter(), 0) {
                 @Override
                 public boolean isSettable(JFXListView<?> control) {
                     return control.verticalGap == null || !control.verticalGap.isBound();
@@ -396,7 +394,7 @@ public class JFXListView<T> extends ListView<T> {
             };
         private static final CssMetaData<JFXListView<?>, Boolean> EXPANDED =
             new CssMetaData<JFXListView<?>, Boolean>("-jfx-expanded",
-                BooleanConverter.getInstance(), false) {
+                StyleConverter.getBooleanConverter(), false) {
                 @Override
                 public boolean isSettable(JFXListView<?> control) {
                     // it's only settable if the List is not shown yet

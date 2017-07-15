@@ -20,7 +20,6 @@
 package com.jfoenix.controls;
 
 import com.jfoenix.skins.JFXCheckBoxSkin;
-import com.sun.javafx.css.converters.PaintConverter;
 import javafx.css.*;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Control;
@@ -139,7 +138,7 @@ public class JFXCheckBox extends CheckBox {
     private static class StyleableProperties {
         private static final CssMetaData<JFXCheckBox, Paint> CHECKED_COLOR =
             new CssMetaData<JFXCheckBox, Paint>("-jfx-checked-color",
-                PaintConverter.getInstance(), Color.valueOf("#0F9D58")) {
+                StyleConverter.getPaintConverter(), Color.valueOf("#0F9D58")) {
                 @Override
                 public boolean isSettable(JFXCheckBox control) {
                     return control.checkedColor == null || !control.checkedColor.isBound();
@@ -152,7 +151,7 @@ public class JFXCheckBox extends CheckBox {
             };
         private static final CssMetaData<JFXCheckBox, Paint> UNCHECKED_COLOR =
             new CssMetaData<JFXCheckBox, Paint>("-jfx-unchecked-color",
-                PaintConverter.getInstance(), Color.valueOf("#5A5A5A")) {
+                StyleConverter.getPaintConverter(), Color.valueOf("#5A5A5A")) {
                 @Override
                 public boolean isSettable(JFXCheckBox control) {
                     return control.unCheckedColor == null || !control.unCheckedColor.isBound();

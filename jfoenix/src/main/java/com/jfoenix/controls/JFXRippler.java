@@ -22,9 +22,6 @@ package com.jfoenix.controls;
 import com.jfoenix.converters.RipplerMaskTypeConverter;
 import com.jfoenix.transitions.CachedAnimation;
 import com.jfoenix.transitions.CachedTransition;
-import com.sun.javafx.css.converters.BooleanConverter;
-import com.sun.javafx.css.converters.PaintConverter;
-import com.sun.javafx.css.converters.SizeConverter;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -723,7 +720,7 @@ public class JFXRippler extends StackPane {
     private static final class StyleableProperties {
         private static final CssMetaData<JFXRippler, Boolean> RIPPLER_RECENTER =
             new CssMetaData<JFXRippler, Boolean>("-jfx-rippler-recenter",
-                BooleanConverter.getInstance(), false) {
+                StyleConverter.getBooleanConverter(), false) {
                 @Override
                 public boolean isSettable(JFXRippler control) {
                     return control.ripplerRecenter == null || !control.ripplerRecenter.isBound();
@@ -736,7 +733,7 @@ public class JFXRippler extends StackPane {
             };
         private static final CssMetaData<JFXRippler, Boolean> RIPPLER_DISABLED =
             new CssMetaData<JFXRippler, Boolean>("-jfx-rippler-disabled",
-                BooleanConverter.getInstance(), false) {
+                StyleConverter.getBooleanConverter(), false) {
                 @Override
                 public boolean isSettable(JFXRippler control) {
                     return control.ripplerDisabled == null || !control.ripplerDisabled.isBound();
@@ -749,7 +746,7 @@ public class JFXRippler extends StackPane {
             };
         private static final CssMetaData<JFXRippler, Paint> RIPPLER_FILL =
             new CssMetaData<JFXRippler, Paint>("-jfx-rippler-fill",
-                PaintConverter.getInstance(), Color.rgb(0, 200, 255)) {
+                StyleConverter.getPaintConverter(), Color.rgb(0, 200, 255)) {
                 @Override
                 public boolean isSettable(JFXRippler control) {
                     return control.ripplerFill == null || !control.ripplerFill.isBound();
@@ -762,7 +759,7 @@ public class JFXRippler extends StackPane {
             };
         private static final CssMetaData<JFXRippler, Number> RIPPLER_RADIUS =
             new CssMetaData<JFXRippler, Number>("-jfx-rippler-radius",
-                SizeConverter.getInstance(), Region.USE_COMPUTED_SIZE) {
+                StyleConverter.getSizeConverter(), Region.USE_COMPUTED_SIZE) {
                 @Override
                 public boolean isSettable(JFXRippler control) {
                     return control.ripplerRadius == null || !control.ripplerRadius.isBound();

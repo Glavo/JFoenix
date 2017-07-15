@@ -20,8 +20,6 @@
 package com.jfoenix.controls;
 
 import com.jfoenix.skins.JFXDatePickerSkin;
-import com.sun.javafx.css.converters.BooleanConverter;
-import com.sun.javafx.css.converters.PaintConverter;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleObjectProperty;
@@ -181,7 +179,7 @@ public class JFXDatePicker extends DatePicker {
     private static class StyleableProperties {
         private static final CssMetaData<JFXDatePicker, Paint> DEFAULT_COLOR =
             new CssMetaData<JFXDatePicker, Paint>("-jfx-default-color",
-                PaintConverter.getInstance(), Color.valueOf("#5A5A5A")) {
+                StyleConverter.getPaintConverter(), Color.valueOf("#5A5A5A")) {
                 @Override
                 public boolean isSettable(JFXDatePicker control) {
                     return control.defaultColor == null || !control.defaultColor.isBound();
@@ -195,7 +193,7 @@ public class JFXDatePicker extends DatePicker {
 
         private static final CssMetaData<JFXDatePicker, Boolean> OVERLAY =
             new CssMetaData<JFXDatePicker, Boolean>("-jfx-overlay",
-                BooleanConverter.getInstance(), false) {
+                StyleConverter.getBooleanConverter(), false) {
                 @Override
                 public boolean isSettable(JFXDatePicker control) {
                     return control.overLay == null || !control.overLay.isBound();

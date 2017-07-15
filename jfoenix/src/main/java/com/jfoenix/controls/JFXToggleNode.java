@@ -20,8 +20,6 @@
 package com.jfoenix.controls;
 
 import com.jfoenix.skins.JFXToggleNodeSkin;
-import com.sun.javafx.css.converters.BooleanConverter;
-import com.sun.javafx.css.converters.ColorConverter;
 import javafx.beans.DefaultProperty;
 import javafx.css.*;
 import javafx.scene.control.Control;
@@ -150,7 +148,7 @@ public class JFXToggleNode extends ToggleButton {
     private static class StyleableProperties {
         private static final CssMetaData<JFXToggleNode, Color> SELECTED_COLOR =
             new CssMetaData<JFXToggleNode, Color>("-jfx-toggle-color",
-                ColorConverter.getInstance(), Color.rgb(255, 255, 255, 0.87)) {
+                StyleConverter.getColorConverter(), Color.rgb(255, 255, 255, 0.87)) {
                 @Override
                 public boolean isSettable(JFXToggleNode control) {
                     return control.selectedColor == null || !control.selectedColor.isBound();
@@ -164,7 +162,7 @@ public class JFXToggleNode extends ToggleButton {
 
         private static final CssMetaData<JFXToggleNode, Color> UNSELECTED_COLOR =
             new CssMetaData<JFXToggleNode, Color>("-jfx-untoggle-color",
-                ColorConverter.getInstance(), Color.TRANSPARENT) {
+                StyleConverter.getColorConverter(), Color.TRANSPARENT) {
                 @Override
                 public boolean isSettable(JFXToggleNode control) {
                     return control.unSelectedColor == null || !control.unSelectedColor.isBound();
@@ -178,7 +176,7 @@ public class JFXToggleNode extends ToggleButton {
 
         private static final CssMetaData<JFXToggleNode, Boolean> DISABLE_ANIMATION =
             new CssMetaData<JFXToggleNode, Boolean>("-jfx-disable-animation",
-                BooleanConverter.getInstance(), false) {
+                StyleConverter.getBooleanConverter(), false) {
                 @Override
                 public boolean isSettable(JFXToggleNode control) {
                     return control.disableAnimation == null || !control.disableAnimation.isBound();

@@ -21,8 +21,6 @@ package com.jfoenix.controls;
 
 import com.jfoenix.skins.JFXPasswordFieldSkin;
 import com.jfoenix.validation.base.ValidatorBase;
-import com.sun.javafx.css.converters.BooleanConverter;
-import com.sun.javafx.css.converters.PaintConverter;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
@@ -229,7 +227,7 @@ public class JFXPasswordField extends PasswordField {
     private static class StyleableProperties {
         private static final CssMetaData<JFXPasswordField, Paint> UNFOCUS_COLOR = new CssMetaData<JFXPasswordField, Paint>(
             "-jfx-unfocus-color",
-            PaintConverter.getInstance(),
+            StyleConverter.getPaintConverter(),
             Color.valueOf("#A6A6A6")) {
             @Override
             public boolean isSettable(JFXPasswordField control) {
@@ -243,7 +241,7 @@ public class JFXPasswordField extends PasswordField {
         };
         private static final CssMetaData<JFXPasswordField, Paint> FOCUS_COLOR = new CssMetaData<JFXPasswordField, Paint>(
             "-jfx-focus-color",
-            PaintConverter.getInstance(),
+            StyleConverter.getPaintConverter(),
             Color.valueOf("#3f51b5")) {
             @Override
             public boolean isSettable(JFXPasswordField control) {
@@ -258,7 +256,7 @@ public class JFXPasswordField extends PasswordField {
 
         private static final CssMetaData<JFXPasswordField, Boolean> LABEL_FLOAT = new CssMetaData<JFXPasswordField, Boolean>(
             "-jfx-label-float",
-            BooleanConverter.getInstance(),
+            StyleConverter.getBooleanConverter(),
             false) {
             @Override
             public boolean isSettable(JFXPasswordField control) {
@@ -273,7 +271,7 @@ public class JFXPasswordField extends PasswordField {
 
         private static final CssMetaData<JFXPasswordField, Boolean> DISABLE_ANIMATION =
             new CssMetaData<JFXPasswordField, Boolean>("-fx-disable-animation",
-                BooleanConverter.getInstance(), false) {
+                StyleConverter.getBooleanConverter(), false) {
                 @Override
                 public boolean isSettable(JFXPasswordField control) {
                     return control.disableAnimation == null || !control.disableAnimation.isBound();

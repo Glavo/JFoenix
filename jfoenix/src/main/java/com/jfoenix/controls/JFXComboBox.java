@@ -21,8 +21,6 @@ package com.jfoenix.controls;
 
 import com.jfoenix.converters.base.NodeConverter;
 import com.jfoenix.skins.JFXComboBoxListViewSkin;
-import com.sun.javafx.css.converters.BooleanConverter;
-import com.sun.javafx.css.converters.PaintConverter;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
@@ -279,7 +277,7 @@ public class JFXComboBox<T> extends ComboBox<T> {
     private static class StyleableProperties {
         private static final CssMetaData<JFXComboBox<?>, Paint> UNFOCUS_COLOR = new CssMetaData<JFXComboBox<?>, Paint>(
             "-jfx-unfocus-color",
-            PaintConverter.getInstance(),
+            StyleConverter.getPaintConverter(),
             Color.valueOf("#A6A6A6")) {
             @Override
             public boolean isSettable(JFXComboBox<?> control) {
@@ -293,7 +291,7 @@ public class JFXComboBox<T> extends ComboBox<T> {
         };
         private static final CssMetaData<JFXComboBox<?>, Paint> FOCUS_COLOR = new CssMetaData<JFXComboBox<?>, Paint>(
             "-jfx-focus-color",
-            PaintConverter.getInstance(),
+            StyleConverter.getPaintConverter(),
             Color.valueOf("#3f51b5")) {
             @Override
             public boolean isSettable(JFXComboBox<?> control) {
@@ -307,7 +305,7 @@ public class JFXComboBox<T> extends ComboBox<T> {
         };
         private static final CssMetaData<JFXComboBox<?>, Boolean> LABEL_FLOAT = new CssMetaData<JFXComboBox<?>, Boolean>(
             "-jfx-label-float",
-            BooleanConverter.getInstance(),
+            StyleConverter.getBooleanConverter(),
             false) {
             @Override
             public boolean isSettable(JFXComboBox<?> control) {

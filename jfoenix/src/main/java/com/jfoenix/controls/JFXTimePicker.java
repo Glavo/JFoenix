@@ -20,9 +20,6 @@
 package com.jfoenix.controls;
 
 import com.jfoenix.skins.JFXTimePickerSkin;
-import com.sun.javafx.css.converters.BooleanConverter;
-import com.sun.javafx.css.converters.PaintConverter;
-import com.sun.javafx.scene.control.skin.ComboBoxListViewSkin;
 import javafx.beans.property.*;
 import javafx.css.*;
 import javafx.geometry.Insets;
@@ -239,7 +236,7 @@ public class JFXTimePicker extends ComboBoxBase<LocalTime> {
     private static class StyleableProperties {
         private static final CssMetaData<JFXTimePicker, Paint> DEFAULT_COLOR =
             new CssMetaData<JFXTimePicker, Paint>("-jfx-default-color",
-                PaintConverter.getInstance(), Color.valueOf("#5A5A5A")) {
+                StyleConverter.getPaintConverter(), Color.valueOf("#5A5A5A")) {
                 @Override
                 public boolean isSettable(JFXTimePicker control) {
                     return control.defaultColor == null || !control.defaultColor.isBound();
@@ -253,7 +250,7 @@ public class JFXTimePicker extends ComboBoxBase<LocalTime> {
 
         private static final CssMetaData<JFXTimePicker, Boolean> OVERLAY =
             new CssMetaData<JFXTimePicker, Boolean>("-jfx-overlay",
-                BooleanConverter.getInstance(), false) {
+                StyleConverter.getBooleanConverter(), false) {
                 @Override
                 public boolean isSettable(JFXTimePicker control) {
                     return control.overLay == null || !control.overLay.isBound();

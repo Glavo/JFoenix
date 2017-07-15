@@ -21,8 +21,6 @@ package com.jfoenix.controls;
 
 import com.jfoenix.skins.JFXTextFieldSkin;
 import com.jfoenix.validation.base.ValidatorBase;
-import com.sun.javafx.css.converters.BooleanConverter;
-import com.sun.javafx.css.converters.PaintConverter;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
@@ -235,7 +233,7 @@ public class JFXTextField extends TextField {
     private static class StyleableProperties {
         private static final CssMetaData<JFXTextField, Paint> UNFOCUS_COLOR = new CssMetaData<JFXTextField, Paint>(
             "-jfx-unfocus-color",
-            PaintConverter.getInstance(),
+            StyleConverter.getPaintConverter(),
             Color.valueOf("#A6A6A6")) {
             @Override
             public boolean isSettable(JFXTextField control) {
@@ -249,7 +247,7 @@ public class JFXTextField extends TextField {
         };
         private static final CssMetaData<JFXTextField, Paint> FOCUS_COLOR = new CssMetaData<JFXTextField, Paint>(
             "-jfx-focus-color",
-            PaintConverter.getInstance(),
+            StyleConverter.getPaintConverter(),
             Color.valueOf("#3f51b5")) {
             @Override
             public boolean isSettable(JFXTextField control) {
@@ -263,7 +261,7 @@ public class JFXTextField extends TextField {
         };
         private static final CssMetaData<JFXTextField, Boolean> LABEL_FLOAT = new CssMetaData<JFXTextField, Boolean>(
             "-jfx-label-float",
-            BooleanConverter.getInstance(),
+            StyleConverter.getBooleanConverter(),
             false) {
             @Override
             public boolean isSettable(JFXTextField control) {
@@ -278,7 +276,7 @@ public class JFXTextField extends TextField {
 
         private static final CssMetaData<JFXTextField, Boolean> DISABLE_ANIMATION =
             new CssMetaData<JFXTextField, Boolean>("-jfx-disable-animation",
-                BooleanConverter.getInstance(), false) {
+                StyleConverter.getBooleanConverter(), false) {
                 @Override
                 public boolean isSettable(JFXTextField control) {
                     return control.disableAnimation == null || !control.disableAnimation.isBound();

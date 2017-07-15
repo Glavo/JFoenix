@@ -19,16 +19,12 @@
 
 package com.jfoenix.controls;
 
-import com.sun.javafx.css.converters.SizeConverter;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.binding.Bindings;
-import javafx.css.CssMetaData;
-import javafx.css.SimpleStyleableDoubleProperty;
-import javafx.css.Styleable;
-import javafx.css.StyleableDoubleProperty;
+import javafx.css.*;
 import javafx.scene.Parent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -232,7 +228,7 @@ public class JFXSpinner extends StackPane {
     private static class StyleableProperties {
         private static final CssMetaData<JFXSpinner, Number> RADIUS =
             new CssMetaData<JFXSpinner, Number>("-jfx-radius",
-                SizeConverter.getInstance(), 12) {
+                StyleConverter.getSizeConverter(), 12) {
                 @Override
                 public boolean isSettable(JFXSpinner control) {
                     return control.radius == null || !control.radius.isBound();
@@ -246,7 +242,7 @@ public class JFXSpinner extends StackPane {
 
         private static final CssMetaData<JFXSpinner, Number> STARTING_ANGLE =
             new CssMetaData<JFXSpinner, Number>("-jfx-starting-angle",
-                SizeConverter.getInstance(), 360 - Math.random() * 720) {
+                StyleConverter.getSizeConverter(), 360 - Math.random() * 720) {
                 @Override
                 public boolean isSettable(JFXSpinner control) {
                     return control.startingAngle == null || !control.startingAngle.isBound();

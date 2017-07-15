@@ -20,7 +20,6 @@
 package com.jfoenix.controls;
 
 import com.jfoenix.skins.JFXRadioButtonSkin;
-import com.sun.javafx.css.converters.ColorConverter;
 import javafx.css.*;
 import javafx.scene.control.Control;
 import javafx.scene.control.Labeled;
@@ -130,7 +129,7 @@ public class JFXRadioButton extends RadioButton {
     private static class StyleableProperties {
         private static final CssMetaData<JFXRadioButton, Color> SELECTED_COLOR =
             new CssMetaData<JFXRadioButton, Color>("-jfx-selected-color",
-                ColorConverter.getInstance(), Color.valueOf("#0F9D58")) {
+                StyleConverter.getColorConverter(), Color.valueOf("#0F9D58")) {
                 @Override
                 public boolean isSettable(JFXRadioButton control) {
                     return control.selectedColor == null || !control.selectedColor.isBound();
@@ -143,7 +142,7 @@ public class JFXRadioButton extends RadioButton {
             };
         private static final CssMetaData<JFXRadioButton, Color> UNSELECTED_COLOR =
             new CssMetaData<JFXRadioButton, Color>("-jfx-unselected-color",
-                ColorConverter.getInstance(), Color.valueOf("#5A5A5A")) {
+                StyleConverter.getColorConverter(), Color.valueOf("#5A5A5A")) {
                 @Override
                 public boolean isSettable(JFXRadioButton control) {
                     return control.unSelectedColor == null || !control.unSelectedColor.isBound();

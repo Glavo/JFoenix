@@ -21,8 +21,6 @@ package com.jfoenix.controls;
 
 import com.jfoenix.skins.JFXTextAreaSkin;
 import com.jfoenix.validation.base.ValidatorBase;
-import com.sun.javafx.css.converters.BooleanConverter;
-import com.sun.javafx.css.converters.PaintConverter;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.collections.FXCollections;
@@ -234,7 +232,7 @@ public class JFXTextArea extends TextArea {
     private static class StyleableProperties {
         private static final CssMetaData<JFXTextArea, Paint> UNFOCUS_COLOR = new CssMetaData<JFXTextArea, Paint>(
             "-jfx-unfocus-color",
-            PaintConverter.getInstance(),
+            StyleConverter.getPaintConverter(),
             Color.rgb(77, 77, 77)) {
             @Override
             public boolean isSettable(JFXTextArea control) {
@@ -248,7 +246,7 @@ public class JFXTextArea extends TextArea {
         };
         private static final CssMetaData<JFXTextArea, Paint> FOCUS_COLOR = new CssMetaData<JFXTextArea, Paint>(
             "-jfx-focus-color",
-            PaintConverter.getInstance(),
+            StyleConverter.getPaintConverter(),
             Color.valueOf("#4059A9")) {
             @Override
             public boolean isSettable(JFXTextArea control) {
@@ -262,7 +260,7 @@ public class JFXTextArea extends TextArea {
         };
         private static final CssMetaData<JFXTextArea, Boolean> LABEL_FLOAT = new CssMetaData<JFXTextArea, Boolean>(
             "-jfx-label-float",
-            BooleanConverter.getInstance(),
+            StyleConverter.getBooleanConverter(),
             false) {
             @Override
             public boolean isSettable(JFXTextArea control) {
@@ -277,7 +275,7 @@ public class JFXTextArea extends TextArea {
 
         private static final CssMetaData<JFXTextArea, Boolean> DISABLE_ANIMATION =
             new CssMetaData<JFXTextArea, Boolean>("-jfx-disable-animation",
-                BooleanConverter.getInstance(), false) {
+                StyleConverter.getBooleanConverter(), false) {
                 @Override
                 public boolean isSettable(JFXTextArea control) {
                     return control.disableAnimation == null || !control.disableAnimation.isBound();

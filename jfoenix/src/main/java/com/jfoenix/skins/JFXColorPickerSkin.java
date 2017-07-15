@@ -264,7 +264,7 @@ public class JFXColorPickerSkin extends ComboBoxPopupControl<Color> {
     private static class StyleableProperties {
         private static final CssMetaData<ColorPicker, Boolean> COLOR_LABEL_VISIBLE =
             new CssMetaData<ColorPicker, Boolean>("-fx-color-label-visible",
-                BooleanConverter.getInstance(), Boolean.TRUE) {
+                StyleConverter.getBooleanConverter(), Boolean.TRUE) {
 
                 @Override
                 public boolean isSettable(ColorPicker n) {

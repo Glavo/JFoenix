@@ -20,7 +20,6 @@
 package com.jfoenix.controls;
 
 import com.jfoenix.skins.JFXToggleButtonSkin;
-import com.sun.javafx.css.converters.PaintConverter;
 import javafx.css.*;
 import javafx.scene.control.Control;
 import javafx.scene.control.Labeled;
@@ -194,7 +193,7 @@ public class JFXToggleButton extends ToggleButton {
     private static class StyleableProperties {
         private static final CssMetaData<JFXToggleButton, Paint> TOGGLE_COLOR =
             new CssMetaData<JFXToggleButton, Paint>("-jfx-toggle-color",
-                PaintConverter.getInstance(), Color.valueOf("#009688")) {
+                StyleConverter.getPaintConverter(), Color.valueOf("#009688")) {
                 @Override
                 public boolean isSettable(JFXToggleButton control) {
                     return control.toggleColor == null || !control.toggleColor.isBound();
@@ -208,7 +207,7 @@ public class JFXToggleButton extends ToggleButton {
 
         private static final CssMetaData<JFXToggleButton, Paint> UNTOGGLE_COLOR =
             new CssMetaData<JFXToggleButton, Paint>("-jfx-untoggle-color",
-                PaintConverter.getInstance(), Color.valueOf("#FAFAFA")) {
+                StyleConverter.getPaintConverter(), Color.valueOf("#FAFAFA")) {
                 @Override
                 public boolean isSettable(JFXToggleButton control) {
                     return control.untoggleColor == null || !control.untoggleColor.isBound();
@@ -222,7 +221,7 @@ public class JFXToggleButton extends ToggleButton {
 
         private static final CssMetaData<JFXToggleButton, Paint> TOGGLE_LINE_COLOR =
             new CssMetaData<JFXToggleButton, Paint>("-jfx-toggle-line-color",
-                PaintConverter.getInstance(), Color.valueOf("#77C2BB")) {
+                StyleConverter.getPaintConverter(), Color.valueOf("#77C2BB")) {
                 @Override
                 public boolean isSettable(JFXToggleButton control) {
                     return control.toggleLineColor == null || !control.toggleLineColor.isBound();
@@ -236,7 +235,7 @@ public class JFXToggleButton extends ToggleButton {
 
         private static final CssMetaData<JFXToggleButton, Paint> UNTOGGLE_LINE_COLOR =
             new CssMetaData<JFXToggleButton, Paint>("-jfx-untoggle-line-color",
-                PaintConverter.getInstance(), Color.valueOf("#999999")) {
+                StyleConverter.getPaintConverter(), Color.valueOf("#999999")) {
                 @Override
                 public boolean isSettable(JFXToggleButton control) {
                     return control.untoggleLineColor == null || !control.untoggleLineColor.isBound();
