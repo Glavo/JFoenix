@@ -21,7 +21,6 @@ package com.jfoenix.adatpers.event;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.sun.javafx.event.CompositeEventHandler;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.event.EventType;

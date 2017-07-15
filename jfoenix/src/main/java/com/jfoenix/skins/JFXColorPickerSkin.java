@@ -20,17 +20,14 @@
 package com.jfoenix.skins;
 
 import com.jfoenix.controls.JFXButton;
-import com.jfoenix.controls.behavior.JFXColorPickerBehavior;
 import com.jfoenix.effects.JFXDepthManager;
-import com.sun.javafx.css.converters.BooleanConverter;
+import com.sun.javafx.scene.control.skin.ColorPickerSkin;
 import com.sun.javafx.scene.control.skin.ComboBoxBaseSkin;
-import com.sun.javafx.scene.control.skin.ComboBoxPopupControl;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.binding.Bindings;
-import javafx.beans.value.WritableValue;
 import javafx.css.*;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
@@ -51,7 +48,7 @@ import java.util.Locale;
 /**
  * @author Shadi Shaheen
  */
-public class JFXColorPickerSkin extends ComboBoxPopupControl<Color> {
+public class JFXColorPickerSkin extends ColorPickerSkin {
 
     private Label displayNode;
     private Pane pickerColorBox;
@@ -64,7 +61,7 @@ public class JFXColorPickerSkin extends ComboBoxPopupControl<Color> {
 
     public JFXColorPickerSkin(final ColorPicker colorPicker) {
 
-        super(colorPicker, new JFXColorPickerBehavior(colorPicker));
+        super(colorPicker);
         // create displayNode
         displayNode = new Label();
         displayNode.getStyleClass().add("color-picker-label");
@@ -111,6 +108,7 @@ public class JFXColorPickerSkin extends ComboBoxPopupControl<Color> {
         JFXDepthManager.setDepth(getSkinnable(), 1);
         // to improve the performance on 1st click
         getPopupContent();
+        super.getPopupContent();
 
         // add listeners
         registerChangeListener(colorPicker.valueProperty(), "VALUE");

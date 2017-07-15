@@ -19,6 +19,7 @@
 
 package com.jfoenix.skins;
 
+import com.jfoenix.adatpers.Utils;
 import com.jfoenix.controls.*;
 import com.jfoenix.svg.SVGGlyph;
 import com.jfoenix.transitions.JFXFillTransition;
@@ -380,7 +381,7 @@ public class JFXCustomColorPickerDialog extends StackPane {
 
     private void fixPosition() {
         Window w = dialog.getOwner();
-        Screen s = com.sun.javafx.util.Utils.getScreen(w);
+        Screen s = Utils.getScreen(w);
         Rectangle2D sb = s.getBounds();
         double xR = w.getX() + w.getWidth();
         double xL = w.getX() - dialog.getWidth();

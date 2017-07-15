@@ -21,11 +21,10 @@ package com.jfoenix.skins;
 
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialog.DialogTransition;
-import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.controls.JFXTimePicker;
-import com.jfoenix.controls.behavior.JFXTimePickerBehavior;
 import com.jfoenix.svg.SVGGlyph;
 import com.sun.javafx.binding.ExpressionHelper;
+import com.sun.javafx.scene.control.behavior.ComboBoxBaseBehavior;
 import com.sun.javafx.scene.control.skin.ComboBoxPopupControl;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
@@ -38,6 +37,7 @@ import javafx.util.StringConverter;
 
 import java.lang.reflect.Field;
 import java.time.LocalTime;
+import java.util.Collections;
 
 /**
  * <h1>Material Design Time Picker Skin</h1>
@@ -55,7 +55,7 @@ public class JFXTimePickerSkin extends ComboBoxPopupControl<LocalTime> {
     private JFXDialog dialog;
 
     public JFXTimePickerSkin(JFXTimePicker timePicker) {
-        super(timePicker, new JFXTimePickerBehavior(timePicker));
+        super(timePicker, new ComboBoxBaseBehavior<>(timePicker, Collections.emptyList()));
         this.jfxTimePicker = timePicker;
         try {
             Field helper = timePicker.focusedProperty().getClass().getSuperclass()

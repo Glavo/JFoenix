@@ -22,10 +22,9 @@ package com.jfoenix.skins;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialog.DialogTransition;
-import com.jfoenix.controls.behavior.JFXDatePickerBehavior;
 import com.jfoenix.svg.SVGGlyph;
 import com.sun.javafx.binding.ExpressionHelper;
-import com.sun.javafx.scene.control.skin.ComboBoxPopupControl;
+import com.sun.javafx.scene.control.skin.DatePickerSkin;
 import javafx.beans.value.ChangeListener;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
@@ -47,7 +46,7 @@ import java.time.YearMonth;
  * @version 1.0
  * @since 2016-03-09
  */
-public class JFXDatePickerSkin extends ComboBoxPopupControl<LocalDate> {
+public class JFXDatePickerSkin extends DatePickerSkin {
 
     /**
      * TODO:
@@ -62,8 +61,9 @@ public class JFXDatePickerSkin extends ComboBoxPopupControl<LocalDate> {
     private JFXDialog dialog;
 
     public JFXDatePickerSkin(final JFXDatePicker datePicker) {
-        super(datePicker, new JFXDatePickerBehavior(datePicker));
+        super(datePicker);
         this.jfxDatePicker = datePicker;
+        super.getPopupContent();
         try {
             Field helper = datePicker.focusedProperty().getClass().getSuperclass()
                 .getDeclaredField("helper");

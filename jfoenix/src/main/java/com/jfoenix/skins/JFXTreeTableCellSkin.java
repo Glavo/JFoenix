@@ -21,7 +21,6 @@ package com.jfoenix.skins;
 
 import com.jfoenix.controls.JFXTreeTableColumn;
 import com.jfoenix.controls.JFXTreeTableView;
-import com.jfoenix.controls.behavior.JFXTreeTableCellBehavior;
 import com.sun.javafx.scene.control.behavior.TreeTableCellBehavior;
 import com.sun.javafx.scene.control.skin.TableCellSkinBase;
 import javafx.beans.property.BooleanProperty;
@@ -38,7 +37,7 @@ public class JFXTreeTableCellSkin<S, T> extends TableCellSkinBase<TreeTableCell<
     private final TreeTableColumn<S, T> tableColumn;
 
     public JFXTreeTableCellSkin(TreeTableCell<S, T> treeTableCell) {
-        super(treeTableCell, new JFXTreeTableCellBehavior<>(treeTableCell));
+        super(treeTableCell, new TreeTableCellBehavior<>(treeTableCell));
         tableColumn = treeTableCell.getTableColumn();
         super.init(treeTableCell);
     }
