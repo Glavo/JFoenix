@@ -19,7 +19,7 @@
 
 package com.jfoenix.skins;
 
-import com.jfoenix.adatpers.skins.ListViewSkin;
+import com.jfoenix.adapters.skins.ListViewSkin;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.effects.JFXDepthManager;
 import javafx.application.Platform;

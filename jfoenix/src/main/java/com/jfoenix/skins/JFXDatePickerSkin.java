@@ -19,8 +19,8 @@
 
 package com.jfoenix.skins;
 
-import com.jfoenix.adatpers.ReflectionHelper;
-import com.jfoenix.adatpers.skins.DatePickerSkin;
+import com.jfoenix.adapters.ReflectionHelper;
+import com.jfoenix.adapters.skins.DatePickerSkin;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialog.DialogTransition;
@@ -35,7 +35,6 @@ import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.util.StringConverter;
 
-import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.time.YearMonth;
 
@@ -75,31 +74,70 @@ public class JFXDatePickerSkin extends DatePickerSkin {
         // add focus listener on editor node
         datePicker.focusedProperty().addListener((obj, oldVal, newVal) -> {
             if (getEditor() != null && !newVal) {
-                setTextFromTextFieldIntoComboBoxValue();
+                ReflectionHelper.invoke(JFXDatePickerSkin.this, "setTextFromTextFieldIntoComboBoxValue");
             }
         });
 
         // create calender or clock button
-        arrow = new SVGGlyph(0,
+        SVGGlyph glyph = new SVGGlyph(0,
             "calendar",
             "M320 384h128v128h-128zM512 384h128v128h-128zM704 384h128v128h-128zM128 "
-            + "768h128v128h-128zM320 768h128v128h-128zM512 768h128v128h-128zM320 "
-            + "576h128v128h-128zM512 576h128v128h-128zM704 576h128v128h-128zM128 "
-            + "576h128v128h-128zM832 0v64h-128v-64h-448v64h-128v-64h-128v1024h960v-1024h-128zM896"
-            + " 960h-832v-704h832v704z",
+                + "768h128v128h-128zM320 768h128v128h-128zM512 768h128v128h-128zM320 "
+                + "576h128v128h-128zM512 576h128v128h-128zM704 576h128v128h-128zM128 "
+                + "576h128v128h-128zM832 0v64h-128v-64h-448v64h-128v-64h-128v1024h960v-1024h-128zM896"
+                + " 960h-832v-704h832v704z",
             Color.BLACK);
-        ((SVGGlyph) arrow).fillProperty().bind(jfxDatePicker.defaultColorProperty());
-        ((SVGGlyph) arrow).setSize(20, 20);
-        arrowButton.getChildren().setAll(arrow);
-        arrowButton.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT,
+        setArrow(glyph);
+        glyph.fillProperty().bind(jfxDatePicker.defaultColorProperty());
+        glyph.setSize(20, 20);
+        getArrowButton().getChildren().setAll(glyph);
+        getArrowButton().setBackground(new Background(new BackgroundFill(Color.TRANSPARENT,
             CornerRadii.EMPTY,
             Insets.EMPTY)));
-        arrowButton.setPadding(new Insets(1,8,1,8));
+        getArrowButton().setPadding(new Insets(1,8,1,8));
 
-        registerChangeListener(datePicker.converterProperty(), "CONVERTER");
-        registerChangeListener(datePicker.dayCellFactoryProperty(), "DAY_CELL_FACTORY");
-        registerChangeListener(datePicker.showWeekNumbersProperty(), "SHOW_WEEK_NUMBERS");
-        registerChangeListener(datePicker.valueProperty(), "VALUE");
+        registerChangeListener2(datePicker.converterProperty(), "CONVERTER", () -> {
+            updateDisplayNode2();
+        });
+        registerChangeListener2(datePicker.dayCellFactoryProperty(), "DAY_CELL_FACTORY", () -> {
+            updateDisplayNode2();
+            content = null;
+            setPopup2(null);
+        });
+        registerChangeListener2(datePicker.editorProperty(), "EDITOR", () -> {
+            getEditableInputNode2();
+        });
+        registerChangeListener2(datePicker.showingProperty(), "SHOWING", () -> {
+            if (jfxDatePicker.isShowing()) {
+                if (content != null) {
+                    LocalDate date = jfxDatePicker.getValue();
+                    // set the current date / now when showing the date picker content
+                    content.displayedYearMonthProperty().set((date != null) ?
+                        YearMonth.from(date) : YearMonth.now());
+                    content.updateValues();
+                }
+                show();
+            } else {
+                hide();
+            }
+        });
+        registerChangeListener2(datePicker.showWeekNumbersProperty(), "SHOW_WEEK_NUMBERS", () -> {
+            if (content != null) {
+                // update the content grid to show week numbers
+                content.updateContentGrid();
+                content.updateWeekNumberDateCells();
+            }
+        });
+        registerChangeListener2(datePicker.valueProperty(), "VALUE", () -> {
+            updateDisplayNode2();
+            if (content != null) {
+                LocalDate date = jfxDatePicker.getValue();
+                content.displayedYearMonthProperty().set((date != null) ?
+                    YearMonth.from(date) : YearMonth.now());
+                content.updateValues();
+            }
+            jfxDatePicker.fireEvent(new ActionEvent());
+        });
     }
 
     @Override
@@ -127,7 +165,7 @@ public class JFXDatePickerSkin extends DatePickerSkin {
                     dialogParent = (StackPane) getSkinnable().getScene().getRoot();
                 }
                 dialog = new JFXDialog(dialogParent, (Region) getPopupContent(), DialogTransition.CENTER, true);
-                arrowButton.setOnMouseClicked((click) -> {
+                getArrowButton().setOnMouseClicked((click) -> {
                     if (((JFXDatePicker) getSkinnable()).isOverLay()) {
                         StackPane parent = jfxDatePicker.getDialogParent();
                         if (parent == null) {
@@ -137,50 +175,6 @@ public class JFXDatePickerSkin extends DatePickerSkin {
                     }
                 });
             }
-        }
-    }
-
-
-    @Override
-    protected void handleControlPropertyChanged(String p) {
-        if ("DAY_CELL_FACTORY".equals(p)) {
-            updateDisplayNode();
-            content = null;
-            popup = null;
-        } else if ("CONVERTER".equals(p)) {
-            updateDisplayNode();
-        } else if ("EDITOR".equals(p)) {
-            getEditableInputNode();
-        } else if ("SHOWING".equals(p)) {
-            if (jfxDatePicker.isShowing()) {
-                if (content != null) {
-                    LocalDate date = jfxDatePicker.getValue();
-                    // set the current date / now when showing the date picker content
-                    content.displayedYearMonthProperty().set((date != null) ?
-                        YearMonth.from(date) : YearMonth.now());
-                    content.updateValues();
-                }
-                show();
-            } else {
-                hide();
-            }
-        } else if ("SHOW_WEEK_NUMBERS".equals(p)) {
-            if (content != null) {
-                // update the content grid to show week numbers
-                content.updateContentGrid();
-                content.updateWeekNumberDateCells();
-            }
-        } else if ("VALUE".equals(p)) {
-            updateDisplayNode();
-            if (content != null) {
-                LocalDate date = jfxDatePicker.getValue();
-                content.displayedYearMonthProperty().set((date != null) ?
-                    YearMonth.from(date) : YearMonth.now());
-                content.updateValues();
-            }
-            jfxDatePicker.fireEvent(new ActionEvent());
-        } else {
-            super.handleControlPropertyChanged(p);
         }
     }
 
@@ -197,9 +191,9 @@ public class JFXDatePickerSkin extends DatePickerSkin {
     @Override
     public Node getDisplayNode() {
         if (displayNode == null) {
-            displayNode = getEditableInputNode();
+            displayNode = getEditableInputNode2();
             displayNode.getStyleClass().add("date-picker-display-node");
-            updateDisplayNode();
+            updateDisplayNode2();
         }
         displayNode.setEditable(jfxDatePicker.isEditable());
         return displayNode;
@@ -210,7 +204,7 @@ public class JFXDatePickerSkin extends DatePickerSkin {
      * DatePicker button is in sync after the popup is being dismissed
      */
     public void syncWithAutoUpdate() {
-        if (!getPopup().isShowing() && jfxDatePicker.isShowing()) {
+        if (!getPopup2().isShowing() && jfxDatePicker.isShowing()) {
             jfxDatePicker.hide();
         }
     }

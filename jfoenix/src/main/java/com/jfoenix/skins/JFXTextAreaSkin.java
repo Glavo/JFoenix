@@ -19,7 +19,7 @@
 
 package com.jfoenix.skins;
 
-import com.jfoenix.adatpers.skins.TextAreaSkin;
+import com.jfoenix.adapters.skins.TextAreaSkin;
 import com.jfoenix.concurrency.JFXUtilities;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.transitions.CachedTransition;
@@ -239,7 +239,7 @@ public class JFXTextAreaSkin extends TextAreaSkin {
                 if (((JFXTextArea) getSkinnable()).isLabelFloat()) {
                     promptTextColorTransition = new CachedTransition(promptContainer, new Timeline(
                         new KeyFrame(Duration.millis(1300),
-                            new KeyValue(promptTextFill, newVal, Interpolator.EASE_BOTH)))) {
+                            new KeyValue(promptTextFillProperty2(), newVal, Interpolator.EASE_BOTH)))) {
                         {
                             setDelay(Duration.millis(0));
                             setCycleDuration(Duration.millis(160));
@@ -247,7 +247,7 @@ public class JFXTextAreaSkin extends TextAreaSkin {
 
                         protected void starting() {
                             super.starting();
-                            oldPromptTextFill = promptTextFill.get();
+                            oldPromptTextFill = getPromptTextFill2();
                         }
                     };
                     // reset transition
@@ -299,24 +299,17 @@ public class JFXTextAreaSkin extends TextAreaSkin {
         });
 
         // prevent setting prompt text fill to transparent when text field is focused (override java transparent color if the control was focused)
-        promptTextFill.addListener((o, oldVal, newVal) -> {
+        promptTextFillProperty2().addListener((o, oldVal, newVal) -> {
             if (Color.TRANSPARENT.equals(newVal) && ((JFXTextArea) getSkinnable()).isLabelFloat()) {
-                promptTextFill.set(oldVal);
+                setPromptTextFill2(oldVal);
             }
         });
 
-        registerChangeListener(textArea.disableAnimationProperty(), "DISABLE_ANIMATION");
-    }
-
-    @Override
-    protected void handleControlPropertyChanged(String propertyReference) {
-        if ("DISABLE_ANIMATION".equals(propertyReference)) {
+        registerChangeListener2(textArea.disableAnimationProperty(), "DISABLE_ANIMATION", () -> {
             // remove error clip if animation is disabled
             errorContainer.setClip(((JFXTextArea) getSkinnable()).isDisableAnimation() ?
                 null : errorContainerClip);
-        } else {
-            super.handleControlPropertyChanged(propertyReference);
-        }
+        });
     }
 
     @Override
@@ -326,7 +319,7 @@ public class JFXTextAreaSkin extends TextAreaSkin {
         // change control properties if and only if animations are stopped
         if (transition == null || transition.getStatus() == Status.STOPPED) {
             if (getSkinnable().isFocused() && ((JFXTextArea) getSkinnable()).isLabelFloat()) {
-                promptTextFill.set(((JFXTextArea) getSkinnable()).getFocusColor());
+                setPromptTextFill2(((JFXTextArea) getSkinnable()).getFocusColor());
             }
         }
 
@@ -379,8 +372,8 @@ public class JFXTextAreaSkin extends TextAreaSkin {
 
     private double computeErrorHeight(double errorContainerWidth) {
         return errorLabel.prefHeight(errorContainerWidth)
-               + errorContainer.snappedBottomInset()
-               + errorContainer.snappedTopInset();
+            + errorContainer.snappedBottomInset()
+            + errorContainer.snappedTopInset();
     }
 
     /**
@@ -429,7 +422,7 @@ public class JFXTextAreaSkin extends TextAreaSkin {
                         field.set(this, promptText);
                         // replace parent promptNode with promptText field
                         triggerFloatLabel = true;
-                        oldPromptTextFill = promptTextFill.get();
+                        oldPromptTextFill = getPromptTextFill2();
                     } catch (NoSuchFieldException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
@@ -474,7 +467,7 @@ public class JFXTextAreaSkin extends TextAreaSkin {
 
             promptTextColorTransition = new CachedTransition(promptContainer, new Timeline(
                 new KeyFrame(Duration.millis(1300),
-                    new KeyValue(promptTextFill,
+                    new KeyValue(promptTextFillProperty2(),
                         ((JFXTextArea) getSkinnable()).getFocusColor(),
                         Interpolator.EASE_BOTH)))) {
                 {
@@ -484,7 +477,7 @@ public class JFXTextAreaSkin extends TextAreaSkin {
 
                 protected void starting() {
                     super.starting();
-                    oldPromptTextFill = promptTextFill.get();
+                    oldPromptTextFill = getPromptTextFill2();
                 }
 
             };
@@ -516,7 +509,7 @@ public class JFXTextAreaSkin extends TextAreaSkin {
         promptText.visibleProperty().bind(usePromptText);
         promptText.fontProperty().bind(getSkinnable().fontProperty());
         promptText.textProperty().bind(getSkinnable().promptTextProperty());
-        promptText.fillProperty().bind(promptTextFill);
+        promptText.fillProperty().bind(promptTextFillProperty2());
         promptText.setLayoutX(1);
     }
 
@@ -550,7 +543,7 @@ public class JFXTextAreaSkin extends TextAreaSkin {
         scale.setX(initScale);
         focusedLine.setOpacity(0);
         if (oldPromptTextFill != null && ((JFXTextArea) getSkinnable()).isLabelFloat()) {
-            promptTextFill.set(oldPromptTextFill);
+            setPromptTextFill2(oldPromptTextFill);
             if (usePromptText()) {
                 promptTextDownTransition.play();
             }
@@ -590,7 +583,7 @@ public class JFXTextAreaSkin extends TextAreaSkin {
         String txt = getSkinnable().getText();
         String promptTxt = getSkinnable().getPromptText();
         return (txt == null || txt.isEmpty()) && promptTxt != null &&
-               !promptTxt.isEmpty() && !promptTextFill.get().equals(Color.TRANSPARENT);
+            !promptTxt.isEmpty() && !getPromptTextFill2().equals(Color.TRANSPARENT);
     }
 
     private void showError(ValidatorBase validator) {

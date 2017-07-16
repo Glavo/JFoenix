@@ -19,7 +19,7 @@
 
 package com.jfoenix.skins;
 
-import com.jfoenix.adatpers.skins.ComboBoxListViewSkin;
+import com.jfoenix.adapters.skins.ComboBoxListViewSkin;
 import com.jfoenix.concurrency.JFXUtilities;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.transitions.CachedTransition;
@@ -97,7 +97,7 @@ public class JFXComboBoxListViewSkin<T> extends ComboBoxListViewSkin<T> {
 
         super(comboBox);
         // customize combo box
-        arrowButton.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, null, null)));
+        getArrowButton().setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, null, null)));
 
         // create my custom pane for the prompt node
         promptText.textProperty().bind(comboBox.promptTextProperty());

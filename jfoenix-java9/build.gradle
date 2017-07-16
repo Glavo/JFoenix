@@ -1,0 +1,78 @@
+apply plugin: 'osgi'
+apply plugin: 'com.jfrog.bintray'
+
+apply from: rootProject.file('gradle/license.gradle')
+
+//buildDir = new File(buildDir, '/META-INF/versions/9')
+
+sourceCompatibility = 1.9
+targetCompatibility = 1.9
+
+// pom file name
+ext {
+    pomFilePath = "${project.projectDir}/tmp/pom.xml"
+    pomFile = file(pomFilePath)
+}
+
+configurations {
+    pom
+}
+
+task sourcesJar(type: Jar) {
+    group 'Build'
+    description 'An archive of the source code'
+    classifier 'sources'
+    from sourceSets.main.allSource
+}
+
+
+javadoc {
+    excludes = ['**/*.html', 'META-INF/**']
+
+    options.use         = true
+    options.splitIndex  = true
+    options.encoding    = 'UTF-8'
+    options.author      = true
+    options.version     = true
+    options.windowTitle = "$project.name $project.version API"
+    options.docTitle    = "$project.name $project.version API"
+    options.links       = ['http://docs.oracle.com/javase/8/docs/api/',
+                           'http://docs.oracle.com/javase/8/javafx/api/']
+}
+
+task myJavadocs(type: Javadoc) {
+  source = sourceSets.main.allJava
+}
+
+task javadocJar(type: Jar) {
+    group 'Build'
+    description 'An archive of the javadoc'
+    classifier 'javadoc'
+    from javadoc.destinationDir
+}
+javadocJar.dependsOn myJavadocs
+
+// execute jar tasks
+jar.finalizedBy sourcesJar
+jar.finalizedBy javadocJar
+
+// summarize artifacts
+artifacts {
+    archives jar
+    archives sourcesJar
+    archives javadocJar
+    if (pomFile.exists()) {
+        pom pomFile
+    }
+}
+
+jar {
+    exclude('com/jfoenix/android/**')
+    manifest {
+        name = 'JFoenix'
+        instruction 'Bundle-RequiredExecutionEnvironment', 'JavaSE-1.8'
+        instruction 'Bundle-Description', 'JavaFX Material Design Library'
+    }
+}
+
+

@@ -13,3 +13,8 @@ dependencies {
     // FontAwesome (Bintray)
     compile 'de.jensd:fontawesomefx-fontawesome:4.7.0-5'
 }
+
+
+jar {
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+}

@@ -19,8 +19,8 @@
 
 package com.jfoenix.skins;
 
-import com.jfoenix.adatpers.event.MultiplePropertyChangeListenerHandler;
-import com.jfoenix.adatpers.skins.TabPaneSkin;
+import com.jfoenix.event.MultiplePropertyChangeListenerHandler;
+import com.jfoenix.adapters.skins.TabPaneSkin;
 import com.jfoenix.controls.JFXRippler;
 import com.jfoenix.controls.JFXRippler.RipplerMask;
 import com.jfoenix.controls.JFXRippler.RipplerPos;
@@ -86,6 +86,8 @@ public class JFXTabPaneSkin extends TabPaneSkin {
     private double maxWidth = 0.0d;
     private double maxHeight = 0.0d;
 
+    protected TabPane tabPane;
+
     public JFXTabPaneSkin(TabPane tabPane) {
         super(tabPane);
         tabContentHolders = FXCollections.observableArrayList();
@@ -125,8 +127,8 @@ public class JFXTabPaneSkin extends TabPaneSkin {
 
         header.headersRegion.setOnMouseDragged(me -> {
             header.updateScrollOffset(offsetStart
-                                      + (isHorizontal() ? me.getSceneX() : me .getSceneY())
-                                      - dragStart);
+                + (isHorizontal() ? me.getSceneX() : me .getSceneY())
+                - dragStart);
             me.consume();
         });
         getSkinnable().setOnMousePressed(me -> {
@@ -175,24 +177,19 @@ public class JFXTabPaneSkin extends TabPaneSkin {
             getSkinnable().requestLayout();
         });
 
-        registerChangeListener(tabPane.getSelectionModel().selectedItemProperty(), "SELECTED_TAB");
-        registerChangeListener(tabPane.widthProperty(), "WIDTH");
-        registerChangeListener(tabPane.heightProperty(), "HEIGHT");
-
-    }
-
-    @Override
-    protected void handleControlPropertyChanged(String property) {
-        super.handleControlPropertyChanged(property);
-        if ("SELECTED_TAB".equals(property)) {
+        registerChangeListener2(tabPane.getSelectionModel().selectedItemProperty(), "SELECTED_TAB", () -> {
             isSelectingTab = true;
             selectedTab = getSkinnable().getSelectionModel().getSelectedItem();
             getSkinnable().requestLayout();
-        } else if ("WIDTH".equals(property)) {
+        });
+        registerChangeListener2(tabPane.widthProperty(), "WIDTH", () -> {
             clip.setWidth(getSkinnable().getWidth());
-        } else if ("HEIGHT".equals(property)) {
+        });
+        registerChangeListener2(tabPane.heightProperty(), "HEIGHT", () -> {
             clip.setHeight(getSkinnable().getHeight());
-        }
+        });
+
+        this.tabPane = tabPane;
     }
 
     private void removeTabs(List<? extends Tab> removedTabs) {
@@ -593,7 +590,7 @@ public class JFXTabPaneSkin extends TabPaneSkin {
             final double clipHeight = headersPrefHeight;
 
             clip.setX((side == Side.LEFT || side == Side.BOTTOM)
-                      && headersPrefWidth >= maxWidth ? headersPrefWidth - maxWidth : 0);
+                && headersPrefWidth >= maxWidth ? headersPrefWidth - maxWidth : 0);
             clip.setY(0);
             clip.setWidth(clipWidth);
             clip.setHeight(clipHeight);
@@ -745,8 +742,8 @@ public class JFXTabPaneSkin extends TabPaneSkin {
                 2 * snappedLeftInset() + snappedRightInset() :
                 2 * snappedTopInset() + snappedBottomInset();
             return snapSize(headersRegion.prefWidth(height))
-                   + 2 * rightControlButton.prefWidth(height)
-                   + padding + SPACER;
+                + 2 * rightControlButton.prefWidth(height)
+                + padding + SPACER;
         }
 
         @Override
@@ -975,7 +972,7 @@ public class JFXTabPaneSkin extends TabPaneSkin {
                 }
                 if (event.getButton() == MouseButton.PRIMARY) {
                     setOpacity(1);
-                    getBehavior().selectTab(tab);
+                    tabPane.getSelectionModel().select(tab);
                 }
             });
 

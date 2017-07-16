@@ -19,7 +19,7 @@
 
 package com.jfoenix.skins;
 
-import com.jfoenix.adatpers.skins.ColorPickerSkin;
+import com.jfoenix.adapters.skins.ColorPickerSkin;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.effects.JFXDepthManager;
 import javafx.animation.Interpolator;
@@ -104,14 +104,21 @@ public class JFXColorPickerSkin extends ColorPickerSkin {
         pickerColorBox.getChildren().add(button);
         updateColor();
         getChildren().add(pickerColorBox);
-        getChildren().remove(arrowButton);
+        getChildren().remove(getArrowButton());
         JFXDepthManager.setDepth(getSkinnable(), 1);
         // to improve the performance on 1st click
         getPopupContent();
         super.getPopupContent();
 
         // add listeners
-        registerChangeListener(colorPicker.valueProperty(), "VALUE");
+        registerChangeListener2(colorPicker.valueProperty(), "VALUE", this::updateColor);
+        registerChangeListener2(colorPicker.showingProperty(), "SHOWING", () -> {
+            if (getSkinnable().isShowing()) {
+                show();
+            } else if (!popupContent.isCustomColorDialogShowing()) {
+                hide();
+            }
+        });
         colorLabelVisible.addListener(invalidate -> {
             if (displayNode != null) {
                 if (colorLabelVisible.get()) {
@@ -166,13 +173,9 @@ public class JFXColorPickerSkin extends ColorPickerSkin {
     protected Node getPopupContent() {
         if (popupContent == null) {
             popupContent = new JFXColorPalette((ColorPicker) getSkinnable());
-            popupContent.setPopupControl(getPopup());
+            popupContent.setPopupControl(getPopup2());
         }
         return popupContent;
-    }
-
-    @Override
-    protected void focusLost() {
     }
 
     @Override
@@ -180,21 +183,6 @@ public class JFXColorPickerSkin extends ColorPickerSkin {
         super.show();
         final ColorPicker colorPicker = (ColorPicker) getSkinnable();
         popupContent.updateSelection(colorPicker.getValue());
-    }
-
-    @Override
-    protected void handleControlPropertyChanged(String p) {
-        super.handleControlPropertyChanged(p);
-        if ("SHOWING".equals(p)) {
-            if (getSkinnable().isShowing()) {
-                show();
-            } else if (!popupContent.isCustomColorDialogShowing()) {
-                hide();
-            }
-        } else if ("VALUE".equals(p)) {
-            // change the selected color
-            updateColor();
-        }
     }
 
     @Override
@@ -238,7 +226,7 @@ public class JFXColorPickerSkin extends ColorPickerSkin {
     }
 
     public void syncWithAutoUpdate() {
-        if (!getPopup().isShowing() && getSkinnable().isShowing()) {
+        if (!getPopup2().isShowing() && getSkinnable().isShowing()) {
             // Popup was dismissed. Maybe user clicked outside or typed ESCAPE.
             // Make sure JFXColorPickerUI button is in sync.
             getSkinnable().hide();
