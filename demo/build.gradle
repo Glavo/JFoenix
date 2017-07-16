@@ -3,7 +3,7 @@ apply plugin: 'application'
 mainClassName = 'demos.MainDemo'
 
 dependencies {
-    compile project(':jfoenix')
+    compile project(':jfoenix-java9')
 
     // NOTE: the latest version _is_ 8.0.1!
     // 8.0.7 was published by mistake

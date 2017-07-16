@@ -28,6 +28,7 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.binding.Bindings;
 import javafx.css.*;
+import javafx.event.Event;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.control.ColorPicker;
@@ -94,11 +95,11 @@ public class JFXColorPickerSkin extends ColorPickerSkin {
         button.ripplerFillProperty().bind(displayNode.textFillProperty());
         button.minWidthProperty().bind(pickerColorBox.widthProperty());
         button.minHeightProperty().bind(pickerColorBox.heightProperty());
-        button.addEventHandler(MouseEvent.ANY, (event) -> {
-            if (!event.isConsumed()) {
-                event.consume();
+        button.addEventHandler(Event.ANY, (event) -> {
+            //if (!event.isConsumed()) {
+            //    event.consume();
                 getSkinnable().fireEvent(event);
-            }
+            //}
         });
 
         pickerColorBox.getChildren().add(button);
