@@ -96,10 +96,7 @@ public class JFXColorPickerSkin extends ColorPickerSkin {
         button.minWidthProperty().bind(pickerColorBox.widthProperty());
         button.minHeightProperty().bind(pickerColorBox.heightProperty());
         button.addEventHandler(Event.ANY, (event) -> {
-            //if (!event.isConsumed()) {
-            //    event.consume();
-                getSkinnable().fireEvent(event);
-            //}
+            getSkinnable().fireEvent(event);
         });
 
         pickerColorBox.getChildren().add(button);
