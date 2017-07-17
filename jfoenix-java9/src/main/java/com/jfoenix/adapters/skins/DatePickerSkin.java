@@ -88,4 +88,8 @@ public class DatePickerSkin extends javafx.scene.control.skin.DatePickerSkin {
     protected TextField getEditableInputNode2() {
         return ReflectionHelper.invoke(ComboBoxPopupControl.class, this, "getEditableInputNode");
     }
+
+    protected void setTextFromTextFieldIntoComboBoxValue2() {
+        ReflectionHelper.invoke(ComboBoxPopupControl.class, this, "setTextFromTextFieldIntoComboBoxValue");
+    }
 }

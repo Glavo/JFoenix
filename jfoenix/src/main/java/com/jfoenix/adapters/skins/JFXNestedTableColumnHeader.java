@@ -33,7 +33,7 @@ public class JFXNestedTableColumnHeader extends NestedTableColumnHeader {
 
     // protected to allow subclasses to customise the column header types
     protected TableColumnHeader createTableColumnHeader(TableColumnBase col) {
-        return col.getColumns().isEmpty() ?
+        return col == null || col.getColumns().isEmpty() ?
             new JFXTableColumnHeader(row, col) :
             new NestedTableColumnHeader(skin, row, col);
     }

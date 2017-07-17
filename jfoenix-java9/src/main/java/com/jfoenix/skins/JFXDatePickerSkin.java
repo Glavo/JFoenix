@@ -66,15 +66,17 @@ public class JFXDatePickerSkin extends DatePickerSkin {
         try {
             Object expressionHelper = ReflectionHelper.getFieldContent(datePicker.focusedProperty().getClass().getSuperclass(), datePicker.focusedProperty(), "helper");
             ChangeListener[] changeListeners = ReflectionHelper.getFieldContent(expressionHelper, "changeListeners");
+            int i = changeListeners.length - 1;
+            while (changeListeners[i] == null) --i;
             // remove parent focus listener to prevent editor class cast exception
-            datePicker.focusedProperty().removeListener(changeListeners[changeListeners.length - 1]);
+            datePicker.focusedProperty().removeListener(changeListeners[i]);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
         // add focus listener on editor node
         datePicker.focusedProperty().addListener((obj, oldVal, newVal) -> {
             if (getEditor() != null && !newVal) {
-                ReflectionHelper.invoke(JFXDatePickerSkin.this, "setTextFromTextFieldIntoComboBoxValue");
+                setTextFromTextFieldIntoComboBoxValue2();
             }
         });
 

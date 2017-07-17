@@ -66,6 +66,4 @@ public class JFXProgressBar extends ProgressBar {
         setPrefWidth(200);
         getStyleClass().add(DEFAULT_STYLE_CLASS);
     }
-
-
 }

@@ -18,6 +18,8 @@
  */
 package com.jfoenix.adapters.skins;
 
+import com.jfoenix.adapters.ReflectionHelper;
+import com.sun.javafx.scene.control.skin.ComboBoxPopupControl;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.PopupControl;
@@ -74,5 +76,9 @@ public class DatePickerSkin extends com.sun.javafx.scene.control.skin.DatePicker
 
     protected TextField getEditableInputNode2() {
         return getEditableInputNode();
+    }
+
+    protected void setTextFromTextFieldIntoComboBoxValue2() {
+        setTextFromTextFieldIntoComboBoxValue();
     }
 }

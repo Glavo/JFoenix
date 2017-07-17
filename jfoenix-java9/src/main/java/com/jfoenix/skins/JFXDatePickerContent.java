@@ -595,9 +595,7 @@ public class JFXDatePickerContent extends VBox {
         for (int i = 0; i < daysPerWeek; i++) {
             String name = weekDayNameFormatter.withLocale(getLocale()).format(date.plus(i, DAYS));
             // Fix Chinese environment week display incorrectly
-            if (weekDayNameFormatter.getLocale() == java.util.Locale.CHINA) {
-                name = name.substring(2, 3).toUpperCase();
-            } else {
+            if (weekDayNameFormatter.getLocale() != java.util.Locale.CHINA) {
                 name = name.substring(0, 1).toUpperCase();
             }
             weekDaysCells.get(i).setText(name);

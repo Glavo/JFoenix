@@ -32,7 +32,7 @@ public class JFXNestedTableColumnHeader extends NestedTableColumnHeader {
 
     // protected to allow subclasses to customise the column header types
     protected javafx.scene.control.skin.TableColumnHeader createTableColumnHeader(TableColumnBase col) {
-        return col.getColumns().isEmpty() ?
+        return col == null || col.getColumns().isEmpty() ?
             new JFXTableColumnHeader(row, col) :
             new NestedTableColumnHeader(null, row, col);
     }

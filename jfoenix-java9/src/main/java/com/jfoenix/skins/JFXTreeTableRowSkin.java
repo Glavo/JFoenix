@@ -19,6 +19,7 @@
 
 package com.jfoenix.skins;
 
+import com.jfoenix.adapters.ReflectionHelper;
 import com.jfoenix.adapters.skins.TreeTableRowSkin;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import javafx.animation.*;
@@ -30,7 +31,6 @@ import javafx.scene.control.Control;
 import javafx.scene.control.TreeTableRow;
 import javafx.util.Duration;
 
-import java.lang.reflect.Field;
 import java.util.Map;
 
 /**
@@ -58,12 +58,8 @@ public class JFXTreeTableRowSkin<T> extends TreeTableRowSkin<T> {
         super(control);
         if (disclosureWidthMap == null) {
             try {
-                Field declaredField = getClass().getSuperclass().getSuperclass()
-                    .getSuperclass()
-                    .getDeclaredField("maxDisclosureWidthMap");
-                declaredField.setAccessible(true);
-                disclosureWidthMap = (Map<Control, Double>) declaredField.get(this);
-            } catch (IllegalArgumentException | IllegalAccessException | NoSuchFieldException | SecurityException ex) {
+                disclosureWidthMap = ReflectionHelper.getFieldContent(getClass().getSuperclass().getSuperclass().getSuperclass(), this, "maxDisclosureWidthMap");
+            } catch (IllegalArgumentException | SecurityException ex) {
                 ex.printStackTrace();
             }
         }

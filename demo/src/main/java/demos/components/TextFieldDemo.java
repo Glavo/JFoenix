@@ -45,11 +45,11 @@ public class TextFieldDemo extends Application {
         validationField.setPromptText("With Validation..");
         RequiredFieldValidator validator = new RequiredFieldValidator();
         validator.setMessage("Input Required");
-        validator.setIcon(GlyphsBuilder.create(FontAwesomeIconView.class)
+        /*validator.setIcon(GlyphsBuilder.create(FontAwesomeIconView.class)
             .glyph(FontAwesomeIcon.WARNING)
             .size(EM1)
             .styleClass(ERROR)
-            .build());
+            .build());*/
         validationField.getValidators().add(validator);
         validationField.focusedProperty().addListener((o, oldVal, newVal) -> {
             if (!newVal) {
@@ -64,11 +64,11 @@ public class TextFieldDemo extends Application {
         passwordField.setPromptText("Password");
         validator = new RequiredFieldValidator();
         validator.setMessage("Password Can't be empty");
-        validator.setIcon(GlyphsBuilder.create(FontAwesomeIconView.class)
+        /*validator.setIcon(GlyphsBuilder.create(FontAwesomeIconView.class)
             .glyph(FontAwesomeIcon.WARNING)
             .size(EM1)
             .styleClass(ERROR)
-            .build());
+            .build());*/
         passwordField.getValidators().add(validator);
         passwordField.focusedProperty().addListener((o, oldVal, newVal) -> {
             if (!newVal) {

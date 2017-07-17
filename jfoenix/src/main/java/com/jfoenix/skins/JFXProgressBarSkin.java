@@ -45,20 +45,24 @@ public class JFXProgressBarSkin extends ProgressBarSkin {
 
     private StackPane bar;
     private Region clip;
-    protected JFXProgressBar progressBar;
 
-    public JFXProgressBarSkin(JFXProgressBar bar) {
-        super(bar);
+    public JFXProgressBarSkin(JFXProgressBar progressBar) {
+        super(progressBar);
+        init();
+        registerChangeListener2(getSkinnable().indeterminateProperty(), "INDETERMINATE", this::init);
+    }
 
-        progressBar = bar;
-        this.bar = (StackPane) getChildren().get(1);
-        this.bar.setBackground(new Background(new BackgroundFill(indicatorColor, CornerRadii.EMPTY, Insets.EMPTY)));
-        this.bar.setPadding(new Insets(1.5));
+    protected void init() {
+        bar = (StackPane) getChildren().get(1);
+        bar.setBackground(new Background(new BackgroundFill(indicatorColor, CornerRadii.EMPTY, Insets.EMPTY)));
+        bar.setPadding(new Insets(1.5));
+
         final StackPane track = (StackPane) getChildren().get(0);
         track.setBackground(new Background(new BackgroundFill(trackColor, CornerRadii.EMPTY, Insets.EMPTY)));
         clip = new Region();
         clip.setBackground(new Background(new BackgroundFill(Color.BLACK, CornerRadii.EMPTY, Insets.EMPTY)));
         getSkinnable().setClip(clip);
+        getSkinnable().requestLayout();
     }
 
     @Override
@@ -66,7 +70,7 @@ public class JFXProgressBarSkin extends ProgressBarSkin {
         super.layoutChildren(x, y, W, h);
         clip.resizeRelocate(x, y, W, h);
 
-        if (progressBar.isIndeterminate()) {
+        if (getSkinnable().isIndeterminate()) {
             if (getIndeterminateTransition() != null) {
                 getIndeterminateTransition().stop();
             }

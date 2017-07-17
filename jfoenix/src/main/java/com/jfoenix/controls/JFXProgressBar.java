@@ -67,5 +67,16 @@ public class JFXProgressBar extends ProgressBar {
         getStyleClass().add(DEFAULT_STYLE_CLASS);
     }
 
+    public boolean forbidsRequestingLayout = false;
 
+    public JFXProgressBar forbidsRequestingLayout() {
+        forbidsRequestingLayout = true;
+        return this;
+    }
+
+    @Override
+    public void requestLayout() {
+        if (!forbidsRequestingLayout)
+            super.requestLayout();
+    }
 }

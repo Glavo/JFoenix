@@ -19,17 +19,19 @@
 
 package com.jfoenix.adapters.skins;
 
+import javafx.scene.control.TableColumnBase;
+
 /**
  * @author Shadi Shaheen
  */
 public class JFXTableHeaderRow {
 
-    public JFXTableHeaderRow(final Object skin2) {
+    public JFXTableHeaderRow(final Object skin2, final TableColumnBase base) {
 
         row = new TableHeaderRow(skin2) {
             @Override
             protected NestedTableColumnHeader createRootHeader() {
-                return new JFXNestedTableColumnHeader(null, this, null);
+                return new JFXNestedTableColumnHeader(null, this, base);
             }
         };
     }

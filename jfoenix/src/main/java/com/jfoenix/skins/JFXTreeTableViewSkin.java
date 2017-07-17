@@ -35,6 +35,6 @@ public class JFXTreeTableViewSkin<S> extends TreeTableViewSkin<S> {
 
     @Override
     protected TableHeaderRow createTableHeaderRow() {
-        return new JFXTableHeaderRow(this).getRow();
+        return new JFXTableHeaderRow(this, getSkinnable().getTreeColumn()).getRow();
     }
 }

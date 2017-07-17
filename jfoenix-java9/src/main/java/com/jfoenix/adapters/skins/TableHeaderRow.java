@@ -21,7 +21,7 @@ package com.jfoenix.adapters.skins;
 public class TableHeaderRow extends javafx.scene.control.skin.TableHeaderRow {
     final Object skin;
     public TableHeaderRow(Object skin) {
-        super((TableViewSkinBase) skin);
+        super((javafx.scene.control.skin.TableViewSkinBase) skin);
         this.skin = skin;
     }
 }

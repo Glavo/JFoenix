@@ -19,11 +19,30 @@
 package com.jfoenix.adapters.skins;
 
 import javafx.animation.Animation;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.ProgressBar;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProgressBarSkin extends com.sun.javafx.scene.control.skin.ProgressBarSkin {
     public ProgressBarSkin(ProgressBar control) {
         super(control);
+    }
+
+    protected void registerChangeListener2(ObservableValue<?> property, String key, Runnable listener) {
+        registerChangeListener(property, key);
+        changeListeners.put(key, listener);
+    }
+
+    private Map<String, Runnable> changeListeners = new HashMap<>();
+
+    @Override
+    protected void handleControlPropertyChanged(String propertyReference) {
+        super.handleControlPropertyChanged(propertyReference);
+        if (changeListeners.containsKey(propertyReference)) {
+            changeListeners.get(propertyReference).run();
+        }
     }
 
     protected Animation getIndeterminateTransition() {

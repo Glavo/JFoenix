@@ -20,6 +20,7 @@ package com.jfoenix.adapters.skins;
 
 import com.jfoenix.adapters.ReflectionHelper;
 import javafx.animation.Animation;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.skin.ProgressIndicatorSkin;
 
@@ -28,6 +29,10 @@ import java.lang.reflect.Field;
 public class ProgressBarSkin extends javafx.scene.control.skin.ProgressBarSkin {
     public ProgressBarSkin(ProgressBar control) {
         super(control);
+    }
+
+    protected void registerChangeListener2(ObservableValue<?> property, String key, Runnable listener) {
+        registerChangeListener(property, (property2) -> listener.run());
     }
 
     private final Field indeterminateTransitionField = ReflectionHelper.getField(ProgressIndicatorSkin.class, "indeterminateTransition");

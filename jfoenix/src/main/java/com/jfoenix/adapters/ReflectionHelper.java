@@ -63,7 +63,7 @@ public class ReflectionHelper {
     }
 
     public static <T> T invoke(Object obj, String methodName) {
-        return invoke(obj.getClass(), methodName);
+        return invoke(obj.getClass(), obj, methodName);
     }
 
     public static Field getField(Class cls, String fieldName) {
