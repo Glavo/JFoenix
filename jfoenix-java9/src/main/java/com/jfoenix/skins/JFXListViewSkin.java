@@ -19,11 +19,13 @@
 
 package com.jfoenix.skins;
 
+import com.jfoenix.adapters.VirtualFlowHelper;
 import com.jfoenix.adapters.skins.ListViewSkin;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.effects.JFXDepthManager;
 import javafx.application.Platform;
 import javafx.collections.ListChangeListener.Change;
+import javafx.scene.Node;
 import javafx.scene.control.ListCell;
 
 /**
@@ -76,12 +78,7 @@ public class JFXListViewSkin<T> extends ListViewSkin<T> {
         double gap = listview.isExpanded() ? ((JFXListView<T>) getSkinnable()).getVerticalGap() * (getSkinnable().getItems()
             .size()) : 0;
         // compute the height of each list cell
-        double cellsHeight = 0;
-        for (int i = 0; i < getFlow().getCellCount(); i++) {
-            ListCell<T> cell = getFlow().getCell(i);
-
-            cellsHeight += cell.getHeight();
-        }
+        double cellsHeight = VirtualFlowHelper.<ListCell, Double>forEach(getFlow(), 0.0, (ListCell cell, Double h) -> 1.0 + h + cell.getHeight());
         return cellsHeight + gap + borderWidth;
     }
 

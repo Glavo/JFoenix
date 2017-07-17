@@ -19,6 +19,7 @@
 package com.jfoenix.adapters.skins;
 
 import com.jfoenix.adapters.ReflectionHelper;
+import javafx.scene.Node;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.skin.VirtualFlow;
@@ -33,9 +34,9 @@ public class ListViewSkin<T> extends javafx.scene.control.skin.ListViewSkin<T> {
 
     private final Field flowField = ReflectionHelper.getField(javafx.scene.control.skin.ListViewSkin.class,"flow");
 
-    protected VirtualFlow<ListCell<T>> getFlow() {
+    protected Node getFlow() {
         try {
-            return (VirtualFlow<ListCell<T>>) flowField.get(this);
+            return (Node) flowField.get(this);
         } catch (NullPointerException | IllegalAccessException | ClassCastException e) {
             throw new IllegalAccessError("Cannot access `flow` in ListViewSkin, this should not happen.");
         }

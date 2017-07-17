@@ -18,10 +18,15 @@
  */
 package com.jfoenix.adapters.skins;
 
+import javafx.scene.Node;
 import javafx.scene.control.ListView;
 
 public class ListViewSkin<T> extends com.sun.javafx.scene.control.skin.ListViewSkin<T> {
     public ListViewSkin(ListView<T> listView) {
         super(listView);
+    }
+
+    protected Node getFlow() {
+        return flow;
     }
 }

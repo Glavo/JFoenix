@@ -19,6 +19,7 @@
 
 package com.jfoenix.skins;
 
+import com.jfoenix.adapters.VirtualFlowHelper;
 import com.jfoenix.adapters.skins.ListViewSkin;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.effects.JFXDepthManager;
@@ -37,8 +38,8 @@ public class JFXListViewSkin<T> extends ListViewSkin<T> {
 
     public JFXListViewSkin(final JFXListView<T> listView) {
         super(listView);
-        JFXDepthManager.setDepth(flow, listView.depthProperty().get());
-        listView.depthProperty().addListener((o, oldVal, newVal) -> JFXDepthManager.setDepth(flow, newVal));
+        JFXDepthManager.setDepth(getFlow(), listView.depthProperty().get());
+        listView.depthProperty().addListener((o, oldVal, newVal) -> JFXDepthManager.setDepth(getFlow(), newVal));
         listView.getItems().addListener((Change<? extends T> change) -> new Thread(() -> {
             try {
                 Thread.sleep(20);
@@ -76,12 +77,7 @@ public class JFXListViewSkin<T> extends ListViewSkin<T> {
         double gap = listview.isExpanded() ? ((JFXListView<T>) getSkinnable()).getVerticalGap() * (getSkinnable().getItems()
             .size()) : 0;
         // compute the height of each list cell
-        double cellsHeight = 0;
-        for (int i = 0; i < flow.getCellCount(); i++) {
-            ListCell<T> cell = flow.getCell(i);
-
-            cellsHeight += cell.getHeight();
-        }
+        double cellsHeight = VirtualFlowHelper.<ListCell, Double>forEach(getFlow(), 0.0, (ListCell cell, Double h) -> 1.0 + h + cell.getHeight());
         return cellsHeight + gap + borderWidth;
     }
 

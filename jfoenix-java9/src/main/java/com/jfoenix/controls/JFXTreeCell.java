@@ -19,7 +19,7 @@
 
 package com.jfoenix.controls;
 
-import com.jfoenix.adapters.JFXTreeCellHelper;
+import com.jfoenix.adapters.VirtualFlowHelper;
 import com.jfoenix.controls.JFXTreeView.CellAnimation;
 import javafx.animation.Animation.Status;
 import javafx.animation.Interpolator;
@@ -67,7 +67,7 @@ public class JFXTreeCell<T> extends TreeCell<T> {
         jfxTreeView.expand = newValue;
         jfxTreeView.disableSiblings = false;
 
-        JFXTreeCellHelper.setTreeView(jfxTreeView, newValue, currentRow, getTreeItem());
+        VirtualFlowHelper.setTreeView(jfxTreeView, newValue, currentRow, getTreeItem());
     };
 
     private InvalidationListener treeItemGraphicInvalidationListener = observable -> updateDisplay(getItem(),

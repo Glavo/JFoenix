@@ -18,11 +18,14 @@
  */
 package com.jfoenix.adapters;
 
-import javafx.scene.control.TreeView;
-import javafx.scene.control.skin.VirtualFlow;
+import com.sun.javafx.scene.control.skin.VirtualFlow;
+import javafx.scene.control.IndexedCell;
 import javafx.scene.control.TreeItem;
+import javafx.scene.control.TreeView;
 
-public final class JFXTreeCellHelper {
+import java.util.function.BiFunction;
+
+public final class VirtualFlowHelper {
 
     public static <T> void setTreeView(TreeView<T> view, boolean newValue, int currentRow, TreeItem<T> item) {
         VirtualFlow<?> vf = (VirtualFlow<?>) view.lookup(".virtual-flow");
@@ -33,5 +36,15 @@ public final class JFXTreeCellHelper {
             view2.setHeight2((index - currentRow - 1) * vf.getCell(currentRow).getHeight());
         }
         view2.setLayoutY2(vf.getCell(currentRow).getLayoutY());
+    }
+
+    public static <T extends IndexedCell, R extends Number> R forEach(Object virtualFlow, R init, BiFunction<T, R, R> func) {
+        VirtualFlow<T> flow = (VirtualFlow<T>) virtualFlow;
+
+        for (int i = 0; i < flow.getCellCount(); i++) {
+            T cell = flow.getCell(i);
+            init = func.apply(cell, init);
+        }
+        return init;
     }
 }
