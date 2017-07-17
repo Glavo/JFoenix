@@ -17,11 +17,8 @@
  * under the License.
  */
 
-package com.jfoenix.skins;
+package com.jfoenix.adapters.skins;
 
-import com.jfoenix.adapters.skins.JFXTableHeaderRow;
-import com.jfoenix.adapters.skins.TableHeaderRow;
-import com.jfoenix.adapters.skins.TreeTableViewSkin;
 import javafx.scene.control.TreeTableView;
 
 /**

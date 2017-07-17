@@ -1,4 +1,3 @@
-apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'osgi'
 apply plugin: 'com.jfrog.bintray'
 
@@ -27,17 +26,6 @@ task sourcesJar(type: Jar) {
     from sourceSets.main.allSource
 }
 
-task retroSourcesJar(type: Jar){
-	String str = sourceSets.main.output.classesDir;
-	sourceSets.main.output.classesDir = "$buildDir/retrolambda/main"
-   	group 'Build'
-    description 'JFoenix compiled using retro-lambda'
-    classifier 'retrolambda'
-    from sourceSets.main.output
-    sourceSets.main.output.classesDir = str
-}
-
-
 javadoc {
     excludes = ['**/*.html', 'META-INF/**']
 
@@ -65,7 +53,6 @@ task javadocJar(type: Jar) {
 javadocJar.dependsOn myJavadocs
 
 // execute jar tasks
-jar.finalizedBy retroSourcesJar
 jar.finalizedBy sourcesJar
 jar.finalizedBy javadocJar
 
@@ -74,7 +61,6 @@ artifacts {
     archives jar
     archives sourcesJar
     archives javadocJar
-    archives retroSourcesJar
     if (pomFile.exists()) {
         pom pomFile
     }

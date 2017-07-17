@@ -20,8 +20,11 @@ package com.jfoenix.adapters.skins;
 
 import javafx.scene.control.TreeTableView;
 
-public class TreeTableViewSkin<S> extends javafx.scene.control.skin.TreeTableViewSkin<S> {
+public abstract class TreeTableViewSkin<S> extends javafx.scene.control.skin.TreeTableViewSkin<S> {
     public TreeTableViewSkin(TreeTableView<S> treeTableView) {
         super(treeTableView);
     }
+
+    @Override
+    protected abstract TableHeaderRow createTableHeaderRow();
 }

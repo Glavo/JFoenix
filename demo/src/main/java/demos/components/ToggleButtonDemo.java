@@ -30,11 +30,11 @@ public class ToggleButtonDemo extends Application {
         pane.getChildren().add(toggleButton);
 
         JFXToggleNode node = new JFXToggleNode();
-        final GlyphIcon heartIcon = GlyphsBuilder.create(FontAwesomeIconView.class)
+        /*final GlyphIcon heartIcon = GlyphsBuilder.create(FontAwesomeIconView.class)
             .glyph(FontAwesomeIcon.HEART)
             .build();
         heartIcon.setStyle("-fx-padding: 10");
-        node.setGraphic(heartIcon);
+        node.setGraphic(heartIcon);*/
 
         pane.getChildren().add(node);
 

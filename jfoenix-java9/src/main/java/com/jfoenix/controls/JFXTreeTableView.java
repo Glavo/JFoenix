@@ -21,7 +21,7 @@ package com.jfoenix.controls;
 
 import com.jfoenix.concurrency.JFXUtilities;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
-import com.jfoenix.skins.JFXTreeTableViewSkin;
+import com.jfoenix.adapters.skins.JFXTreeTableViewSkin;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
@@ -31,7 +31,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
-import javafx.util.Callback;
 
 import java.util.*;
 import java.util.concurrent.Semaphore;

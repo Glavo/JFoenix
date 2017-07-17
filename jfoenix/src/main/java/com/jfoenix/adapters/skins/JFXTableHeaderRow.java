@@ -19,7 +19,6 @@
 
 package com.jfoenix.adapters.skins;
 
-import com.sun.javafx.scene.control.skin.NestedTableColumnHeader;
 import javafx.scene.control.TableColumnBase;
 
 /**
