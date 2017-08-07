@@ -19,9 +19,9 @@
 
 package com.jfoenix.skins;
 
+import com.jfoenix.adapters.ReflectionHelper;
 import com.jfoenix.adapters.skins.TextFieldSkin;
 import com.jfoenix.concurrency.JFXUtilities;
-import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import com.jfoenix.transitions.CachedTransition;
 import com.jfoenix.validation.base.ValidatorBase;
@@ -42,8 +42,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Text;
 import javafx.scene.transform.Scale;
 import javafx.util.Duration;
-
-import java.lang.reflect.Field;
 
 /**
  * <h1>Material Design TextField Skin</h1>
@@ -394,17 +392,10 @@ public class JFXTextFieldSkin extends TextFieldSkin {
                 if (textPane.getChildren().get(0) instanceof Text) {
                     promptText = (Text) textPane.getChildren().get(0);
                 } else {
-                    Field field;
-                    try {
-                        field = TextFieldSkin.class.getDeclaredField("promptNode");
-                        field.setAccessible(true);
-                        createPromptNode();
-                        field.set(this, promptText);
-                        // replace parent promptNode with promptText field
-                        triggerFloatLabel = true;
-                    } catch (NoSuchFieldException | SecurityException | IllegalAccessException | IllegalArgumentException ex) {
-                        ex.printStackTrace();
-                    }
+                    createPromptNode();
+                    ReflectionHelper.setFieldContent(TextFieldSkin.class.getSuperclass(), this, "promptNode", promptText);
+                    // replace parent promptNode with promptText field
+                    triggerFloatLabel = true;
                 }
                 promptText.getTransforms().add(promptTextScale);
                 promptContainer.getChildren().add(promptText);

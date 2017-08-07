@@ -266,6 +266,8 @@ public class JFXDecorator extends VBox {
         clip.widthProperty().bind(((Region) node).widthProperty());
         clip.heightProperty().bind(((Region) node).heightProperty());
         node.setClip(clip);
+
+
         this.getChildren().addAll(buttonsContainer, contentPlaceHolder);
 
         primaryStage.fullScreenProperty().addListener((o, oldVal, newVal) -> {

@@ -240,8 +240,9 @@ public class JFXComboBoxListViewSkin<T> extends ComboBoxListViewSkin<T> {
             invalid = false;
             // create floating label
             // set initial prompt text fill using javafx prompt node fill
-            if(!getSkinnable().isEditable()){
-                promptTextFill.set(((Text)((ListCell<T>)super.getDisplayNode()).lookup(".text")).getFill());
+            if(!getSkinnable().isEditable()) {
+                final Text javaPromptText = (Text) super.getDisplayNode().lookup(".text");
+                if (javaPromptText != null) promptTextFill.set(javaPromptText.getFill());
             }
             createFloatingAnimation();
             if(getSkinnable().getValue()!=null)

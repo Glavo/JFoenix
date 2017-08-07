@@ -19,10 +19,12 @@
 
 package com.jfoenix.controls;
 
+import com.jfoenix.effects.JFXDepthManager;
 import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.beans.DefaultProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
@@ -111,6 +113,7 @@ public class JFXScrollPane extends StackPane {
         header.maxHeightProperty().bind(header.prefHeightProperty());
         header.getChildren().setAll(bgContainer, barsContainer);
         StackPane.setAlignment(header, Pos.TOP_CENTER);
+        JFXDepthManager.setDepth(condensedHeaderBackground, 1);
         headerSpace.minHeightProperty().bind(header.prefHeightProperty());
         headerSpace.maxHeightProperty().bind(header.prefHeightProperty());
         headerSpace.setFocusTraversable(true);
@@ -144,7 +147,8 @@ public class JFXScrollPane extends StackPane {
                 topBar.setTranslateY(0);
             } else if (newVal.doubleValue() == 1) {
                 topBar.setTranslateY(minHeight);
-                header.setTranslateY(-maxHeight);
+                double compare = isAutoHide() ? maxHeight : minHeight;
+                header.setTranslateY(-compare);
             } else {
                 double dy = ty - initY;
                 topBar.setTranslateY(-dy <= minHeight ? -dy : minHeight);
@@ -159,15 +163,16 @@ public class JFXScrollPane extends StackPane {
                         header.setTranslateY(-minHeight);
                     }
                 } else {
-                    if (-dy > maxHeight) {
-                        if (-(header.getTranslateY() - diff) < maxHeight) {
+                    double compare = isAutoHide() ? maxHeight : minHeight;
+                    if (-dy > compare) {
+                        if (-(header.getTranslateY() - diff) < compare) {
                             header.setTranslateY(header.getTranslateY() - diff);
                         } else {
-                            header.setTranslateY(-maxHeight);
+                            header.setTranslateY(-compare);
                         }
                     } else {
-                        if (diff > maxHeight) {
-                            header.setTranslateY(-maxHeight);
+                        if (diff > compare) {
+                            header.setTranslateY(-compare);
                         } else {
                             header.setTranslateY(dy);
                         }
@@ -220,6 +225,10 @@ public class JFXScrollPane extends StackPane {
     public StackPane getCondensedHeader() {
         return condensedHeaderBackground;
     }
+
+    public final SimpleBooleanProperty autoHideProperty = new SimpleBooleanProperty(this, "autoHide", true);
+    public final boolean isAutoHide() { return autoHideProperty.get(); }
+    public final void setAutoHide(boolean newValue) { autoHideProperty.set(newValue); }
 
     public static void smoothScrolling(ScrollPane scrollPane) {
 

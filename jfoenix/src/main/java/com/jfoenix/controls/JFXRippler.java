@@ -240,7 +240,7 @@ public class JFXRippler extends StackPane {
     }
 
     /**
-     * compute the ripple raddius
+     * compute the ripple radius
      *
      * @return the ripple radius size
      */
