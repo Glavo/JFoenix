@@ -12,7 +12,7 @@
             <Label styleClass="title-label">Popup ups</Label>
             <HBox fx:id="hbox" spacing="40" style="-fx-padding: 0 0 0 50;">
                 <children>
-                    <JFXColorPicker minWidth="100"></JFXColorPicker>
+                    <JFXColorPicker fx:id="colorPicker" minWidth="100"></JFXColorPicker>
                     <JFXDatePicker></JFXDatePicker>
                 </children>
             </HBox>

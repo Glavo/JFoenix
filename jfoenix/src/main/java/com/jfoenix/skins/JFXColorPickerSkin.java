@@ -21,6 +21,7 @@ package com.jfoenix.skins;
 
 import com.jfoenix.adapters.skins.ColorPickerSkin;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXColorPicker;
 import com.jfoenix.effects.JFXDepthManager;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
@@ -55,15 +56,17 @@ public class JFXColorPickerSkin extends ColorPickerSkin {
     private Pane pickerColorBox;
     private StackPane pickerColorClip;
     private JFXColorPalette popupContent;
+    private final JFXColorPicker colorPicker;
     private final List<Color> listedColors;
     StyleableBooleanProperty colorLabelVisible = new SimpleStyleableBooleanProperty(StyleableProperties.COLOR_LABEL_VISIBLE,
         JFXColorPickerSkin.this,
         "colorLabelVisible",
         true);
 
-    public JFXColorPickerSkin(final ColorPicker colorPicker, List<Color> listedColors) {
+    public JFXColorPickerSkin(final JFXColorPicker colorPicker, List<Color> listedColors) {
         super(colorPicker);
 
+        this.colorPicker = colorPicker;
         this.listedColors = listedColors;
 
         // create displayNode
@@ -173,7 +176,9 @@ public class JFXColorPickerSkin extends ColorPickerSkin {
     @Override
     protected Node getPopupContent() {
         if (popupContent == null) {
-            popupContent = new JFXColorPalette((ColorPicker) getSkinnable(), listedColors);
+            popupContent = new JFXColorPalette(colorPicker, listedColors);
+            popupContent.customColorLink.textProperty().bind(colorPicker.customColorTextProperty());
+            popupContent.customColorLabel.textProperty().bind(colorPicker.recentColorsTextProperty());
             popupContent.setPopupControl(getPopup2());
         }
         return popupContent;

@@ -18,6 +18,8 @@ public class PickersController {
     private StackPane root;
     @FXML
     private JFXDatePicker dateOverlay;
+    @FXML
+    private JFXColorPicker colorPicker;
 
     @PostConstruct
     public void init() {

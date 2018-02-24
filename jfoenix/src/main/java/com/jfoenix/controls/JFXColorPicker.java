@@ -20,6 +20,8 @@
 package com.jfoenix.controls;
 
 import com.jfoenix.skins.JFXColorPickerSkin;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Skin;
 import javafx.scene.paint.Color;
@@ -36,6 +38,9 @@ import java.util.List;
 public class JFXColorPicker extends ColorPicker {
 
     private final List<Color> listedColors;
+
+    private final StringProperty recentColorsText = new SimpleStringProperty(this, "recentColorsText", "Recent Colors");
+    private final StringProperty customColorText = new SimpleStringProperty(this, "customColorText", "Custom Color");
 
     /**
      * {@inheritDoc}
@@ -71,6 +76,30 @@ public class JFXColorPicker extends ColorPicker {
 
     private void initialize() {
         this.getStyleClass().add(DEFAULT_STYLE_CLASS);
+    }
+
+    public String getRecentColorsText() {
+        return recentColorsText.get();
+    }
+
+    public StringProperty recentColorsTextProperty() {
+        return recentColorsText;
+    }
+
+    public void setRecentColorsText(String recentColorsText) {
+        this.recentColorsText.set(recentColorsText);
+    }
+
+    public String getCustomColorText() {
+        return customColorText.get();
+    }
+
+    public StringProperty customColorTextProperty() {
+        return customColorText;
+    }
+
+    public void setCustomColorText(String customColorText) {
+        this.customColorText.set(customColorText);
     }
 
     /**

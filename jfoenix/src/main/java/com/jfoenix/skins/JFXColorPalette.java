@@ -55,13 +55,13 @@ class JFXColorPalette extends Region {
     private static final int SQUARE_SIZE = 15;
 
     // package protected for testing purposes
-    JFXColorGrid colorPickerGrid;
+    private JFXColorGrid colorPickerGrid;
     final JFXButton customColorLink = new JFXButton("Custom Color");
-    JFXCustomColorPickerDialog customColorDialog = null;
+    private JFXCustomColorPickerDialog customColorDialog = null;
 
     private ColorPicker colorPicker;
     private final GridPane customColorGrid = new GridPane();
-    private final Label customColorLabel = new Label("Recent Colors");
+    final Label customColorLabel = new Label("Recent Colors");
 
     private PopupControl popupControl;
     private ColorSquare focusedSquare;
