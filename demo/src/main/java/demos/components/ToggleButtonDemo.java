@@ -28,15 +28,16 @@ public class ToggleButtonDemo extends Application {
         JFXToggleButton toggleButton = new JFXToggleButton();
         toggleButton.setText("New Skin");
         pane.getChildren().add(toggleButton);
+        toggleButton.sizeProperty().set(7);
 
-        JFXToggleNode node = new JFXToggleNode();
+        //JFXToggleNode node = new JFXToggleNode();
         /*final GlyphIcon heartIcon = GlyphsBuilder.create(FontAwesomeIconView.class)
             .glyph(FontAwesomeIcon.HEART)
             .build();
         heartIcon.setStyle("-fx-padding: 10");
         node.setGraphic(heartIcon);*/
 
-        pane.getChildren().add(node);
+        //pane.getChildren().add(node);
 
 
         final Scene scene = new Scene(pane, 600, 400, Color.valueOf("#EEE"));

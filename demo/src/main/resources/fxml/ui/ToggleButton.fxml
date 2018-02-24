@@ -18,7 +18,7 @@
             <JFXToggleButton styleClass="custom-jfx-toggle-button" text="Bluetooth">
             </JFXToggleButton>
 
-            <JFXToggleButton text="Wifi">
+            <JFXToggleButton size="6" text="Wifi">
             </JFXToggleButton>
 
         </FlowPane>

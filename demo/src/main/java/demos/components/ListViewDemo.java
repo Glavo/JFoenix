@@ -3,10 +3,15 @@ package demos.components;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
 import javafx.application.Application;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.control.MultipleSelectionModel;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -19,16 +24,104 @@ public class ListViewDemo extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
-        JFXListView<Label> list = new JFXListView<>();
+        JFXListView<Node> list = new JFXListView<>();
         for (int i = 0; i < 4; i++) {
             list.getItems().add(new Label(ITEM + i));
         }
-        list.getStyleClass().add("mylistview");
-
-        ListView<String> javaList = new ListView<>();
+        JFXListView<Label> sublist = new JFXListView<>();
         for (int i = 0; i < 4; i++) {
-            javaList.getItems().add(ITEM + i);
+            sublist.getItems().add(new Label(ITEM + i));
         }
+        sublist.getStyleClass().add("mylistview");
+        list.getItems().add(sublist);
+        list.getStyleClass().add("mylistview");
+        list.setSelectionModel(new MultipleSelectionModel<Node>() {
+
+            @Override
+            public ObservableList<Integer> getSelectedIndices() {
+                return FXCollections.emptyObservableList();
+            }
+
+            @Override
+            public ObservableList<Node> getSelectedItems() {
+                return FXCollections.emptyObservableList();
+            }
+
+            @Override
+            public void selectIndices(int index, int... indices) {
+
+            }
+
+            @Override
+            public void selectAll() {
+
+            }
+
+            @Override
+            public void clearAndSelect(int index) {
+
+            }
+
+            @Override
+            public void select(int index) {
+
+            }
+
+            @Override
+            public void select(Node obj) {
+
+            }
+
+            @Override
+            public void clearSelection(int index) {
+
+            }
+
+            @Override
+            public void clearSelection() {
+
+            }
+
+            @Override
+            public boolean isSelected(int index) {
+                return false;
+            }
+
+            @Override
+            public boolean isEmpty() {
+                return true;
+            }
+
+            @Override
+            public void selectPrevious() {
+
+            }
+
+            @Override
+            public void selectNext() {
+
+            }
+
+            @Override
+            public void selectFirst() {
+
+            }
+
+            @Override
+            public void selectLast() {
+
+            }
+        });
+
+        ListView<Node> javaList = new ListView<>();
+        for (int i = 0; i < 4; i++) {
+            javaList.getItems().add(new Label(ITEM + i));
+        }
+        ListView<Label> javaSublist = new ListView<>();
+        for (int i = 0; i < 4; i++) {
+            javaSublist.getItems().add(new Label(ITEM + i));
+        }
+        javaList.getItems().add(javaSublist);
 
         FlowPane pane = new FlowPane();
         pane.setStyle("-fx-background-color:WHITE");
@@ -52,15 +145,17 @@ public class ListViewDemo extends Application {
         pane.getChildren().add(buttonExpand);
         pane.getChildren().add(buttonCollapse);
 
-        AnchorPane listsPane = new AnchorPane();
+        /*AnchorPane listsPane = new AnchorPane();
         listsPane.getChildren().add(list);
         AnchorPane.setLeftAnchor(list, 20.0);
         listsPane.getChildren().add(javaList);
-        AnchorPane.setLeftAnchor(javaList, 300.0);
+        AnchorPane.setLeftAnchor(javaList, 300.0);*/
+        VBox stackPane = new VBox();
+        stackPane.getChildren().add(list);
 
         VBox box = new VBox();
         box.getChildren().add(pane);
-        box.getChildren().add(listsPane);
+        box.getChildren().add(stackPane);
         box.setSpacing(40);
 
         StackPane main = new StackPane();
