@@ -55,14 +55,17 @@ public class JFXColorPickerSkin extends ColorPickerSkin {
     private Pane pickerColorBox;
     private StackPane pickerColorClip;
     private JFXColorPalette popupContent;
+    private final List<Color> listedColors;
     StyleableBooleanProperty colorLabelVisible = new SimpleStyleableBooleanProperty(StyleableProperties.COLOR_LABEL_VISIBLE,
         JFXColorPickerSkin.this,
         "colorLabelVisible",
         true);
 
-    public JFXColorPickerSkin(final ColorPicker colorPicker) {
-
+    public JFXColorPickerSkin(final ColorPicker colorPicker, List<Color> listedColors) {
         super(colorPicker);
+
+        this.listedColors = listedColors;
+
         // create displayNode
         displayNode = new Label();
         displayNode.getStyleClass().add("color-picker-label");
@@ -170,7 +173,7 @@ public class JFXColorPickerSkin extends ColorPickerSkin {
     @Override
     protected Node getPopupContent() {
         if (popupContent == null) {
-            popupContent = new JFXColorPalette((ColorPicker) getSkinnable());
+            popupContent = new JFXColorPalette((ColorPicker) getSkinnable(), listedColors);
             popupContent.setPopupControl(getPopup2());
         }
         return popupContent;

@@ -10,7 +10,7 @@
     <VBox maxWidth="500" maxHeight="400">
         <children>
             <Label styleClass="title-label">Popup ups</Label>
-            <HBox spacing="40" style="-fx-padding: 0 0 0 50;">
+            <HBox fx:id="hbox" spacing="40" style="-fx-padding: 0 0 0 50;">
                 <children>
                     <JFXColorPicker minWidth="100"></JFXColorPicker>
                     <JFXDatePicker></JFXDatePicker>

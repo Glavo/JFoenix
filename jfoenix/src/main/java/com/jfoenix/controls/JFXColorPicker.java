@@ -24,6 +24,8 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Skin;
 import javafx.scene.paint.Color;
 
+import java.util.List;
+
 /**
  * JFXColorPicker is the metrial design implementation of color picker.
  *
@@ -33,18 +35,29 @@ import javafx.scene.paint.Color;
  */
 public class JFXColorPicker extends ColorPicker {
 
+    private final List<Color> listedColors;
+
     /**
      * {@inheritDoc}
      */
     public JFXColorPicker() {
-        initialize();
+        this(Color.WHITE);
     }
 
     /**
      * {@inheritDoc}
      */
     public JFXColorPicker(Color color) {
+        this(color, null);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public JFXColorPicker(Color color, List<Color> listedColors) {
         super(color);
+        this.listedColors = listedColors;
+
         initialize();
     }
 
@@ -53,7 +66,7 @@ public class JFXColorPicker extends ColorPicker {
      */
     @Override
     protected Skin<?> createDefaultSkin() {
-        return new JFXColorPickerSkin(this);
+        return new JFXColorPickerSkin(this, listedColors);
     }
 
     private void initialize() {

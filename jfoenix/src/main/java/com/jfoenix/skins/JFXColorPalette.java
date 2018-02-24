@@ -43,6 +43,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.StrokeType;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -68,12 +69,21 @@ class JFXColorPalette extends Region {
     private Color mouseDragColor = null;
     private boolean dragDetected = false;
 
+    private final int numOfRows;
+    private final List<Color> colorValues;
 
     private final ColorSquare hoverSquare = new ColorSquare();
 
     public JFXColorPalette(final ColorPicker colorPicker) {
+        this(colorPicker, null);
+    }
+
+    public JFXColorPalette(final ColorPicker colorPicker, List<Color> colorValues) {
         getStyleClass().add("color-palette-region");
         this.colorPicker = colorPicker;
+        this.colorValues = colorValues == null ? join(RAW_VALUES) : colorValues;
+        numOfRows = this.colorValues.size() / NUM_OF_COLUMNS;
+
         colorPickerGrid = new JFXColorGrid();
         colorPickerGrid.getChildren().get(0).requestFocus();
         customColorLabel.setAlignment(Pos.CENTER_LEFT);
@@ -342,15 +352,8 @@ class JFXColorPalette extends Region {
             int columnIndex = 0;
             int rowIndex = 0;
             squares = FXCollections.observableArrayList();
-            final int numColors = RAW_VALUES.length / 3;
-            Color[] colors = new Color[numColors];
-            for (int i = 0; i < numColors; i++) {
-                colors[i] = new Color(RAW_VALUES[i * 3] / 255,
-                    RAW_VALUES[(i * 3) + 1] / 255, RAW_VALUES[(i * 3) + 2] / 255,
-                    1.0);
-                ColorSquare cs = new ColorSquare(colors[i], i);
-                squares.add(cs);
-            }
+            for (int i = 0; i < colorValues.size(); ++i)
+                squares.add(new ColorSquare(colorValues.get(i), i));
 
             for (ColorSquare square : squares) {
                 add(square, columnIndex, rowIndex);
@@ -368,7 +371,7 @@ class JFXColorPalette extends Region {
                 int xIndex = clamp(0,
                     (int) t.getX() / (SQUARE_SIZE + 1), NUM_OF_COLUMNS - 1);
                 int yIndex = clamp(0,
-                    (int) t.getY() / (SQUARE_SIZE + 1), NUM_OF_ROWS - 1);
+                    (int) t.getY() / (SQUARE_SIZE + 1), numOfRows - 1);
                 int index = xIndex + yIndex * NUM_OF_COLUMNS;
                 colorPicker.setValue((Color) squares.get(index).rectangle.getFill());
                 updateSelection(colorPicker.getValue());
@@ -400,7 +403,7 @@ class JFXColorPalette extends Region {
 
         @Override
         protected double computePrefHeight(double width) {
-            return (SQUARE_SIZE + 1) * NUM_OF_ROWS;
+            return (SQUARE_SIZE + 1) * numOfRows;
         }
     }
 
@@ -623,9 +626,6 @@ class JFXColorPalette extends Region {
         62, 39, 35,
     };
 
-    private static final int NUM_OF_COLORS = RAW_VALUES.length / 3;
-    private static final int NUM_OF_ROWS = NUM_OF_COLORS / NUM_OF_COLUMNS;
-
     private static int clamp(int min, int value, int max) {
         if (value < min) {
             return min;
@@ -634,5 +634,15 @@ class JFXColorPalette extends Region {
             return max;
         }
         return value;
+    }
+
+    private static List<Color> join(double[] rgbArray) {
+        if (rgbArray.length % 3 != 0)
+            throw new IllegalArgumentException("array size is not divisible by 3.");
+
+        List<Color> list = new ArrayList<>(rgbArray.length / 3);
+        for (int i = 0; i < rgbArray.length; i += 3)
+            list.add(new Color(rgbArray[i] / 255, rgbArray[i + 1] / 255, rgbArray[i + 2] / 255, 1));
+        return list;
     }
 }
