@@ -2,6 +2,15 @@ apply plugin: 'application'
 
 mainClassName = 'demos.MainDemo'
 
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+tasks.withType(JavaCompile) {
+    options.fork = true
+
+    options.forkOptions.javaHome = new File((String) System.getenv("jdk8.home") ?: System.getProperty("jdk8.home"));
+}
+
 dependencies {
     compile project(':jfoenix')
 

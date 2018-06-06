@@ -1,17 +1,10 @@
-apply plugin: 'java'
-//buildDir = new File(buildDir, '/META-INF/versions/9')
-
 sourceCompatibility = 1.9
 targetCompatibility = 1.9
 
-// pom file name
-ext {
-    pomFilePath = "${project.projectDir}/tmp/pom.xml"
-    pomFile = file(pomFilePath)
-}
+tasks.withType(JavaCompile) {
+    options.fork = true
 
-configurations {
-    pom
+    options.forkOptions.javaHome = new File((String) System.getenv("jdk9.home") ?: System.getProperty("jdk9.home"));
 }
 
 task sourcesJar(type: Jar) {
@@ -28,9 +21,6 @@ jar.finalizedBy sourcesJar
 artifacts {
     archives jar
     archives sourcesJar
-    if (pomFile.exists()) {
-        pom pomFile
-    }
 }
 
 
