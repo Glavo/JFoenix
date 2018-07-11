@@ -4,7 +4,7 @@ targetCompatibility = 1.8
 tasks.withType(JavaCompile) {
     options.fork = true
 
-    options.forkOptions.javaHome = new File((String) System.getProperty("jdk8.home"));
+    options.forkOptions.javaHome = new File((String) System.getenv("jdk8.home") ?: (String) System.getProperty("jdk8.home"));
 }
 
 task sourcesJar(type: Jar) {

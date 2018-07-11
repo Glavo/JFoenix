@@ -1,3 +1,6 @@
+group 'com.jfoenix'
+version '1.0'
+
 buildscript {
     repositories {
         jcenter()
@@ -22,7 +25,10 @@ subprojects {
 }
 
 task generateJar(type: Jar) {
-    archivesBaseName = "JFoenix"
+    baseName = "JFoenix"
+    version = project.version
+
+    destinationDir = new File(project.buildDir, "libs")
 
     into('META-INF/versions/9/com/jfoenix/adapters/') {
         from 'jfoenix-java9/build/classes/java/main/com/jfoenix/adapters/'
