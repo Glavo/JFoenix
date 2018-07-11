@@ -2,7 +2,7 @@
 
 ## Build
 ```
-gradle -Djdk8.home=... -Djdk9.home=... --no-parallel clean build generateJar
+./gradlew -Djdk8.home=... -Djdk9.home=... clean build generateJar
 ```
 
 The build output is in `build/libs/`. It is a Multi-Release JAR that can run on both Java 8 and Java 9+.

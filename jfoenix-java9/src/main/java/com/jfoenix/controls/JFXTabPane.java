@@ -68,4 +68,10 @@ public class JFXTabPane extends TabPane {
             this.getParent().fireEvent(e);
         });
     }
+
+    @Override
+    protected void layoutChildren() {
+        super.layoutChildren();
+        setNeedsLayout(false);
+    }
 }

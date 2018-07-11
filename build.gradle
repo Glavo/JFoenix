@@ -22,7 +22,8 @@ subprojects {
 }
 
 task generateJar(type: Jar) {
-    baseName = "JFoenix"
+    baseName = project.archivesBaseName
+    version = project.version
 
     destinationDir = new File(project.buildDir, "libs")
 
