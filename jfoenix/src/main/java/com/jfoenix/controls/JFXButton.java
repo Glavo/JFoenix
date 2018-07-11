@@ -208,4 +208,9 @@ public class JFXButton extends Button {
     }
 
 
+    @Override
+    protected void layoutChildren() {
+        super.layoutChildren();
+        setNeedsLayout(false);
+    }
 }

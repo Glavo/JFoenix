@@ -1,3 +1,14 @@
+# A JFoenix fork that supports both Java 8 & Java 9
+
+## Build
+```
+gradle -Djdk8.home=... -Djdk9.home=... --no-parallel clean build generateJar
+```
+
+The build output is in `build/libs/`. It is a Multi-Release JAR that can run on both Java 8 and Java 9+.
+
+---
+
 [![][CircleCI img]][CircleCI]
 [![][mavenbadge img]][mavenbadge]
 [![][versioneye img]][versioneye]
