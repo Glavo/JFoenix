@@ -313,4 +313,9 @@ public class JFXPasswordField extends PasswordField {
         return StyleableProperties.CHILD_STYLEABLES;
     }
 
+    @Override
+    protected void layoutChildren() {
+        super.layoutChildren();
+        setNeedsLayout(false);
+    }
 }

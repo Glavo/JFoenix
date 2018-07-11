@@ -110,4 +110,9 @@ public class JFXColorPicker extends ColorPicker {
      */
     private static final String DEFAULT_STYLE_CLASS = "jfx-color-picker";
 
+    @Override
+    protected void layoutChildren() {
+        super.layoutChildren();
+        setNeedsLayout(false);
+    }
 }

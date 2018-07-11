@@ -44,4 +44,10 @@ public class JFXTreeTableRow<T> extends TreeTableRow<T> {
     protected Skin<?> createDefaultSkin() {
         return new JFXTreeTableRowSkin<>(this);
     }
+
+    @Override
+    protected void layoutChildren() {
+        super.layoutChildren();
+        setNeedsLayout(false);
+    }
 }
