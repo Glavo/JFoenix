@@ -28,6 +28,8 @@ import javafx.scene.layout.VBox;
 
 import java.util.List;
 
+import static javafx.geometry.Orientation.*;
+
 /**
  * Default dialog layout according to material design guidelines.
  *
@@ -38,7 +40,41 @@ import java.util.List;
 public class JFXDialogLayout extends StackPane {
     private StackPane heading = new StackPane();
     private StackPane body = new StackPane();
-    private FlowPane actions = new FlowPane();
+    private FlowPane actions = new FlowPane() {
+        @Override
+        protected double computeMinWidth(double height) {
+            if (getContentBias() == HORIZONTAL) {
+                double maxPref = 0;
+                List<Node> children = getChildren();
+                for (int i=0, size=children.size(); i<size; i++) {
+                    Node child = children.get(i);
+                    if (child.isManaged()) {
+                        maxPref = Math.max(maxPref, child.minWidth(-1));
+                    }
+                }
+                Insets insets = getInsets();
+                return insets.getLeft() + snapSize(maxPref) + insets.getRight();
+            }
+            return computePrefWidth(height);
+        }
+
+        @Override
+        protected double computeMinHeight(double width) {
+            if (getContentBias() == VERTICAL) {
+                double maxPref = 0;
+                List<Node> children = getChildren();
+                for (int i=0, size=children.size(); i<size; i++) {
+                    Node child = children.get(i);
+                    if (child.isManaged()) {
+                        maxPref = Math.max(maxPref, child.minHeight(-1));
+                    }
+                }
+                Insets insets = getInsets();
+                return insets.getTop() + snapSize(maxPref) + insets.getBottom();
+            }
+            return computePrefHeight(width);
+        }
+    };
 
     /**
      * creates empty dialog layout
