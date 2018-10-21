@@ -37,7 +37,6 @@ import javafx.util.Duration;
 
 /**
  * <h1>Material Design CheckBox Skin v1.1</h1>
- * the old skin is still supported using {@link JFXCheckBoxOldSkin}
  *
  * @author Shadi Shaheen
  * @version 1.0
