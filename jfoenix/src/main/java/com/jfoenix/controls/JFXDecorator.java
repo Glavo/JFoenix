@@ -214,6 +214,7 @@ public class JFXDecorator extends VBox {
             Color.WHITE);
         close.setSize(12, 12);
         btnFull = new JFXButton();
+        btnFull.setDisableVisualFocus(true);
         btnFull.getStyleClass().add("jfx-decorator-button");
         btnFull.setCursor(Cursor.HAND);
         btnFull.setOnAction((action) -> primaryStage.setFullScreen(!primaryStage.isFullScreen()));

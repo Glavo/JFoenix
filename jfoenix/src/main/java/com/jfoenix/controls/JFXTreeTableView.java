@@ -21,8 +21,8 @@ package com.jfoenix.controls;
 
 import com.jfoenix.adapters.skins.JFXTreeTableViewSkin;
 import com.jfoenix.assets.JFoenixResources;
-import com.jfoenix.concurrency.JFXUtilities;
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
+import com.jfoenix.utils.JFXUtilities;
 import javafx.application.Platform;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ObjectProperty;
