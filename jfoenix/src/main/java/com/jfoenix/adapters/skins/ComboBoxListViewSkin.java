@@ -18,6 +18,8 @@
  */
 package com.jfoenix.adapters.skins;
 
+import com.jfoenix.adapters.ChangeListenerHandler;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.ComboBox;
 import javafx.scene.layout.StackPane;
 
@@ -26,7 +28,15 @@ public class ComboBoxListViewSkin<T> extends com.sun.javafx.scene.control.skin.C
         super(comboBox);
     }
 
-    protected StackPane getArrowButton() {
-        return arrowButton;
+    private ChangeListenerHandler handler = new ChangeListenerHandler();
+
+    protected final void registerChangeListener(ObservableValue<?> property, Runnable consumer) {
+        handler.registerChangeListener(property, obs -> consumer.run());
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        handler.dispose();
     }
 }

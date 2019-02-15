@@ -19,25 +19,26 @@
 
 package com.jfoenix.controls;
 
+import com.jfoenix.controls.base.IFXValidatableControl;
 import com.jfoenix.adapters.ReflectionHelper;
+import com.jfoenix.assets.JFoenixResources;
 import com.jfoenix.skins.JFXDatePickerSkin;
+import com.jfoenix.validation.base.ValidatorBase;
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.ReadOnlyObjectWrapper;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.collections.ObservableList;
 import javafx.css.*;
-import javafx.geometry.Insets;
-import javafx.scene.AccessibleAttribute;
 import javafx.scene.control.Control;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Skin;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 
+import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -50,7 +51,7 @@ import java.util.List;
  * @version 1.0
  * @since 2016-03-09
  */
-public class JFXDatePicker extends DatePicker {
+public class JFXDatePicker extends DatePicker implements IFXValidatableControl {
 
     /**
      * {@inheritDoc}
@@ -69,17 +70,24 @@ public class JFXDatePicker extends DatePicker {
 
     private void initialize() {
         this.getStyleClass().add(DEFAULT_STYLE_CLASS);
-        setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY)));
         editorProperty();
-        ReadOnlyObjectWrapper<TextField> editor = ReflectionHelper.getFieldContent(getClass().getSuperclass(), this, "editor");
-        final FakeFocusTextField editorNode = new FakeFocusTextField();
-        editorNode.focusColorProperty().bind(this.defaultColorProperty());
+        ReadOnlyObjectWrapper<TextField> editor = ReflectionHelper.getFieldContent(DatePicker.class, this, "editor");
+        final FakeFocusJFXTextField editorNode = new FakeFocusJFXTextField();
         this.focusedProperty().addListener((obj, oldVal, newVal) -> {
             if (getEditor() != null) {
                 editorNode.setFakeFocus(newVal);
             }
         });
+        editorNode.activeValidatorWritableProperty().bind(activeValidatorProperty());
         editor.set(editorNode);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getUserAgentStylesheet() {
+        return JFoenixResources.load("/css/controls/jfx-date-picker.css").toExternalForm();
     }
 
     /**
@@ -112,6 +120,38 @@ public class JFXDatePicker extends DatePicker {
 
     public final void setDialogParent(final StackPane dialogParent) {
         this.dialogParentProperty().set(dialogParent);
+    }
+
+    private ValidationControl validationControl = new ValidationControl(this);
+
+    @Override
+    public ValidatorBase getActiveValidator() {
+        return validationControl.getActiveValidator();
+    }
+
+    @Override
+    public ReadOnlyObjectProperty<ValidatorBase> activeValidatorProperty() {
+        return validationControl.activeValidatorProperty();
+    }
+
+    @Override
+    public ObservableList<ValidatorBase> getValidators() {
+        return validationControl.getValidators();
+    }
+
+    @Override
+    public void setValidators(ValidatorBase... validators) {
+        validationControl.setValidators(validators);
+    }
+
+    @Override
+    public boolean validate() {
+        return validationControl.validate();
+    }
+
+    @Override
+    public void resetValidation() {
+        validationControl.resetValidation();
     }
 
     /***************************************************************************
@@ -229,32 +269,6 @@ public class JFXDatePicker extends DatePicker {
 
     public static List<CssMetaData<? extends Styleable, ?>> getClassCssMetaData() {
         return StyleableProperties.CHILD_STYLEABLES;
-    }
-
-    public static final class FakeFocusTextField extends JFXTextField {
-
-        @Override public void requestFocus() {
-            if (getParent() != null) {
-                getParent().requestFocus();
-            }
-        }
-
-        public void setFakeFocus(boolean b) {
-            setFocused(b);
-        }
-
-        @Override
-        public Object queryAccessibleAttribute(AccessibleAttribute attribute, Object... parameters) {
-            switch (attribute) {
-                case FOCUS_ITEM:
-                    /* Internally comboBox reassign its focus the text field.
-                     * For the accessibility perspective it is more meaningful
-                     * if the focus stays with the comboBox control.
-                     */
-                    return getParent();
-                default: return super.queryAccessibleAttribute(attribute, parameters);
-            }
-        }
     }
 
 }

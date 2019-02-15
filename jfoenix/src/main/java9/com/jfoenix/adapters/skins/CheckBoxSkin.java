@@ -18,15 +18,24 @@
  */
 package com.jfoenix.adapters.skins;
 
+import com.jfoenix.adapters.ChangeListenerHandler;
+import com.jfoenix.controls.JFXCheckBox;
 import javafx.beans.value.ObservableValue;
-import javafx.scene.control.CheckBox;
 
 public class CheckBoxSkin extends javafx.scene.control.skin.CheckBoxSkin {
-    public CheckBoxSkin(CheckBox checkbox) {
+    public CheckBoxSkin(JFXCheckBox checkbox) {
         super(checkbox);
     }
 
-    protected void registerChangeListener2(ObservableValue<?> property, String key, Runnable listener) {
-        registerChangeListener(property, (property2) -> listener.run());
+    private ChangeListenerHandler handler = new ChangeListenerHandler();
+
+    protected final void registerChangeListener(ObservableValue<?> property, Runnable consumer) {
+        handler.registerChangeListener(property, obs -> consumer.run());
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        handler.dispose();
     }
 }

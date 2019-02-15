@@ -26,6 +26,8 @@ import javafx.scene.Parent;
 import javafx.scene.control.Control;
 import javafx.scene.control.Tooltip;
 
+import java.util.function.Supplier;
+
 /**
  * An abstract class that defines the basic validation functionality for a certain control.
  *
@@ -41,6 +43,7 @@ public abstract class ValidatorBase extends Parent {
     public static final PseudoClass PSEUDO_CLASS_ERROR = PseudoClass.getPseudoClass("error");
 
     private Tooltip tooltip = null;
+    private Tooltip errorTooltip = null;
 
     public ValidatorBase(String message) {
         this();
@@ -49,6 +52,8 @@ public abstract class ValidatorBase extends Parent {
 
     public ValidatorBase() {
         parentProperty().addListener((o, oldVal, newVal) -> parentChanged());
+        errorTooltip = new Tooltip();
+        errorTooltip.getStyleClass().add("error-tooltip");
     }
 
     /***************************************************************************
@@ -95,8 +100,6 @@ public abstract class ValidatorBase extends Parent {
                 if (controlTooltip != null && !controlTooltip.getStyleClass().contains("error-tooltip")) {
                     tooltip = ((Control) control).getTooltip();
                 }
-                Tooltip errorTooltip = new Tooltip();
-                errorTooltip.getStyleClass().add("error-tooltip");
                 errorTooltip.setText(getMessage());
                 ((Control) control).setTooltip(errorTooltip);
             }
@@ -187,24 +190,38 @@ public abstract class ValidatorBase extends Parent {
         return this.message;
     }
 
-    /***** Awsome Icon *****/
-    protected SimpleObjectProperty<Node> icon = new SimpleObjectProperty<Node>() {
+    /***** Icon *****/
+    protected SimpleObjectProperty<Supplier<Node>> iconSupplier = new SimpleObjectProperty<Supplier<Node>>() {
         @Override
         protected void invalidated() {
             updateSrcControl();
         }
     };
 
+    public void setIconSupplier(Supplier<Node> icon) {
+        this.iconSupplier.set(icon);
+    }
+
+    public SimpleObjectProperty<Supplier<Node>> iconSupplierProperty() {
+        return this.iconSupplier;
+    }
+
+    public Supplier<Node> getIconSupplier() {
+        return iconSupplier.get();
+    }
+
     public void setIcon(Node icon) {
-        icon.getStyleClass().add("error-icon");
-        this.icon.set(icon);
+        iconSupplier.set(() -> icon);
     }
 
     public Node getIcon() {
-        return this.icon.get();
-    }
-
-    public SimpleObjectProperty<Node> iconProperty() {
-        return this.icon;
+        if (iconSupplier.get() == null) {
+            return null;
+        }
+        Node icon = iconSupplier.get().get();
+        if (icon != null) {
+            icon.getStyleClass().add("error-icon");
+        }
+        return icon;
     }
 }

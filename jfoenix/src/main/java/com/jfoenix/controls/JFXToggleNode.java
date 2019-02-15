@@ -19,9 +19,11 @@
 
 package com.jfoenix.controls;
 
+import com.jfoenix.assets.JFoenixResources;
 import com.jfoenix.skins.JFXToggleNodeSkin;
 import javafx.beans.DefaultProperty;
 import javafx.css.*;
+import javafx.scene.Node;
 import javafx.scene.control.Control;
 import javafx.scene.control.Labeled;
 import javafx.scene.control.Skin;
@@ -53,6 +55,11 @@ public class JFXToggleNode extends ToggleButton {
         initialize();
     }
 
+    public JFXToggleNode(Node graphic) {
+        super("", graphic);
+        initialize();
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -65,6 +72,13 @@ public class JFXToggleNode extends ToggleButton {
         this.getStyleClass().add(DEFAULT_STYLE_CLASS);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getUserAgentStylesheet() {
+        return JFoenixResources.load("/css/controls/jfx-toggle-node.css").toExternalForm();
+    }
 
     /***************************************************************************
      *                                                                         *
@@ -144,7 +158,6 @@ public class JFXToggleNode extends ToggleButton {
         this.disableAnimationProperty().set(disabled);
     }
 
-
     private static class StyleableProperties {
         private static final CssMetaData<JFXToggleNode, Color> SELECTED_COLOR =
             new CssMetaData<JFXToggleNode, Color>("-jfx-toggle-color",
@@ -221,9 +234,4 @@ public class JFXToggleNode extends ToggleButton {
         return StyleableProperties.CHILD_STYLEABLES;
     }
 
-    @Override
-    protected void layoutChildren() {
-        super.layoutChildren();
-        setNeedsLayout(false);
-    }
 }

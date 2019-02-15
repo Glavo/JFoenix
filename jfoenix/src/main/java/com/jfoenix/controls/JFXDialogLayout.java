@@ -20,15 +20,15 @@
 package com.jfoenix.controls;
 
 import javafx.collections.ObservableList;
-import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.util.List;
 
-import static javafx.geometry.Orientation.*;
+import com.jfoenix.assets.JFoenixResources;
 
 /**
  * Default dialog layout according to material design guidelines.
@@ -37,61 +37,21 @@ import static javafx.geometry.Orientation.*;
  * @version 1.0
  * @since 2016-03-09
  */
-public class JFXDialogLayout extends StackPane {
+public class JFXDialogLayout extends VBox {
     private StackPane heading = new StackPane();
     private StackPane body = new StackPane();
-    private FlowPane actions = new FlowPane() {
-        @Override
-        protected double computeMinWidth(double height) {
-            if (getContentBias() == HORIZONTAL) {
-                double maxPref = 0;
-                List<Node> children = getChildren();
-                for (int i=0, size=children.size(); i<size; i++) {
-                    Node child = children.get(i);
-                    if (child.isManaged()) {
-                        maxPref = Math.max(maxPref, child.minWidth(-1));
-                    }
-                }
-                Insets insets = getInsets();
-                return insets.getLeft() + snapSize(maxPref) + insets.getRight();
-            }
-            return computePrefWidth(height);
-        }
-
-        @Override
-        protected double computeMinHeight(double width) {
-            if (getContentBias() == VERTICAL) {
-                double maxPref = 0;
-                List<Node> children = getChildren();
-                for (int i=0, size=children.size(); i<size; i++) {
-                    Node child = children.get(i);
-                    if (child.isManaged()) {
-                        maxPref = Math.max(maxPref, child.minHeight(-1));
-                    }
-                }
-                Insets insets = getInsets();
-                return insets.getTop() + snapSize(maxPref) + insets.getBottom();
-            }
-            return computePrefHeight(width);
-        }
-    };
+    private FlowPane actions = new FlowPane();
 
     /**
      * creates empty dialog layout
      */
     public JFXDialogLayout() {
         initialize();
-        final VBox layout = new VBox();
-        layout.getChildren().add(heading);
-        heading.getStyleClass().add("jfx-layout-heading");
-        heading.getStyleClass().add("title");
-        layout.getChildren().add(body);
+        heading.getStyleClass().addAll("jfx-layout-heading", "title");
         body.getStyleClass().add("jfx-layout-body");
-        body.prefHeightProperty().bind(this.prefHeightProperty());
-        body.prefWidthProperty().bind(this.prefWidthProperty());
-        layout.getChildren().add(actions);
+        VBox.setVgrow(body, Priority.ALWAYS);
         actions.getStyleClass().add("jfx-layout-actions");
-        this.getChildren().add(layout);
+        getChildren().setAll(heading, body, actions);
     }
 
     /***************************************************************************
@@ -156,15 +116,15 @@ public class JFXDialogLayout extends StackPane {
      */
     private static final String DEFAULT_STYLE_CLASS = "jfx-dialog-layout";
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getUserAgentStylesheet() {
+        return JFoenixResources.load("/css/controls/jfx-dialog-layout.css").toExternalForm();
+    }
 
     private void initialize() {
         this.getStyleClass().add(DEFAULT_STYLE_CLASS);
-        this.setPadding(new Insets(24, 24, 16, 24));
-        this.setStyle("-fx-text-fill: rgba(0, 0, 0, 0.87);");
-        heading.setStyle("-fx-font-weight: BOLD;-fx-alignment: center-left;");
-        heading.setPadding(new Insets(5, 0, 5, 0));
-        body.setStyle("-fx-pref-width: 400px;-fx-wrap-text: true;");
-        actions.setStyle("-fx-alignment: center-right ;");
-        actions.setPadding(new Insets(10, 0, 0, 0));
     }
 }

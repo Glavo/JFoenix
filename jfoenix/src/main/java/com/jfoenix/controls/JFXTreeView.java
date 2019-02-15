@@ -19,13 +19,8 @@
 
 package com.jfoenix.controls;
 
-import com.jfoenix.adapters.IJFXTreeView;
-import javafx.animation.Animation;
-import javafx.animation.ParallelTransition;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
-
-import java.util.HashMap;
 
 /**
  * JFXTreeView is the material design implementation of a TreeView
@@ -36,6 +31,8 @@ import java.util.HashMap;
  * @since 2017-02-15
  */
 public class JFXTreeView<T> extends TreeView<T> implements IJFXTreeView {
+
+    private static final String DEFAULT_STYLE_CLASS = "jfx-tree-view";
 
     public JFXTreeView() {
         init();
@@ -48,6 +45,7 @@ public class JFXTreeView<T> extends TreeView<T> implements IJFXTreeView {
 
     private void init() {
         this.setCellFactory((view) -> new JFXTreeCell<>());
+        this.getStyleClass().add(DEFAULT_STYLE_CLASS);
     }
 
     public double height = 0;

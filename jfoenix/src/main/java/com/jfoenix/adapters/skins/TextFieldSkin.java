@@ -18,6 +18,7 @@
  */
 package com.jfoenix.adapters.skins;
 
+import com.jfoenix.adapters.ChangeListenerHandler;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.TextField;
@@ -43,18 +44,15 @@ public class TextFieldSkin extends com.sun.javafx.scene.control.skin.TextFieldSk
         promptTextFill.set(value);
     }
 
-    protected void registerChangeListener2(ObservableValue<?> property, String key, Runnable listener) {
-        registerChangeListener(property, key);
-        changeListeners.put(key, listener);
+    private ChangeListenerHandler handler = new ChangeListenerHandler();
+
+    protected final void registerChangeListener(ObservableValue<?> property, Runnable consumer) {
+        handler.registerChangeListener(property, obs -> consumer.run());
     }
 
-    private Map<String, Runnable> changeListeners = new HashMap<>();
-
     @Override
-    protected void handleControlPropertyChanged(String propertyReference) {
-        if (changeListeners.containsKey(propertyReference)) {
-            changeListeners.get(propertyReference).run();
-        }
-        super.handleControlPropertyChanged(propertyReference);
+    public void dispose() {
+        super.dispose();
+        handler.dispose();
     }
 }

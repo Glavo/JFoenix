@@ -19,6 +19,7 @@
 
 package com.jfoenix.controls;
 
+import com.jfoenix.assets.JFoenixResources;
 import com.jfoenix.skins.JFXRadioButtonSkin;
 import javafx.css.*;
 import javafx.scene.control.Control;
@@ -71,6 +72,15 @@ public class JFXRadioButton extends RadioButton {
         return new JFXRadioButtonSkin(this);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getUserAgentStylesheet() {
+        return USER_AGENT_STYLESHEET;
+    }
+
+
     private void initialize() {
         this.getStyleClass().add(DEFAULT_STYLE_CLASS);
     }
@@ -82,6 +92,7 @@ public class JFXRadioButton extends RadioButton {
      * this control.
      */
     private static final String DEFAULT_STYLE_CLASS = "jfx-radio-button";
+    private static final String USER_AGENT_STYLESHEET = JFoenixResources.load("/css/controls/jfx-radio-button.css").toExternalForm();
 
     /**
      * default color used when the radio button is selected
@@ -125,6 +136,46 @@ public class JFXRadioButton extends RadioButton {
         this.unSelectedColorProperty().set(unSelectedColor);
     }
 
+    /**
+     * Disable the visual indicator for focus
+     */
+    private StyleableBooleanProperty disableVisualFocus = new SimpleStyleableBooleanProperty(StyleableProperties.DISABLE_VISUAL_FOCUS,
+        JFXRadioButton.this,
+        "disableVisualFocus",
+        false);
+
+    public final StyleableBooleanProperty disableVisualFocusProperty() {
+        return this.disableVisualFocus;
+    }
+
+    public final Boolean isDisableVisualFocus() {
+        return disableVisualFocus != null && this.disableVisualFocusProperty().get();
+    }
+
+    public final void setDisableVisualFocus(final Boolean disabled) {
+        this.disableVisualFocusProperty().set(disabled);
+    }
+
+    /**
+     * disable animation on button action
+     */
+    private StyleableBooleanProperty disableAnimation = new SimpleStyleableBooleanProperty(JFXRadioButton.StyleableProperties.DISABLE_ANIMATION,
+        JFXRadioButton.this,
+        "disableAnimation",
+        false);
+
+    public final StyleableBooleanProperty disableAnimationProperty() {
+        return this.disableAnimation;
+    }
+
+    public final Boolean isDisableAnimation() {
+        return disableAnimation != null && this.disableAnimationProperty().get();
+    }
+
+    public final void setDisableAnimation(final Boolean disabled) {
+        this.disableAnimationProperty().set(disabled);
+    }
+
 
     private static class StyleableProperties {
         private static final CssMetaData<JFXRadioButton, Color> SELECTED_COLOR =
@@ -153,6 +204,34 @@ public class JFXRadioButton extends RadioButton {
                     return control.unSelectedColorProperty();
                 }
             };
+        private static final CssMetaData<JFXRadioButton, Boolean> DISABLE_VISUAL_FOCUS =
+            new CssMetaData<JFXRadioButton, Boolean>("-jfx-disable-visual-focus",
+                StyleConverter.getBooleanConverter(), false) {
+                @Override
+                public boolean isSettable(JFXRadioButton control) {
+                    return control.disableVisualFocus == null || !control.disableVisualFocus.isBound();
+                }
+
+                @Override
+                public StyleableBooleanProperty getStyleableProperty(JFXRadioButton control) {
+                    return control.disableVisualFocusProperty();
+                }
+            };
+
+        private static final CssMetaData<JFXRadioButton, Boolean> DISABLE_ANIMATION =
+            new CssMetaData<JFXRadioButton, Boolean>("-jfx-disable-animation",
+                StyleConverter.getBooleanConverter(), false) {
+                @Override
+                public boolean isSettable(JFXRadioButton control) {
+                    return control.disableAnimation == null || !control.disableAnimation.isBound();
+                }
+
+                @Override
+                public StyleableBooleanProperty getStyleableProperty(JFXRadioButton control) {
+                    return control.disableAnimationProperty();
+                }
+            };
+
 
         private static final List<CssMetaData<? extends Styleable, ?>> CHILD_STYLEABLES;
 
@@ -161,7 +240,9 @@ public class JFXRadioButton extends RadioButton {
                 new ArrayList<>(Control.getClassCssMetaData());
             Collections.addAll(styleables,
                 SELECTED_COLOR,
-                UNSELECTED_COLOR
+                UNSELECTED_COLOR,
+                DISABLE_VISUAL_FOCUS,
+                DISABLE_ANIMATION
             );
             CHILD_STYLEABLES = Collections.unmodifiableList(styleables);
         }
@@ -184,11 +265,5 @@ public class JFXRadioButton extends RadioButton {
 
     public static List<CssMetaData<? extends Styleable, ?>> getClassCssMetaData() {
         return StyleableProperties.CHILD_STYLEABLES;
-    }
-
-    @Override
-    protected void layoutChildren() {
-        super.layoutChildren();
-        setNeedsLayout(false);
     }
 }

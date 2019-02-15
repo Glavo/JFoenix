@@ -25,17 +25,13 @@ import com.jfoenix.controls.JFXRippler.RipplerMask;
 import com.jfoenix.controls.JFXRippler.RipplerPos;
 import com.jfoenix.controls.JFXToggleButton;
 import com.jfoenix.effects.JFXDepthManager;
+import com.jfoenix.transitions.JFXAnimationTimer;
+import com.jfoenix.transitions.JFXKeyFrame;
+import com.jfoenix.transitions.JFXKeyValue;
 import javafx.animation.Interpolator;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
-import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.scene.Cursor;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.StrokeLineCap;
@@ -50,61 +46,45 @@ import javafx.util.Duration;
  */
 public class JFXToggleButtonSkin extends ToggleButtonSkin {
 
-    private Line line;
 
-    private Circle circle;
-    private final double circleRadius;
-    private StackPane circleContainer = new StackPane();
-
-    private JFXRippler rippler;
-    private Timeline transition;
     private Runnable releaseManualRippler = null;
+
+    private JFXAnimationTimer timer;
+    private final Circle circle;
+    private final Line line;
 
     public JFXToggleButtonSkin(JFXToggleButton toggleButton) {
         super(toggleButton);
-        // hide the toggle button
-        toggleButton.setBackground(new Background(new BackgroundFill(Color.TRANSPARENT, null, null)));
 
-        final double size = toggleButton.getSize();
-        final double startY = 0;
-        final double endX = size * 2 + 2;
-        final double startX = 0;
-        circleRadius = toggleButton.getSize();
-        line = new Line(startX, startY, endX, startY);
+        double circleRadius = toggleButton.getSize();
 
-        line.setStroke(toggleButton.getUnToggleLineColor());
-        line.setStrokeWidth(size * 1.5);
+        line = new Line();
+        line.setStroke(getSkinnable().isSelected() ? toggleButton.getToggleLineColor() : toggleButton.getUnToggleLineColor());
+        line.setStartX(0);
+        line.setStartY(0);
+        line.setEndX(circleRadius * 2 + 2);
+        line.setEndY(0);
+        line.setStrokeWidth(circleRadius * 1.5);
         line.setStrokeLineCap(StrokeLineCap.ROUND);
+        line.setSmooth(true);
 
-        circle = new Circle(startX - circleRadius, startY, circleRadius);
-        circle.setFill(toggleButton.getUnToggleColor());
+        circle = new Circle();
+        circle.setFill(getSkinnable().isSelected() ? toggleButton.getToggleColor() : toggleButton.getUnToggleColor());
+        circle.setCenterX(-circleRadius);
+        circle.setCenterY(0);
+        circle.setRadius(circleRadius);
         circle.setSmooth(true);
         JFXDepthManager.setDepth(circle, 1);
 
-
         StackPane circlePane = new StackPane();
         circlePane.getChildren().add(circle);
-        circlePane.setPadding(new Insets(size * 1.5));
-        rippler = new JFXRippler(circlePane, RipplerMask.CIRCLE, RipplerPos.BACK) {
-            @Override
-            protected void initListeners() {
-                ripplerPane.setOnMousePressed((event) -> {
-                    if (releaseManualRippler != null) {
-                        releaseManualRippler.run();
-                    }
-                    releaseManualRippler = null;
-                    createRipple(event.getX(), event.getY());
-                });
-            }
-        };
-        rippler.setRipplerFill(toggleButton.getUnToggleLineColor());
+        circlePane.setPadding(new Insets(circleRadius * 1.5));
 
-        circleContainer.getChildren().add(rippler);
-        circleContainer.setTranslateX(-(line.getLayoutBounds().getWidth() / 2) + circleRadius);
+        JFXRippler rippler = new JFXRippler(circlePane, RipplerMask.CIRCLE, RipplerPos.BACK);
+        rippler.setTranslateX(computeTranslation(circleRadius, line));
 
         final StackPane main = new StackPane();
-        main.getChildren().add(line);
-        main.getChildren().add(circleContainer);
+        main.getChildren().setAll(line, rippler);
         main.setCursor(Cursor.HAND);
 
         // show focus traversal effect
@@ -116,92 +96,89 @@ public class JFXToggleButtonSkin extends ToggleButtonSkin {
             }
         });
         toggleButton.focusedProperty().addListener((o, oldVal, newVal) -> {
-            if (newVal) {
-                if (!getSkinnable().isPressed()) {
-                    rippler.showOverlay();
+            if (!toggleButton.isDisableVisualFocus()) {
+                if (newVal) {
+                    if (!getSkinnable().isPressed()) {
+                        rippler.setOverlayVisible(true);
+                    }
+                } else {
+                    rippler.setOverlayVisible(false);
                 }
-            } else {
-                rippler.hideOverlay();
             }
         });
-        toggleButton.pressedProperty().addListener((o, oldVal, newVal) -> rippler.hideOverlay());
+        toggleButton.pressedProperty().addListener(observable -> rippler.setOverlayVisible(false));
 
         // add change listener to selected property
-        getSkinnable().selectedProperty().addListener((o, oldVal, newVal) -> {
-            rippler.setRipplerFill(newVal ? toggleButton.getToggleColor() : toggleButton.getUnToggleLineColor());
-            transition.setRate(newVal ? 1 : -1);
-            transition.play();
+        getSkinnable().selectedProperty().addListener(observable -> {
+            if (!toggleButton.isDisableAnimation()) {
+                timer.reverseAndContinue();
+            } else {
+                rippler.setTranslateX(computeTranslation(circleRadius, line));
+            }
         });
 
         getSkinnable().setGraphic(main);
 
-        updateToggleTransition();
+        timer = new JFXAnimationTimer(
+            new JFXKeyFrame(Duration.millis(100),
+                JFXKeyValue.builder()
+                    .setTarget(rippler.translateXProperty())
+                    .setEndValueSupplier(() -> computeTranslation(circleRadius, line))
+                    .setInterpolator(Interpolator.EASE_BOTH)
+                    .setAnimateCondition(() -> !((JFXToggleButton) getSkinnable()).isDisableAnimation())
+                    .build(),
 
-        toggleButton.toggleColorProperty().addListener((o, oldVal, newVal) -> {
-            updateToggleTransition();
-            udpateCricle();
-        });
-        toggleButton.unToggleColorProperty().addListener((o, oldVal, newVal) -> {
-            updateToggleTransition();
-            udpateCricle();
-        });
-        toggleButton.toggleLineColorProperty().addListener((o, oldVal, newVal) -> {
-            updateToggleTransition();
-            updateLine();
-        });
-        toggleButton.unToggleLineColorProperty().addListener((o, oldVal, newVal) -> {
-            updateToggleTransition();
-            updateLine();
-        });
+                JFXKeyValue.builder()
+                    .setTarget(line.strokeProperty())
+                    .setEndValueSupplier(() -> getSkinnable().isSelected() ?
+                        ((JFXToggleButton) getSkinnable()).getToggleLineColor()
+                        : ((JFXToggleButton) getSkinnable()).getUnToggleLineColor())
+                    .setInterpolator(Interpolator.EASE_BOTH)
+                    .setAnimateCondition(() -> !((JFXToggleButton) getSkinnable()).isDisableAnimation())
+                    .build(),
 
-        // init selected state
-        rippler.setRipplerFill(getSkinnable().isSelected() ? toggleButton.getToggleColor() : toggleButton.getUnToggleLineColor());
-        if (getSkinnable().isSelected()) {
-            circleContainer.setTranslateX((line.getLayoutBounds().getWidth() / 2) - circleRadius);
-            line.setStroke(((JFXToggleButton) getSkinnable()).getToggleLineColor());
-            circle.setFill(((JFXToggleButton) getSkinnable()).getToggleColor());
-        }
-    }
-
-    private void udpateCricle() {
-        circle.setFill(getSkinnable().isSelected() ? ((JFXToggleButton) getSkinnable()).getToggleColor() : ((JFXToggleButton) getSkinnable())
-            .getUnToggleColor());
-    }
-
-    private void updateLine() {
-        line.setStroke(getSkinnable().isSelected() ? ((JFXToggleButton) getSkinnable()).getToggleLineColor() : ((JFXToggleButton) getSkinnable())
-            .getUnToggleLineColor());
-
-    }
-
-    private void updateToggleTransition() {
-        transition = new Timeline(
-            new KeyFrame(
-                Duration.ZERO,
-                new KeyValue(circleContainer.translateXProperty(),
-                    -(line.getLayoutBounds().getWidth() / 2) + circleRadius,
-                    Interpolator.EASE_BOTH),
-                new KeyValue(line.strokeProperty(),
-                    ((JFXToggleButton) getSkinnable()).getUnToggleLineColor(),
-                    Interpolator.EASE_BOTH),
-                new KeyValue(circle.fillProperty(),
-                    ((JFXToggleButton) getSkinnable()).getUnToggleColor(),
-                    Interpolator.EASE_BOTH)
-            ),
-            new KeyFrame(
-                Duration.millis(100),
-                new KeyValue(circleContainer.translateXProperty(),
-                    (line.getLayoutBounds().getWidth() / 2) - circleRadius,
-                    Interpolator.EASE_BOTH),
-                new KeyValue(line.strokeProperty(),
-                    ((JFXToggleButton) getSkinnable()).getToggleLineColor(),
-                    Interpolator.EASE_BOTH),
-                new KeyValue(circle.fillProperty(),
-                    ((JFXToggleButton) getSkinnable()).getToggleColor(),
-                    Interpolator.EASE_BOTH)
+                JFXKeyValue.builder()
+                    .setTarget(circle.fillProperty())
+                    .setEndValueSupplier(() -> getSkinnable().isSelected() ?
+                        ((JFXToggleButton) getSkinnable()).getToggleColor()
+                        : ((JFXToggleButton) getSkinnable()).getUnToggleColor())
+                    .setInterpolator(Interpolator.EASE_BOTH)
+                    .setAnimateCondition(() -> !((JFXToggleButton) getSkinnable()).isDisableAnimation())
+                    .build()
             )
-
         );
+        timer.setCacheNodes(circle, line);
+
+        registerChangeListener2(toggleButton.toggleColorProperty(), "TOGGLE_COLOR", () -> {
+            if (getSkinnable().isSelected()) {
+                circle.setFill(((JFXToggleButton) getSkinnable()).getToggleColor());
+            }
+        });
+        registerChangeListener2(toggleButton.unToggleColorProperty(), "UNTOGGLE_COLOR", () -> {
+            if (!getSkinnable().isSelected()) {
+                circle.setFill(((JFXToggleButton) getSkinnable()).getUnToggleColor());
+            }
+        });
+        registerChangeListener2(toggleButton.toggleLineColorProperty(), "TOGGLE_LINE_COLOR", () -> {
+            if (getSkinnable().isSelected()) {
+                line.setStroke(((JFXToggleButton) getSkinnable()).getToggleLineColor());
+            }
+        });
+        registerChangeListener2(toggleButton.unToggleColorProperty(), "UNTOGGLE_LINE_COLOR", () -> {
+            if (!getSkinnable().isSelected()) {
+                line.setStroke(((JFXToggleButton) getSkinnable()).getUnToggleLineColor());
+            }
+        });
     }
 
+    private double computeTranslation(double circleRadius, Line line) {
+        return (getSkinnable().isSelected() ? 1 : -1) * ((line.getLayoutBounds().getWidth() / 2) - circleRadius + 2);
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        timer.dispose();
+        timer = null;
+    }
 }

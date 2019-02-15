@@ -18,29 +18,24 @@
  */
 package com.jfoenix.adapters.skins;
 
+import com.jfoenix.adapters.ChangeListenerHandler;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.RadioButton;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class RadioButtonSkin extends com.sun.javafx.scene.control.skin.RadioButtonSkin {
     public RadioButtonSkin(RadioButton radioButton) {
         super(radioButton);
     }
 
-    protected void registerChangeListener2(ObservableValue<?> property, String key, Runnable listener) {
-        registerChangeListener(property, key);
-        changeListeners.put(key, listener);
+    private ChangeListenerHandler handler = new ChangeListenerHandler();
+
+    protected final void registerChangeListener(ObservableValue<?> property, Runnable consumer) {
+        handler.registerChangeListener(property, obs -> consumer.run());
     }
 
-    private Map<String, Runnable> changeListeners = new HashMap<>();
-
     @Override
-    protected void handleControlPropertyChanged(String propertyReference) {
-        if (changeListeners.containsKey(propertyReference)) {
-            changeListeners.get(propertyReference).run();
-        }
-        super.handleControlPropertyChanged(propertyReference);
+    public void dispose() {
+        super.dispose();
+        handler.dispose();
     }
 }

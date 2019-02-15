@@ -18,10 +18,29 @@
  */
 package com.jfoenix.adapters.skins;
 
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.ToggleButton;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ToggleButtonSkin extends com.sun.javafx.scene.control.skin.ToggleButtonSkin {
     public ToggleButtonSkin(ToggleButton toggleButton) {
         super(toggleButton);
+    }
+
+    protected void registerChangeListener2(ObservableValue<?> property, String key, Runnable listener) {
+        registerChangeListener(property, key);
+        changeListeners.put(key, listener);
+    }
+
+    private Map<String, Runnable> changeListeners = new HashMap<>();
+
+    @Override
+    protected void handleControlPropertyChanged(String propertyReference) {
+        if (changeListeners.containsKey(propertyReference)) {
+            changeListeners.get(propertyReference).run();
+        }
+        super.handleControlPropertyChanged(propertyReference);
     }
 }

@@ -23,6 +23,13 @@ compileJava9Java {
     targetCompatibility = 9
 }
 
+task sourcesJar(type: Jar) {
+    group 'Build'
+    description 'An archive of the source code'
+    classifier 'sources'
+    from sourceSets.main.allSource
+}
+
 // execute jar tasks
 jar.finalizedBy sourcesJar
 

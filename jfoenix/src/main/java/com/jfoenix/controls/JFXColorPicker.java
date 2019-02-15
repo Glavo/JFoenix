@@ -19,6 +19,7 @@
 
 package com.jfoenix.controls;
 
+import com.jfoenix.assets.JFoenixResources;
 import com.jfoenix.skins.JFXColorPickerSkin;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
@@ -26,6 +27,7 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Skin;
 import javafx.scene.paint.Color;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -46,14 +48,19 @@ public class JFXColorPicker extends ColorPicker {
      * {@inheritDoc}
      */
     public JFXColorPicker() {
-        this(Color.WHITE);
+        this.listedColors = Collections.emptyList();
+
+        initialize();
     }
 
     /**
      * {@inheritDoc}
      */
     public JFXColorPicker(Color color) {
-        this(color, null);
+        super(color);
+        this.listedColors = Collections.emptyList();
+
+        initialize();
     }
 
     /**
@@ -72,6 +79,14 @@ public class JFXColorPicker extends ColorPicker {
     @Override
     protected Skin<?> createDefaultSkin() {
         return new JFXColorPickerSkin(this, listedColors);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getUserAgentStylesheet() {
+        return JFoenixResources.load("css/controls/jfx-color-picker.css").toExternalForm();
     }
 
     private void initialize() {

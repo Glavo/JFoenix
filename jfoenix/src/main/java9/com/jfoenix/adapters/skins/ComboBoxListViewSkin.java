@@ -18,24 +18,24 @@
  */
 package com.jfoenix.adapters.skins;
 
-import com.jfoenix.adapters.ReflectionHelper;
+import com.jfoenix.adapters.ChangeListenerHandler;
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.ComboBox;
-import javafx.scene.layout.StackPane;
-
-import java.lang.reflect.Field;
 
 public class ComboBoxListViewSkin<T> extends javafx.scene.control.skin.ComboBoxListViewSkin<T> {
     public ComboBoxListViewSkin(ComboBox<T> comboBox) {
         super(comboBox);
     }
 
-    private final Field arrowButtonField = ReflectionHelper.getField(javafx.scene.control.skin.ComboBoxBaseSkin.class,"arrowButton");
+    private ChangeListenerHandler handler = new ChangeListenerHandler();
 
-    protected StackPane getArrowButton() {
-        try {
-            return (StackPane) arrowButtonField.get(this);
-        } catch (NullPointerException | IllegalAccessException e) {
-            throw new IllegalAccessError("Cannot access arrowButton, this should not happen.");
-        }
+    protected final void registerChangeListener(ObservableValue<?> property, Runnable consumer) {
+        handler.registerChangeListener(property, obs -> consumer.run());
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        handler.dispose();
     }
 }

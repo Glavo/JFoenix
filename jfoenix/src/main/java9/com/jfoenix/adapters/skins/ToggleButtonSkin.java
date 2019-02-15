@@ -18,10 +18,15 @@
  */
 package com.jfoenix.adapters.skins;
 
+import javafx.beans.value.ObservableValue;
 import javafx.scene.control.ToggleButton;
 
 public class ToggleButtonSkin extends javafx.scene.control.skin.ToggleButtonSkin {
     public ToggleButtonSkin(ToggleButton toggleButton) {
         super(toggleButton);
+    }
+
+    protected void registerChangeListener2(ObservableValue<?> property, String key, Runnable listener) {
+        registerChangeListener(property, (property2) -> listener.run());
     }
 }

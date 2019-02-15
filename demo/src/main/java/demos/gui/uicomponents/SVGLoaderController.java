@@ -28,6 +28,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 @ViewController(value = "/fxml/ui/SVGLoader.fxml", title = "Material Design Example")
@@ -36,6 +37,8 @@ public class SVGLoaderController {
     private static final String FX_BACKGROUND_INSETS_0 = "-fx-background-insets: 0;";
     private static final String DEFAULT_OPACITY = "33";
     private static final String THUMB = ".thumb";
+    private static final String ANIMATED_THUMB = ".animated-thumb";
+    private static final String COLORED_TRACK = ".colored-track";
 
     @FXMLViewFlowContext
     private ViewFlowContext context;
@@ -93,12 +96,18 @@ public class SVGLoaderController {
 
         List<SVGGlyph> glyphs = SVGGlyphLoader.getAllGlyphsIDs()
             .stream()
-            .map(SVGGlyphLoader::getIcoMoonGlyph)
+            .map(glyphName -> {
+                try {
+                    return SVGGlyphLoader.getIcoMoonGlyph(glyphName);
+                } catch (Exception e) {
+                    return null;
+                }
+            })
             .collect(Collectors.toList());
         glyphs.sort(Comparator.comparing(SVGGlyph::getName));
 
 
-        glyphs.forEach(glyph -> glyph.setSizeRatio(16));
+        glyphs.forEach(glyph -> glyph.setSize(16));
         List<Button> iconButtons = glyphs.stream().map(this::createIconButton).collect(Collectors.toList());
         // important to improve the performance of animation in scroll pane so buttons are treated as images
         iconButtons.forEach(button -> button.setCache(true));
@@ -125,13 +134,18 @@ public class SVGLoaderController {
         button.ripplerFillProperty().bind(glyphDetailViewer.colorPicker.valueProperty());
         glyphDetailViewer.colorPicker.valueProperty().addListener((o, oldVal, newVal) -> {
             String webColor = "#" + Integer.toHexString(newVal.hashCode()).substring(0, 6).toUpperCase();
-            BackgroundFill fill = ((Region) glyphDetailViewer.sizeSlider.lookup(THUMB)).getBackground()
-                .getFills()
-                .get(0);
-            ((Region) glyphDetailViewer.sizeSlider.lookup(THUMB)).setBackground(new Background(new BackgroundFill(
-                Color.valueOf(webColor),
-                fill.getRadii(),
-                fill.getInsets())));
+            Consumer<String> lookupConsumer = lookup->{
+                BackgroundFill fill = ((Region) glyphDetailViewer.sizeSlider.lookup(lookup)).getBackground()
+                    .getFills()
+                    .get(0);
+                ((Region) glyphDetailViewer.sizeSlider.lookup(lookup)).setBackground(new Background(new BackgroundFill(
+                    Color.valueOf(webColor),
+                    fill.getRadii(),
+                    fill.getInsets())));
+            };
+            lookupConsumer.accept(THUMB);
+            lookupConsumer.accept(COLORED_TRACK);
+            lookupConsumer.accept(ANIMATED_THUMB);
             if (lastClicked != null) {
                 final String currentColor = glyphDetailViewer.colorPicker.getValue()
                     .toString()
@@ -161,7 +175,10 @@ public class SVGLoaderController {
     }
 
     private void viewGlyphDetail(SVGGlyph glyph) {
-        glyphDetailViewer.setGlyph(SVGGlyphLoader.getIcoMoonGlyph(fileName + "." + glyph.getName()));
+        try {
+            glyphDetailViewer.setGlyph(SVGGlyphLoader.getIcoMoonGlyph(fileName + "." + glyph.getName()));
+        } catch (Exception e) {
+        }
     }
 
     private static final class GlyphDetailViewer extends VBox {
@@ -233,7 +250,7 @@ public class SVGLoaderController {
                 return;
             }
 
-            sizeSlider.valueProperty().addListener(observable -> glyph.get().setSizeRatio(sizeSlider.getValue()));
+            sizeSlider.valueProperty().addListener(observable -> glyph.get().setSize(sizeSlider.getValue()));
             idLabel.setText(String.format("%04d", glyph.get().getGlyphId()));
             nameLabel.setText(glyph.get().getName());
             glyph.get().setFill(colorPicker.getValue());
@@ -250,7 +267,7 @@ public class SVGLoaderController {
         }
 
         final void setGlyph(SVGGlyph glyph) {
-            glyph.setSizeRatio(sizeSlider.getValue());
+            glyph.setSize(sizeSlider.getValue());
             this.glyph.set(glyph);
         }
     }

@@ -18,6 +18,7 @@
  */
 package com.jfoenix.adapters.skins;
 
+import com.jfoenix.adapters.ChangeListenerHandler;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Slider;
 
@@ -26,7 +27,15 @@ public class SliderSkin extends javafx.scene.control.skin.SliderSkin {
         super(slider);
     }
 
-    protected void registerChangeListener2(ObservableValue<?> property, String key, Runnable listener) {
-        registerChangeListener(property, (property2) -> listener.run());
+    private ChangeListenerHandler handler = new ChangeListenerHandler();
+
+    protected final void registerChangeListener(ObservableValue<?> property, Runnable consumer) {
+        handler.registerChangeListener(property, obs -> consumer.run());
+    }
+
+    @Override
+    public void dispose() {
+        super.dispose();
+        handler.dispose();
     }
 }

@@ -19,10 +19,12 @@
 package com.jfoenix.adapters;
 
 import java.lang.reflect.AccessibleObject;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.security.AccessController;
 import java.security.PrivilegedExceptionAction;
+import java.util.Arrays;
 
 import sun.misc.Unsafe;
 
@@ -48,8 +50,25 @@ public class ReflectionHelper {
         }
     }
 
-    private static void setAccessible(AccessibleObject obj) {
+    public static void setAccessible(AccessibleObject obj) {
         unsafe.putBoolean(obj, objectFieldOffset, true);
+    }
+
+    public static <T> T invoke(String className, Object obj, String methodName, Object... args) {
+        try {
+            Class cls = Class.forName(className);
+            Class[] parameters = Arrays.stream(args).map(Object::getClass).toArray(Class<?>[]::new);
+            if ("new".equals(methodName)) {
+                Constructor constructor = cls.getDeclaredConstructor(parameters);
+                return (T) constructor.newInstance(args);
+            } else {
+                Method method = cls.getDeclaredMethod(methodName, parameters);
+                return (T) method.invoke(obj, args);
+            }
+
+        } catch (ReflectiveOperationException e) {
+            throw new InternalError(e);
+        }
     }
 
     public static <T> T invoke(Class cls, Object obj, String methodName) {

@@ -19,6 +19,7 @@
 
 package com.jfoenix.controls;
 
+import com.jfoenix.assets.JFoenixResources;
 import com.jfoenix.converters.IndicatorPositionConverter;
 import com.jfoenix.skins.JFXSliderSkin;
 import javafx.beans.binding.StringBinding;
@@ -65,6 +66,14 @@ public class JFXSlider extends Slider {
     @Override
     protected Skin<?> createDefaultSkin() {
         return new JFXSliderSkin(this);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getUserAgentStylesheet() {
+        return JFoenixResources.load("css/controls/jfx-slider.css").toExternalForm();
     }
 
     private void initialize() {
@@ -204,11 +213,5 @@ public class JFXSlider extends Slider {
 
     public static List<CssMetaData<? extends Styleable, ?>> getClassCssMetaData() {
         return StyleableProperties.CHILD_STYLEABLES;
-    }
-
-    @Override
-    protected void layoutChildren() {
-        super.layoutChildren();
-        setNeedsLayout(false);
     }
 }
