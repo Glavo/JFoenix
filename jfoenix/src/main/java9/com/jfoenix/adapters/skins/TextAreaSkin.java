@@ -19,14 +19,24 @@
 package com.jfoenix.adapters.skins;
 
 import com.jfoenix.adapters.ChangeListenerHandler;
+import com.jfoenix.adapters.ReflectionHelper;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.TextArea;
 import javafx.scene.paint.Paint;
+import javafx.scene.text.Text;
 
 public class TextAreaSkin extends javafx.scene.control.skin.TextAreaSkin {
     public TextAreaSkin(TextArea textArea) {
         super(textArea);
+    }
+
+    protected void setPromptNode(Text promptNode) {
+        ReflectionHelper.setFieldContent(javafx.scene.control.skin.TextAreaSkin.class, this, "promptNode", promptNode);
+    }
+
+    protected Text getPromptNode() {
+        return ReflectionHelper.getFieldContent(javafx.scene.control.skin.TextAreaSkin.class, this, "promptNode");
     }
 
     protected final ObjectProperty<Paint> promptTextFillProperty2() {

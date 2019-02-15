@@ -127,7 +127,7 @@ public class JFXPasswordField extends PasswordField implements IFXLabelFloatCont
      * this control.
      */
     private static final String DEFAULT_STYLE_CLASS = "jfx-password-field";
-    private static final String USER_AGENT_STYLESHEET = JFoenixResources.load("css/controls/jfx-password-field.css").toExternalForm();
+    private static final String USER_AGENT_STYLESHEET = JFoenixResources.load("/css/controls/jfx-password-field.css").toExternalForm();
 
     /**
      * set true to show a float the prompt text when focusing the field

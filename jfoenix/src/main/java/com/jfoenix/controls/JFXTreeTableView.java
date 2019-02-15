@@ -128,7 +128,7 @@ public class JFXTreeTableView<S extends RecursiveTreeObject<S>> extends TreeTabl
 
     private static final String DEFAULT_STYLE_CLASS = "jfx-tree-table-view";
 
-    private static final String USER_AGENT_STYLESHEET = JFoenixResources.load("css/controls/jfx-tree-table-view.css").toExternalForm();
+    private static final String USER_AGENT_STYLESHEET = JFoenixResources.load("/css/controls/jfx-tree-table-view.css").toExternalForm();
 
     /**
      * {@inheritDoc}

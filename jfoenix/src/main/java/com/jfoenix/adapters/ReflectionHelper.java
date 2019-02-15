@@ -54,12 +54,16 @@ public class ReflectionHelper {
         unsafe.putBoolean(obj, objectFieldOffset, true);
     }
 
-    public static <T> T invoke(String className, Object obj, String methodName, Object... args) {
+    public static <T> T invoke(String className, Object obj, String methodName, Class<?>[] parameters, Object[] args) {
         try {
-            Class cls = Class.forName(className);
-            Class[] parameters = Arrays.stream(args).map(Object::getClass).toArray(Class<?>[]::new);
+            if (parameters.length != args.length)
+                throw new IllegalArgumentException("Length of parameters must equal to args");
+            for (int i = 0; i < parameters.length; ++i)
+                if (!parameters[i].isAssignableFrom(args[i].getClass()))
+                    throw new IllegalArgumentException("Parameter " + parameters[i] + " is not assignable from " + args[i]);
+            Class<?> cls = Class.forName(className);
             if ("new".equals(methodName)) {
-                Constructor constructor = cls.getDeclaredConstructor(parameters);
+                Constructor<?> constructor = cls.getDeclaredConstructor(parameters);
                 return (T) constructor.newInstance(args);
             } else {
                 Method method = cls.getDeclaredMethod(methodName, parameters);
@@ -71,7 +75,7 @@ public class ReflectionHelper {
         }
     }
 
-    public static <T> T invoke(Class cls, Object obj, String methodName) {
+    public static <T> T invoke(Class<?> cls, Object obj, String methodName) {
         try {
             Method method = cls.getDeclaredMethod(methodName);
             setAccessible(method);
@@ -99,7 +103,7 @@ public class ReflectionHelper {
         return getFieldContent(obj.getClass(), obj, fieldName);
     }
 
-    public static <T> T getFieldContent(Class cls, Object obj, String fieldName) {
+    public static <T> T getFieldContent(Class<?> cls, Object obj, String fieldName) {
         try {
             Field field = cls.getDeclaredField(fieldName);
             setAccessible(field);
@@ -109,7 +113,7 @@ public class ReflectionHelper {
         }
     }
 
-    public static void setFieldContent(Class cls, Object obj, String fieldName, Object content) {
+    public static void setFieldContent(Class<?> cls, Object obj, String fieldName, Object content) {
         try {
             Field field = cls.getDeclaredField(fieldName);
             setAccessible(field);

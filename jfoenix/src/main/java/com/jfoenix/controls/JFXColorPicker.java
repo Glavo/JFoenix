@@ -48,7 +48,7 @@ public class JFXColorPicker extends ColorPicker {
      * {@inheritDoc}
      */
     public JFXColorPicker() {
-        this.listedColors = Collections.emptyList();
+        this.listedColors = null;
 
         initialize();
     }
@@ -58,7 +58,7 @@ public class JFXColorPicker extends ColorPicker {
      */
     public JFXColorPicker(Color color) {
         super(color);
-        this.listedColors = Collections.emptyList();
+        this.listedColors = null;
 
         initialize();
     }
@@ -86,7 +86,7 @@ public class JFXColorPicker extends ColorPicker {
      */
     @Override
     public String getUserAgentStylesheet() {
-        return JFoenixResources.load("css/controls/jfx-color-picker.css").toExternalForm();
+        return JFoenixResources.load("/css/controls/jfx-color-picker.css").toExternalForm();
     }
 
     private void initialize() {

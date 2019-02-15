@@ -19,17 +19,11 @@
 
 package com.jfoenix.skins;
 
-import com.jfoenix.adapters.ReflectionHelper;
 import com.jfoenix.adapters.skins.TextFieldSkin;
 import com.jfoenix.controls.base.IFXLabelFloatControl;
-import javafx.beans.property.DoubleProperty;
-import javafx.beans.value.ObservableDoubleValue;
-import javafx.scene.Node;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
-
-import java.lang.reflect.Field;
 
 /**
  * <h1>Material Design Text input control Skin, used for both JFXTextField/JFXPasswordField</h1>
@@ -44,9 +38,6 @@ public class JFXTextFieldSkin<T extends TextField & IFXLabelFloatControl> extend
 
     private Text promptText;
     private Pane textPane;
-    private Node textNode;
-    private ObservableDoubleValue textRight;
-    private DoubleProperty textTranslateX;
 
     private ValidationPane<T> errorContainer;
     private PromptLinesWrapper<T> linesWrapper;
@@ -54,11 +45,6 @@ public class JFXTextFieldSkin<T extends TextField & IFXLabelFloatControl> extend
     public JFXTextFieldSkin(T textField) {
         super(textField);
         textPane = (Pane) this.getChildren().get(0);
-
-        // get parent fields
-        textNode = ReflectionHelper.getFieldContent(TextFieldSkin.class, this, "textNode");
-        textTranslateX = ReflectionHelper.getFieldContent(TextFieldSkin.class, this, "textTranslateX");
-        textRight = ReflectionHelper.getFieldContent(TextFieldSkin.class, this, "textRight");
 
         linesWrapper = new PromptLinesWrapper<T>(
             textField,
@@ -69,7 +55,7 @@ public class JFXTextFieldSkin<T extends TextField & IFXLabelFloatControl> extend
 
         linesWrapper.init(this::createPromptNode, textPane);
 
-        ReflectionHelper.setFieldContent(TextFieldSkin.class, this, "usePromptText", linesWrapper.usePromptText);
+        setUsePromptText(linesWrapper.usePromptText);
 
         errorContainer = new ValidationPane<>(textField);
 
@@ -148,12 +134,11 @@ public class JFXTextFieldSkin<T extends TextField & IFXLabelFloatControl> extend
         }
 
         try {
-            Field field = ReflectionHelper.getField(TextFieldSkin.class, "promptNode");
-            Object oldValue = field.get(this);
+            Object oldValue = getPromptNode();
             if (oldValue != null) {
                 textPane.getChildren().remove(oldValue);
             }
-            field.set(this, promptText);
+            setPromptNode(promptText);
         } catch (Exception e) {
             e.printStackTrace();
         }

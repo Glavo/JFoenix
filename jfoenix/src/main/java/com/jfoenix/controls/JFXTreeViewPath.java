@@ -137,7 +137,7 @@ public class JFXTreeViewPath extends ScrollPane {
      */
     @Override
     public String getUserAgentStylesheet() {
-        return JFoenixResources.load("css/controls/jfx-tree-view-path.css").toExternalForm();
+        return JFoenixResources.load("/css/controls/jfx-tree-view-path.css").toExternalForm();
     }
 
     @Override

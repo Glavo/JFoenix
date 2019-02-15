@@ -30,6 +30,6 @@ public class SpinnerSkin extends SkinBase<JFXSpinner> {
     }
 
     protected boolean isTreeShowing() {
-        return ReflectionHelper.invoke("com.sun.javafx.scene.NodeHelper", null, "isTreeShowing", (Node) getSkinnable());
+        return ReflectionHelper.invoke("com.sun.javafx.scene.NodeHelper", null, "isTreeShowing", new Class[]{Node.class}, new Object[]{getSkinnable()});
     }
 }

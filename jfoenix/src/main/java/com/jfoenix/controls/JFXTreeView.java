@@ -19,8 +19,10 @@
 
 package com.jfoenix.controls;
 
+import com.jfoenix.adapters.IJFXTreeView;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
+
 
 /**
  * JFXTreeView is the material design implementation of a TreeView
@@ -49,14 +51,7 @@ public class JFXTreeView<T> extends TreeView<T> implements IJFXTreeView {
     }
 
     public double height = 0;
-    int animateRow = -1;
-    int sibRow = -1;
     public double layoutY = -1;
-    boolean expand = false;
-    boolean disableSiblings = false;
-    ParallelTransition trans = new ParallelTransition();
-    HashMap<Integer, CellAnimation> sibAnimationMap = new HashMap<>();
-    HashMap<Integer, CellAnimation> childrenAnimationMap = new HashMap<>();
 
     @Override
     public void setLayoutY2(double layoutY) {
@@ -68,30 +63,4 @@ public class JFXTreeView<T> extends TreeView<T> implements IJFXTreeView {
         this.height = height;
     }
 
-    void clearAnimation() {
-        this.trans.stop();
-        this.trans.getChildren().clear();
-        this.sibAnimationMap.clear();
-        this.childrenAnimationMap.clear();
-        this.height = 0;
-        this.sibRow = -1;
-    }
-
-    static class CellAnimation {
-        JFXTreeCell<?> cell;
-        Animation animation;
-
-        public CellAnimation(JFXTreeCell<?> cell, Animation animation) {
-            this.cell = cell;
-            this.animation = animation;
-        }
-
-        public JFXTreeCell<?> getCell() {
-            return cell;
-        }
-
-        public Animation getAnimation() {
-            return animation;
-        }
-    }
 }

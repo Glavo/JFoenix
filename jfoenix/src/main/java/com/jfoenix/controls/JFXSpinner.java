@@ -64,7 +64,7 @@ public class JFXSpinner extends ProgressIndicator {
      */
     @Override
     public String getUserAgentStylesheet() {
-        return JFoenixResources.load("css/controls/jfx-spinner.css").toExternalForm();
+        return JFoenixResources.load("/css/controls/jfx-spinner.css").toExternalForm();
     }
 
     /***************************************************************************

@@ -46,7 +46,7 @@ public class JFXTabPane extends TabPane {
      * this control.
      */
     private static final String DEFAULT_STYLE_CLASS = "jfx-tab-pane";
-    private static final String USER_AGENT_STYLESHEET = JFoenixResources.load("css/controls/jfx-tab-pane.css").toExternalForm();
+    private static final String USER_AGENT_STYLESHEET = JFoenixResources.load("/css/controls/jfx-tab-pane.css").toExternalForm();
 
     /**
      * {@inheritDoc}

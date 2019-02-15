@@ -19,7 +19,6 @@
 
 package com.jfoenix.skins;
 
-import com.jfoenix.adapters.ReflectionHelper;
 import com.jfoenix.adapters.skins.TextAreaSkin;
 import com.jfoenix.controls.JFXTextArea;
 import javafx.geometry.Insets;
@@ -32,7 +31,6 @@ import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 
-import java.lang.reflect.Field;
 import java.util.Arrays;
 
 /**
@@ -123,12 +121,11 @@ public class JFXTextAreaSkin extends TextAreaSkin {
         }
 
         try {
-            Field field = ReflectionHelper.getField(TextAreaSkin.class, "promptNode");
-            Object oldValue = field.get(this);
+            Object oldValue = getPromptNode();
             if (oldValue != null) {
                 removeHighlight(Arrays.asList(((Node) oldValue)));
             }
-            field.set(this, promptText);
+            setPromptNode(promptText);
         } catch (Exception e) {
             e.printStackTrace();
         }

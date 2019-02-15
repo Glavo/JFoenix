@@ -73,7 +73,7 @@ public class JFXSlider extends Slider {
      */
     @Override
     public String getUserAgentStylesheet() {
-        return JFoenixResources.load("css/controls/jfx-slider.css").toExternalForm();
+        return JFoenixResources.load("/css/controls/jfx-slider.css").toExternalForm();
     }
 
     private void initialize() {

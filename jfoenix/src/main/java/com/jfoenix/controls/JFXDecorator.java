@@ -229,6 +229,7 @@ public class JFXDecorator extends VBox {
         btnClose.setRipplerFill(Color.WHITE);
 
         btnMin = new JFXButton();
+        btnMin.setDisableVisualFocus(true);
         btnMin.getStyleClass().add("jfx-decorator-button");
         btnMin.setCursor(Cursor.HAND);
         btnMin.setOnAction((action) -> primaryStage.setIconified(true));
@@ -236,6 +237,7 @@ public class JFXDecorator extends VBox {
         btnMin.setRipplerFill(Color.WHITE);
 
         btnMax = new JFXButton();
+        btnMax.setDisableVisualFocus(true);
         btnMax.getStyleClass().add("jfx-decorator-button");
         btnMax.setCursor(Cursor.HAND);
         btnMax.setRipplerFill(Color.WHITE);

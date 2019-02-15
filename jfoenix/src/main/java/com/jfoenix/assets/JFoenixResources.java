@@ -26,7 +26,7 @@ import java.net.URL;
  * <p>
  * Example:
  * <blockquote><pre>
- * JFoenixResources.load("css/jfoenix-design.css"); // no leading slash
+ * JFoenixResources.load("/css/jfoenix-design.css"); // no leading slash
  * </pre></blockquote>
  *
  * @author yushijinhun

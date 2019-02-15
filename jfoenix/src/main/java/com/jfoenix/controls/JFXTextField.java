@@ -136,7 +136,7 @@ public class JFXTextField extends TextField implements IFXLabelFloatControl {
      * this control.
      */
     private static final String DEFAULT_STYLE_CLASS = "jfx-text-field";
-    private static final String USER_AGENT_STYLESHEET = JFoenixResources.load("css/controls/jfx-text-field.css").toExternalForm();
+    private static final String USER_AGENT_STYLESHEET = JFoenixResources.load("/css/controls/jfx-text-field.css").toExternalForm();
 
 
     /**

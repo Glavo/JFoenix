@@ -18,7 +18,6 @@
  */
 package com.jfoenix.adapters.skins;
 
-import com.jfoenix.adapters.ReflectionHelper;
 import javafx.beans.value.ObservableValue;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.PopupControl;
