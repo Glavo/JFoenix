@@ -1,17 +1,26 @@
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+apply plugin: 'java-library'
+apply from: 'jdks.gradle'
 
-tasks.withType(JavaCompile) {
-    options.fork = true
-
-    options.forkOptions.javaHome = new File((String) System.getenv("jdk8.home") ?: (String) System.getProperty("jdk8.home"));
+sourceSets {
+    java9 {
+        java {
+            srcDirs = ['src/main/java9']
+        }
+    }
 }
 
-task sourcesJar(type: Jar) {
-    group 'Build'
-    description 'An archive of the source code'
-    classifier 'sources'
-    from sourceSets.main.allSource
+dependencies {
+    java9Implementation files(sourceSets.main.output.classesDirs) { builtBy compileJava }
+}
+
+compileJava {
+    sourceCompatibility = 8
+    targetCompatibility = 8
+}
+
+compileJava9Java {
+    sourceCompatibility = 9
+    targetCompatibility = 9
 }
 
 // execute jar tasks
@@ -25,11 +34,13 @@ artifacts {
 
 jar {
     baseName = "JFoenix"
+    
+    into('META-INF/versions/9') {
+        from sourceSets.java9.output
+    }
 
     exclude('com/jfoenix/android/**')
     manifest {
         attributes 'Multi-Release': "true"
     }
 }
-
-

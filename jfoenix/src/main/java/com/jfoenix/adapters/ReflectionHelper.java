@@ -58,7 +58,7 @@ public class ReflectionHelper {
             setAccessible(method);
             return (T) method.invoke(obj);
         } catch (Throwable ex) {
-            return null;
+            throw new InternalError(ex);
         }
     }
 

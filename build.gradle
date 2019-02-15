@@ -20,23 +20,3 @@ subprojects {
         options.incremental = true
     }
 }
-
-task generateJar(type: Jar) {
-    baseName = project.archivesBaseName
-    version = project.version
-
-    destinationDir = new File(project.buildDir, "libs")
-
-    into('META-INF/versions/9/com/jfoenix/adapters/') {
-        from 'jfoenix-java9/build/classes/java/main/com/jfoenix/adapters/'
-    }
-
-    into('') {
-        from 'jfoenix/build/classes/java/main/'
-        from 'jfoenix/build/resources/main/'
-    }
-
-    manifest {
-        attributes 'Multi-Release': "true"
-    }
-}
