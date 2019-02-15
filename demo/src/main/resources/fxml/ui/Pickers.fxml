@@ -10,16 +10,17 @@
     <VBox maxWidth="500" maxHeight="400">
         <children>
             <Label styleClass="title-label">Popup ups</Label>
-            <HBox fx:id="hbox" spacing="40" style="-fx-padding: 0 0 0 50;">
+            <HBox spacing="40" style="-fx-padding: 0 0 0 50;">
                 <children>
-                    <JFXColorPicker fx:id="colorPicker" minWidth="100"></JFXColorPicker>
+                    <JFXColorPicker minWidth="100"></JFXColorPicker>
                     <JFXDatePicker></JFXDatePicker>
                 </children>
             </HBox>
             <Label styleClass="title-label">Overylays</Label>
             <HBox spacing="40" style="-fx-padding: 0 0 0 50;">
                 <children>
-                    <JFXDatePicker fx:id="dateOverlay" overLay="true" defaultColor="#3f51b5"></JFXDatePicker>
+                    <JFXDatePicker fx:id="dateOverlay" overLay="true"
+                                   styleClass="custom-color-picker"></JFXDatePicker>
                 </children>
             </HBox>
         </children>

@@ -1,4 +1,4 @@
-/*
+/**
  * Licensed to the Apache Software Foundation (ASF) under one
  * or more contributor license agreements.  See the NOTICE file
  * distributed with this work for additional information
@@ -16,10 +16,25 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package demos.gui.uicomponents;
 
-import io.datafx.controller.ViewController;
-
-@ViewController(value = "/fxml/ui/Tab.fxml", title = "Material Design Example")
-public class TabController {
+@font-face {
+    font-family: Roboto;
+    src: url("../font/roboto/Roboto-Regular.ttf");
 }
+
+@font-face {
+    font-family: "Roboto Medium";
+    src: url("../font/roboto/Roboto-Medium.ttf");
+}
+
+@font-face {
+    font-family: "Roboto Light";
+    src: url("../font/roboto/Roboto-Light.ttf");
+}
+
+@font-face {
+    font-family: "Roboto Bold";
+    src: url("../font/roboto/Roboto-Bold.ttf");
+}
+
+/* NOTE: the file font must be included as the 1st css file in order to work */

@@ -31,11 +31,11 @@ public class TextAreaDemo extends Application {
         RequiredFieldValidator validator = new RequiredFieldValidator();
         // NOTE adding error class to text area is causing the cursor to disapper
         validator.setMessage("Please type something!");
-        /*validator.setIcon(GlyphsBuilder.create(FontAwesomeIconView.class)
+        validator.setIcon(GlyphsBuilder.create(FontAwesomeIconView.class)
             .glyph(FontAwesomeIcon.WARNING)
             .size("1em")
             .styleClass("error")
-            .build());*/
+            .build());
         jfxTextArea.getValidators().add(validator);
         jfxTextArea.focusedProperty().addListener((o, oldVal, newVal) -> {
             if (!newVal) {

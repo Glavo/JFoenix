@@ -29,7 +29,6 @@ public class IconsController {
 
     @FXML
     private StackPane root;
-    @FXML
     private JFXSnackbar snackbar;
     private int count = 1;
 
@@ -45,7 +44,8 @@ public class IconsController {
         bindAction(burger3);
         bindAction(burger4);
 
-        snackbar.registerSnackbarContainer(root);
+        snackbar = new JFXSnackbar(root);
+        snackbar.setPrefWidth(300);
 
         badge1.setOnMouseClicked((click) -> {
             int value = Integer.parseInt(badge1.getText());
@@ -67,7 +67,7 @@ public class IconsController {
                 snackbar.fireEvent(new SnackbarEvent("Toast Message " + count));
             } else {
                 if (count % 4 == 0) {
-                    snackbar.fireEvent(new SnackbarEvent("Snackbar Message Persistant " + count,
+                    snackbar.fireEvent(new SnackbarEvent("Snackbar Message Persistent " + count,
                                                          "CLOSE",
                                                          3000,
                                                          true,

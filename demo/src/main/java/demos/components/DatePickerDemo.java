@@ -47,6 +47,7 @@ public class DatePickerDemo extends Application {
         JFXDatePicker datePickerFX = new JFXDatePicker();
 
         main.getChildren().add(datePickerFX);
+        datePickerFX.setPromptText("pick a date");
 
 
         StackPane pane = new StackPane();
@@ -63,6 +64,9 @@ public class DatePickerDemo extends Application {
         stage.show();
 
     }
+
+    // toRun:
+    // --add-exports=javafx.controls/com.sun.javafx.scene.control.behavior=com.jfoenix --add-exports=javafx.base/com.sun.javafx.binding=com.jfoenix --add-exports=javafx.graphics/com.sun.javafx.stage=com.jfoenix --add-exports=javafx.base/com.sun.javafx.event=com.jfoenix
 
     public static void main(String[] args) {
         launch(args);
